@@ -102,28 +102,43 @@ test('open resolves false and never calls the browser opener when nothing is ava
   assert.deepEqual(opened, []);
 });
 
-test('open calls the browser opener with the known release URL when one is available', async () => {
+function openWithCachedRelease(release) {
   const opened = [];
   let openHandler;
-  const settings = fakeSettings({
-    updatesLastRelease: JSON.stringify({
-      tagName: 'v9.9.9',
-      htmlUrl: 'https://example.test/release',
-      draft: false,
-      prerelease: false,
-    }),
-  });
   composeUpdates({
     handle: (channel, fn) => {
       if (channel === 'updates:open') openHandler = fn;
     },
-    settings,
+    settings: fakeSettings({ updatesLastRelease: JSON.stringify(release) }),
     version: '1.0.0',
     openExternal: async (url) => opened.push(url),
     broadcast: () => {},
     schedule: false,
     now: () => 0,
   });
-  assert.equal(await openHandler(), true);
-  assert.deepEqual(opened, ['https://example.test/release']);
+  return { opened, open: () => openHandler() };
+}
+
+test('open shows the release page of this repository for the tag on offer', async () => {
+  const { opened, open } = openWithCachedRelease({ tagName: 'v9.9.9', draft: false, prerelease: false });
+  assert.equal(await open(), true);
+  assert.deepEqual(opened, ['https://github.com/DeVFirmino/learntranscriber/releases/tag/v9.9.9']);
+});
+
+test('a link saved with the cached release never reaches the browser opener', async () => {
+  for (const htmlUrl of ['review-canary:blocked', 'file:///etc/passwd', 'https://example.test/release']) {
+    const { opened, open } = openWithCachedRelease({ tagName: 'v9.9.9', htmlUrl, draft: false, prerelease: false });
+    assert.equal(await open(), true);
+    assert.deepEqual(opened, ['https://github.com/DeVFirmino/learntranscriber/releases/tag/v9.9.9']);
+  }
+});
+
+test('a newer tag that cannot name a release page opens nothing', async () => {
+  const { opened, open } = openWithCachedRelease({
+    tagName: 'v9.9.9-x/../../elsewhere',
+    draft: false,
+    prerelease: false,
+  });
+  assert.equal(await open(), false);
+  assert.deepEqual(opened, []);
 });

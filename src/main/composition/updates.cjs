@@ -1,5 +1,6 @@
 const { githubReleases } = require('../infrastructure/integrations/github-releases.cjs');
 const { createUpdateCheck } = require('../application/updates/update-check.cjs');
+const { releasePageUrl } = require('../domain/updates/release-page.cjs');
 const { registerUpdates } = require('../interface/ipc/updates.cjs');
 
 // The repository builds are published to. A composition-level constant: domain and application never see it, only
@@ -34,9 +35,12 @@ function composeUpdates({
   }
   registerUpdates(handle, {
     state: () => updateCheck.state(),
+    // The page comes from the repository slug and the tag, never from the cached release, which the renderer can
+    // reach through settings.
     open() {
       const current = updateCheck.state();
-      return current.available ? openExternal(current.url).then(() => true) : Promise.resolve(false);
+      const page = current.available ? releasePageUrl(REPO_SLUG, current.tagName) : null;
+      return page ? openExternal(page).then(() => true) : Promise.resolve(false);
     },
     later: () => publish(updateCheck.snooze()),
     skip: (tag) => publish(updateCheck.skip(tag)),

@@ -6,12 +6,7 @@ import type { UpdateStatus } from '../types/updates'
 export function previewUpdateStatus(): UpdateStatus {
   try {
     if (new URLSearchParams(window.location.search).get('update') === 'available')
-      return {
-        available: true,
-        version: '1.5.0',
-        tagName: 'v1.5.0',
-        url: 'https://github.com/DeVFirmino/learntranscriber/releases/tag/v1.5.0',
-      }
+      return { available: true, version: '1.5.0', tagName: 'v1.5.0' }
   } catch {
     /* No query string in this environment; fall through to no update. */
   }
