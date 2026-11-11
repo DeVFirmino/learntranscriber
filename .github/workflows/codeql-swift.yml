@@ -1,0 +1,40 @@
+# CodeQL over the Swift helpers. The analysis needs a macOS runner and a package build, about 20 minutes, and an
+# account runs at most five macOS jobs at once, so it runs only when native/ changes, on master and weekly.
+name: CodeQL Swift
+
+on:
+  pull_request:
+    paths: ['native/**', '.github/workflows/codeql-swift.yml']
+  push:
+    branches: [master]
+    paths: ['native/**', '.github/workflows/codeql-swift.yml']
+  schedule:
+    - cron: '27 4 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeql-swift-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  analyze:
+    name: Analyze (swift)
+    runs-on: macos-26
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        with:
+          languages: swift
+          build-mode: manual
+      - run: swift build --package-path native
+      - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        with:
+          category: /language:swift

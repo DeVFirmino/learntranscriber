@@ -1,5 +1,5 @@
-# CodeQL over the JavaScript and TypeScript, the Swift helpers and these workflows, on every pull request, on master
-# and weekly, so new queries also reach code that has not changed. Swift is analysed from an explicit package build.
+# CodeQL over the JavaScript and TypeScript and these workflows, on every pull request, on master and weekly, so new
+# queries also reach code that has not changed. The Swift helpers have their own workflow, codeql-swift.yml.
 name: CodeQL
 
 on:
@@ -12,10 +12,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
       contents: read
@@ -23,16 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - language: actions
-            runner: ubuntu-latest
-            build-mode: none
-          - language: javascript-typescript
-            runner: ubuntu-latest
-            build-mode: none
-          - language: swift
-            runner: macos-26
-            build-mode: manual
+        language: [actions, javascript-typescript]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -40,9 +35,7 @@ jobs:
       - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-      - if: matrix.build-mode == 'manual'
-        run: swift build --package-path native
+          build-mode: none
       - uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           category: /language:${{ matrix.language }}
