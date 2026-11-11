@@ -20,7 +20,8 @@ src/main/                  Electron main process (CommonJS .cjs)
 ui/src/                    React renderer: pages, features, components, settings, locales; bridge/ is the only Electron contact
 native/                    Swift helpers: HelperKit, CommandKit, <Area>Core, <Area>Adapters, one thin command each
 test/, ui/test/, native/Tests/   node:test, node:test over transpiled TS, Swift Testing
-docs/reviews/              reports and verification JSON; .local/ is scratch and gitignored
+docs/                      verification JSON, plans and design notes; review notes go in docs/reviews/, which
+                           is gitignored like .local/ scratch, so local paths and private notes stay off GitHub
 ```
 
 ## Dependency rule

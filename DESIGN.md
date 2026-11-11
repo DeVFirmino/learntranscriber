@@ -26,7 +26,7 @@ spacing:
 
 # LearnTranscriber design conventions
 
-This records the implemented and owner-approved direction. Product behavior comes from `PRODUCT.md`, `AGENTS.md` and the source; historical reference screenshots do not override the owner's later navigation and color decisions.
+This records the implemented and owner-approved direction. Product behavior comes from `AGENTS.md` and the source; historical reference screenshots do not override the owner's later navigation and color decisions.
 
 ## Identity and color
 

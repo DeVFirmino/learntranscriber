@@ -7,3 +7,11 @@ dist/
 *.log
 .local/
 .ua/
+# Notes and tool state that stay on the machine that wrote them: review notes, to-do lists, session handoffs and
+# local design tooling can carry personal paths and private context.
+docs/reviews/
+todo.md
+HANDOFF.md
+PRODUCT.md
+.impeccable/
+.ai-memory.toml
