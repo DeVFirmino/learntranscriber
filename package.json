@@ -25,6 +25,9 @@
     "oxlint": "^1.89.0",
     "prettier": "^3.9.10"
   },
+  "overrides": {
+    "minimatch@>=7.0.0 <11.0.1": "^11.0.8"
+  },
   "build": {
     "appId": "dev.danieldias.learntranscriber",
     "productName": "LearnTranscriber",
