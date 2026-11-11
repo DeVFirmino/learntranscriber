@@ -11,7 +11,6 @@ function githubReleases({ fetch }) {
       const body = await response.json();
       return {
         tagName: String(body.tag_name || ''),
-        htmlUrl: String(body.html_url || ''),
         draft: Boolean(body.draft),
         prerelease: Boolean(body.prerelease),
       };

@@ -29,7 +29,6 @@ test('a successful response is normalized from the GitHub release fields, with t
   });
   assert.deepEqual(release, {
     tagName: 'v1.4.0',
-    htmlUrl: 'https://github.com/x/y/releases/tag/v1.4.0',
     draft: false,
     prerelease: false,
   });

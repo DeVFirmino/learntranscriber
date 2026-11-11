@@ -27,7 +27,6 @@ function createUpdateCheck({ fetchRelease, settings, now, currentVersion }) {
       available: true,
       version: parseVersion(release.tagName).join('.'),
       tagName: release.tagName,
-      url: release.htmlUrl,
     };
   }
 

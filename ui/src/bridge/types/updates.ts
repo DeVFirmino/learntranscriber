@@ -1,12 +1,11 @@
 import type { Unsubscribe } from './subscription'
 
-// What the Home banner needs to know: whether a newer release is available and, when it is, the version to show,
-// its tag (passed back to skipUpdate) and the release page to open.
+// What the Home banner needs to know: whether a newer release is available and, when it is, the version to show and
+// its tag (passed back to skipUpdate). The main process builds the release page itself when openUpdate is called.
 export interface UpdateStatus {
   available: boolean
   version?: string
   tagName?: string
-  url?: string
 }
 
 export interface UpdatesApi {

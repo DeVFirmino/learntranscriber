@@ -1,6 +1,6 @@
-// IPC is answered only for the bundled renderer's top frame, in a window the privacy controller registered.
-const pageOf = (url) => url.split('#')[0].split('?')[0];
+const { pageOf } = require('../../domain/shared/page-url.cjs');
 
+// IPC is answered only for the bundled renderer's top frame, in a window the privacy controller registered.
 function senderTrust({ BrowserWindow, registered, rendererUrl }) {
   return function trusted(event) {
     const window = BrowserWindow.fromWebContents(event.sender);

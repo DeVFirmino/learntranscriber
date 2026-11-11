@@ -13,18 +13,18 @@ test('the banner is hidden while loading and when nothing is available', () => {
 });
 
 test('the banner shows the parsed version when one is available', () => {
-  assert.deepEqual(view({ available: true, version: '1.5.0', tagName: 'v1.5.0', url: 'https://x' }), {
+  assert.deepEqual(view({ available: true, version: '1.5.0', tagName: 'v1.5.0' }), {
     visible: true,
     version: '1.5.0',
   });
 });
 
 test('a missing version falls back to the tag with its v-prefix dropped, case-insensitively', () => {
-  assert.deepEqual(view({ available: true, tagName: 'v2.0.0', url: 'https://x' }), {
+  assert.deepEqual(view({ available: true, tagName: 'v2.0.0' }), {
     visible: true,
     version: '2.0.0',
   });
-  assert.deepEqual(view({ available: true, tagName: 'V2.0.0', url: 'https://x' }), {
+  assert.deepEqual(view({ available: true, tagName: 'V2.0.0' }), {
     visible: true,
     version: '2.0.0',
   });
