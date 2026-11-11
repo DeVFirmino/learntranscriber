@@ -216,7 +216,15 @@ settings.
   can use HTTP on loopback.
 - Provider keys are encrypted with Electron's `safeStorage`, backed by the macOS Keychain, and the app's screens can
   save a key but never read one back.
-- Sessions and settings live in a local SQLite database in the app's Application Support folder.
+- Sessions and settings live in a local SQLite database in the app's Application Support folder, readable only by
+  your macOS user. The app does not encrypt it: FileVault encrypts the disk, and backups such as Time Machine keep
+  their own copies.
+- Errors and warnings go to a log in `~/Library/Logs/LearnTranscriber`, readable only by your user and kept to two
+  files. Common key and token formats are redacted, but read a log before you share it.
+- The app asks GitHub whether a newer release exists at most once a day, starting about 15 seconds after launch. The
+  request carries the app version and, like any request, your IP address; it sends no transcript, setting or key.
+- Downloading a local model from Hugging Face, a server runtime through Homebrew or an Apple Speech language uses the
+  network.
 - Managed `whisper-server` and `llama-server` processes bind to `127.0.0.1` and stop after 10 idle minutes. Model
   downloads that fail SHA-256 verification are discarded.
 - Capture protection is enabled by default. Apps using ScreenCaptureKit can still capture a protected window
