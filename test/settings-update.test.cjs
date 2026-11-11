@@ -39,6 +39,15 @@ test('an invalid patch is rejected before any effect or publication', (t) => {
   assert.deepEqual(calls, []);
 });
 
+test('a save naming the update check bookkeeping is refused before anything is written', (t) => {
+  const { repos, calls, update } = harness(t);
+  const before = repos.settings.read();
+  for (const key of ['updatesLastCheckAt', 'updatesLastRelease', 'updatesSnoozedUntil', 'updatesSkippedTag'])
+    assert.throws(() => update.save({ overlayOpacity: 0.8, [key]: 'x' }), /kept by the app/);
+  assert.deepEqual(repos.settings.read(), before);
+  assert.deepEqual(calls, []);
+});
+
 test('an unrelated patch only refreshes privacy and publishes', (t) => {
   const { repos, calls, update } = harness(t);
   repos.settings.update({ autoSelection: true, autoScreenInsights: true });
