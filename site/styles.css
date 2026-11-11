@@ -2369,20 +2369,24 @@ kbd {
   color: #fff;
   font-size: 16px;
   font-weight: 550;
+  text-decoration: none;
   box-shadow: 0 10px 24px -12px rgb(20 23 29 / 0.6);
-  cursor: not-allowed;
+  transition:
+    background 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
+}
+.download__button:hover {
+  background: #262b35;
+  box-shadow: 0 14px 28px -12px rgb(20 23 29 / 0.7);
+}
+.download__button:focus-visible,
+.download__code:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
 }
 .download__button .icon {
   width: 19px;
   height: 19px;
-}
-.download__soon {
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.16);
-  color: #cfe0ff;
-  font-size: 12px;
-  font-weight: 600;
 }
 .download__code {
   display: inline-flex;
@@ -2392,14 +2396,15 @@ kbd {
   color: var(--ink-2);
   font-size: 15px;
   font-weight: 550;
+  text-decoration: none;
+  transition: color 200ms var(--ease-out);
+}
+.download__code:hover {
+  color: var(--blue-ink);
 }
 .download__code .icon {
   width: 17px;
   height: 17px;
-}
-.download__code .download__soon {
-  background: var(--blue-wash);
-  color: var(--blue-ink);
 }
 
 .install {

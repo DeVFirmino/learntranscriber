@@ -28,7 +28,7 @@
 > **TL;DR** — A free, open-source Mac app that writes down what you hear in a class, a video or a meeting, live, and
 > answers your questions about it in a floating panel. Speech can be transcribed entirely on your Mac with Apple
 > Speech; answers come from the AI you choose: a ChatGPT sign-in, an API key, or a local model. For Apple Silicon Macs
-> on macOS 14 or newer. Build it from source in a few commands, or let your coding agent install it for you.
+> on macOS 14 or newer. Download it, build it from source, or let your coding agent install it for you.
 
 <p align="center">
   <img src="docs/readme/hero.webp" alt="LearnTranscriber on a MacBook: an online English class on the left, the floating assistant answering a question about it on the right." width="900">
@@ -65,8 +65,17 @@
 
 ## Get it
 
-Ready-made builds will be published on GitHub Releases. Until then, [build it from source](#build-from-source) to run
-the app or package your own DMG, or let your coding agent do it.
+[Download the latest DMG](https://github.com/DeVFirmino/learntranscriber/releases/latest/download/LearnTranscriber-arm64.dmg)
+from [GitHub Releases](https://github.com/DeVFirmino/learntranscriber/releases/latest), for Apple Silicon Macs on
+macOS 14 or newer, and drag LearnTranscriber to Applications.
+
+The app is not notarized by Apple, so macOS blocks its first launch: open **System Settings → Privacy & Security**,
+scroll to Security and choose **Open Anyway** next to LearnTranscriber, then confirm with your password
+([Apple's instructions](https://support.apple.com/guide/mac-help/apple-cant-check-app-for-malicious-software-mchleab3a043/mac)).
+Install a new version the same way, over the previous one; your sessions and settings stay.
+
+You can also [build it from source](#build-from-source) or let [your coding agent](#install-with-your-agent) install
+it.
 
 ## Install with your agent
 
