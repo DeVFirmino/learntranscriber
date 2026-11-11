@@ -18,6 +18,13 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # TypeScript 7 drops the JavaScript compiler API that the renderer tests transpile with (ts.ModuleKind).
+      - dependency-name: typescript
+        versions: ['>=7.0.0']
+      # The Node types follow the Node major the project runs on, 24.
+      - dependency-name: '@types/node'
+        versions: ['>=25.0.0']
 
   - package-ecosystem: swift
     directory: /native
