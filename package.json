@@ -12,6 +12,7 @@
     "lint": "oxlint src scripts test && npm --prefix ui run lint",
     "native:build": "node scripts/build-native.cjs",
     "pack": "npm run ui:build && npm run native:build && node scripts/pack.cjs",
+    "sbom": "node scripts/sbom.cjs",
     "smoke": "node scripts/smoke.cjs",
     "start": "npm run ui:build && npm run native:build && electron .",
     "test": "node --test test/*.test.cjs",

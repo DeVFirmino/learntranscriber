@@ -194,6 +194,7 @@ settings.
    ```sh
    npm run pack   # dist/mac-arm64/LearnTranscriber.app
    npm run dmg    # dist/distribution-local/LearnTranscriber-<version>-arm64-local.dmg
+   npm run sbom   # dist/LearnTranscriber-<version>-sbom.cdx.json, the components the app ships
    ```
 
    Both are personal builds: no Developer ID signature, no notarization. Packaging prefers an installed Apple
