@@ -12,13 +12,11 @@ async function run(context, { output, check, wait, eventually, go, click, js, op
     'First use opens the onboarding welcome without commercial onboarding',
     await eventually(() =>
       js(
-        `document.body.textContent.includes('Stay with the conversation.') && document.body.textContent.includes('See how it works') && !document.body.textContent.includes('Premium')`,
+        `document.body.textContent.includes('Stay with the conversation.') && document.body.textContent.includes('Get started') && !document.body.textContent.includes('Premium')`,
       ),
     ),
   );
-  await js(
-    `(()=>{const close=document.querySelector('[aria-label="Close setup"]');if(!close)throw new Error('Missing Close setup');close.click();})()`,
-  );
+  await click('Skip for now', `document.querySelector('[aria-label="Set up your assistant"]')`);
   await wait(300);
   check('Closing the onboarding is persisted', context.repositories.settings.read().onboardingDismissed === true);
   check(
