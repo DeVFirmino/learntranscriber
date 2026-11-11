@@ -1,0 +1,55 @@
+# The gates from AGENTS.md on every pull request and on master: the backend and renderer tests, the format and lint
+# check and the renderer build in one job, the Swift helpers with their tests and wire format in the other.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: App tests and build
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            ui/package-lock.json
+      # Dependency install scripts stay off: none of these steps needs one, and the tests never start Electron.
+      - run: npm ci --ignore-scripts
+      - run: npm ci --ignore-scripts --prefix ui
+      - run: npm test
+      - run: npm run ui:test
+      - run: npm run check
+      - run: npm run ui:build
+
+  native:
+    name: Native helpers
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - run: npm run native:build
+      - run: swift test
+        working-directory: native
+      - run: node --test test/native-helpers.test.cjs
