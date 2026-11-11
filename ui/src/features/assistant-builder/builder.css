@@ -1,0 +1,24 @@
+/* The builder's prompt box, sized for the workspace page; its bubbles come from the shared chat thread. */
+.builder-composer .input-group-control[data-slot='textarea'] {
+  min-height: 84px;
+  max-height: min(220px, 40dvh);
+}
+.builder-composer-model {
+  min-width: 0;
+  overflow: hidden;
+  padding-left: 4px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.builder-model-trigger {
+  min-width: 0;
+  max-width: 60%;
+  border-color: transparent;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.builder-model-trigger:hover {
+  color: var(--foreground);
+}

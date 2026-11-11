@@ -1,0 +1,22 @@
+[data-floating] {
+  --float-ground: #f8fafc;
+  --float-ground-rgb: 248 250 252;
+  --float-raised: #fff;
+  --float-input: #fff;
+  --float-line: #d9e0e9;
+  --float-muted: #566479;
+  --float-active: #e1eeff;
+  --float-active-text: #1558a8;
+  --float-hover: #edf2f8;
+}
+.dark [data-floating] {
+  --float-ground: #14171e;
+  --float-ground-rgb: 20 23 30;
+  --float-raised: #1c222e;
+  --float-input: #10151d;
+  --float-line: #303949;
+  --float-muted: #aab6c9;
+  --float-active: #1b3454;
+  --float-active-text: #c7e0ff;
+  --float-hover: #252e3d;
+}

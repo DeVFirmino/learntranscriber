@@ -1,0 +1,26 @@
+[data-voice-mark] rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    height 100ms ease-out,
+    y 100ms ease-out;
+}
+[data-voice-mark][data-speaking] rect {
+  animation: assistant-voice 850ms ease-in-out infinite alternate;
+}
+@keyframes assistant-voice {
+  from {
+    transform: scaleY(0.4);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-voice-mark] rect {
+    transition: none;
+  }
+  [data-voice-mark][data-speaking] rect {
+    animation: none;
+  }
+}

@@ -1,0 +1,128 @@
+.workspace-shell {
+  height: calc(100dvh / var(--workspace-zoom, 1));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.workspace-frame {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.workspace-header {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  min-height: 56px;
+  background: light-dark(#fafbfc, #15171d);
+  border-bottom: 1px solid var(--border);
+}
+.workspace-header[hidden],
+.workspace-nav[hidden] {
+  display: none;
+}
+.workspace-header-brand {
+  width: 168px;
+}
+.workspace-nav {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px 10px;
+  min-height: 0;
+  overflow: auto;
+  background: light-dark(#fafbfc, #15171d);
+  border-right: 1px solid var(--border);
+}
+.workspace-nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.workspace-nav-footer {
+  margin-top: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.workspace-nav .workspace-nav-link {
+  width: 100%;
+  height: 42px;
+  justify-content: flex-start;
+  padding: 12px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+.workspace-content {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 24px;
+  overflow: auto;
+  min-height: 0;
+  scroll-padding: 24px;
+}
+@media (max-width: 959px) {
+  .workspace-frame {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+  .workspace-header {
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    gap: 12px;
+  }
+  .workspace-header-brand {
+    width: auto;
+  }
+  .workspace-nav {
+    grid-row: 2;
+    padding: 10px 16px;
+    gap: 8px;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .workspace-nav-items {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .workspace-nav-footer {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .workspace-nav .workspace-nav-link {
+    flex-direction: column;
+    height: auto;
+    min-height: 54px;
+    gap: 4px;
+    padding: 6px 2px;
+    font-size: 10px;
+  }
+  .workspace-content {
+    grid-column: 1;
+    grid-row: 3;
+    padding: 24px 20px;
+  }
+}
+@media (max-width: 360px) {
+  .workspace-header {
+    padding: 12px;
+  }
+  .workspace-header-brand {
+    font-size: 12px;
+    gap: 4px;
+  }
+  .workspace-header-brand svg {
+    width: 26px;
+  }
+  .workspace-content {
+    padding: 20px 12px;
+  }
+}

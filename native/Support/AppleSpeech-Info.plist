@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>dev.danieldias.learntranscriber.apple-speech</string>
+    <key>CFBundleName</key>
+    <string>LearnTranscriber Speech</string>
+    <key>CFBundleExecutable</key>
+    <string>apple-speech</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Recognize speech on this Mac when you start listening or transcribe audio in LearnTranscriber.</string>
+</dict>
+</plist>

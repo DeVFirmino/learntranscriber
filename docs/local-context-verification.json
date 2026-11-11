@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-22T12:50:55.992Z",
+  "runtime": "llama-server 0.7.0 build11669 620d2225c",
+  "modelSha256": "9465e63a22add5354d9bb4b99e90117043c7124007664907259bd16d043bb031",
+  "requestedContextSize": 2048,
+  "effectiveContextSize": 2048,
+  "shortPromptBudget": {
+    "contextSize": 2048,
+    "promptTokens": 19,
+    "outputTokens": 512,
+    "safetyTokens": 128,
+    "inputTokens": 1408
+  },
+  "shortAnswer": "READY.",
+  "oversizedRequestPreventedBeforeInference": true,
+  "automaticCompaction": {
+    "initiallyOverflowed": true,
+    "compactions": 2,
+    "originalEntriesPreserved": 14,
+    "finalBudget": {
+      "contextSize": 2048,
+      "promptTokens": 922,
+      "outputTokens": 512,
+      "safetyTokens": 128,
+      "inputTokens": 1408
+    }
+  },
+  "tokenizerCalls": 14,
+  "generationCalls": 3,
+  "credentialsRead": false,
+  "audioUsed": false
+}

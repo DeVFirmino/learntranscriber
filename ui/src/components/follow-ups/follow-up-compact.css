@@ -1,0 +1,9 @@
+.floating-follow-ups[data-follow-up-suggestions] {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px 0 2px;
+  border-top: 1px solid var(--float-line, var(--border));
+}
+.floating-follow-ups > div:first-child > button { border-radius: 8px; color: var(--float-muted, var(--muted-foreground)); }
+.floating-follow-ups .suggestion-chip[data-slot='button'] { background: var(--float-input, var(--background)); border-color: var(--float-line, var(--border)); }

@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-24",
+  "scope": "Notch hover and native click-through request lifecycle; development Electron with isolated synthetic data",
+  "backend": {
+    "passed": 146,
+    "failed": 0
+  },
+  "ui": {
+    "passed": 34,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "warning": "Existing chunk size warning"
+  },
+  "syntax": {
+    "passed": true,
+    "files": 82
+  },
+  "interaction": {
+    "passed": true,
+    "checks": [
+      "Isolated native workspace loads",
+      "Production shadcn bundle uses native data without preview fallback",
+      "Collapsed Notch starts in click-through mode",
+      "Only the owned Notch may request interaction",
+      "Notch interaction rejects malformed flags",
+      "Hover expands the collapsed Notch without a click",
+      "Hover enables native mouse interaction",
+      "Settings updates preserve active Notch interaction",
+      "Leaving restores click-through without collapsing the answer",
+      "Leaving during a captured header gesture retains interaction",
+      "Ending a header gesture outside releases interaction",
+      "Leaving during a captured resize retains interaction",
+      "Ending resize outside restores click-through",
+      "Explicit collapse does not immediately reopen under the cursor",
+      "Leaving and reentering permits hover expansion again",
+      "Concealment clears interaction and rejects reactivation",
+      "A hidden Notch cannot expand from a late hover request",
+      "Restored Notch starts with click-through and capture protection",
+      "Notch interaction renderer contains no runtime console errors"
+    ],
+    "consoleErrors": []
+  },
+  "geometry": {
+    "passed": true,
+    "checks": 17
+  },
+  "fullNative": {
+    "passed": true,
+    "checks": 195,
+    "consoleErrors": [],
+    "initialAttempt": {
+      "passed": false,
+      "error": "Script failed to execute, this normally means an error was thrown. Check the renderer console for the error.",
+      "consoleErrors": [
+        "Uncaught TypeError: Cannot set properties of null (setting 'files')"
+      ],
+      "lastPassedCheck": "Action bar opens Markdown assistant import in the workspace"
+    }
+  },
+  "limitations": [
+    "Native tests inject renderer pointer events and verify calls to the real native mouse-ignore setter; physical OS routing to an underlying application is unverified.",
+    "Packaged app and meeting attendee-view exclusion were not tested."
+  ]
+}

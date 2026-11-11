@@ -1,0 +1,294 @@
+{
+  "type": "preview-verification",
+  "scope": "Independent UI prototype only. No native audio or live provider verification.",
+  "interaction_checks": [
+    {
+      "name": "Home renders",
+      "passed": true
+    },
+    {
+      "name": "Start opens sample session",
+      "passed": true
+    },
+    {
+      "name": "Summary tab shows decisions",
+      "passed": true
+    },
+    {
+      "name": "Translation shows labeled example",
+      "passed": true
+    },
+    {
+      "name": "Pause toggles state",
+      "passed": true
+    },
+    {
+      "name": "Chat is explicitly simulated",
+      "passed": true
+    },
+    {
+      "name": "Search filters samples",
+      "passed": true
+    },
+    {
+      "name": "Search has empty state",
+      "passed": true
+    },
+    {
+      "name": "Selected assistant propagates",
+      "passed": true
+    },
+    {
+      "name": "Create dialog opens",
+      "passed": true
+    },
+    {
+      "name": "Create adds assistant",
+      "passed": true
+    },
+    {
+      "name": "Credential input disabled",
+      "passed": true
+    },
+    {
+      "name": "Settings tab audio",
+      "passed": true
+    },
+    {
+      "name": "Settings tab privacy",
+      "passed": true
+    },
+    {
+      "name": "Settings tab shortcuts",
+      "passed": true
+    },
+    {
+      "name": "Settings tab tools",
+      "passed": true
+    },
+    {
+      "name": "Settings tab providers",
+      "passed": true
+    },
+    {
+      "name": "Overlay explicitly illustrated",
+      "passed": true
+    },
+    {
+      "name": "No remote assets",
+      "passed": true
+    }
+  ],
+  "layout_checks": [
+    {
+      "documentWidth": 1280,
+      "heading": "Ready when you are.",
+      "overflow": false,
+      "page": "home",
+      "width": 1280
+    },
+    {
+      "documentWidth": 1280,
+      "heading": "Planning a personal assistant",
+      "overflow": false,
+      "page": "session",
+      "width": 1280
+    },
+    {
+      "documentWidth": 1280,
+      "heading": "Your sessions",
+      "overflow": false,
+      "page": "sessions",
+      "width": 1280
+    },
+    {
+      "documentWidth": 1280,
+      "heading": "Assistants",
+      "overflow": false,
+      "page": "assistants",
+      "width": 1280
+    },
+    {
+      "documentWidth": 1280,
+      "heading": "Settings",
+      "overflow": false,
+      "page": "settings",
+      "width": 1280
+    },
+    {
+      "documentWidth": 1280,
+      "heading": "A little context, within reach.",
+      "overflow": false,
+      "page": "overlay",
+      "width": 1280
+    },
+    {
+      "documentWidth": 1024,
+      "heading": "Ready when you are.",
+      "overflow": false,
+      "page": "home",
+      "width": 1024
+    },
+    {
+      "documentWidth": 1024,
+      "heading": "Planning a personal assistant",
+      "overflow": false,
+      "page": "session",
+      "width": 1024
+    },
+    {
+      "documentWidth": 1024,
+      "heading": "Your sessions",
+      "overflow": false,
+      "page": "sessions",
+      "width": 1024
+    },
+    {
+      "documentWidth": 1024,
+      "heading": "Assistants",
+      "overflow": false,
+      "page": "assistants",
+      "width": 1024
+    },
+    {
+      "documentWidth": 1024,
+      "heading": "Settings",
+      "overflow": false,
+      "page": "settings",
+      "width": 1024
+    },
+    {
+      "documentWidth": 1024,
+      "heading": "A little context, within reach.",
+      "overflow": false,
+      "page": "overlay",
+      "width": 1024
+    },
+    {
+      "documentWidth": 768,
+      "heading": "Ready when you are.",
+      "overflow": false,
+      "page": "home",
+      "width": 768
+    },
+    {
+      "documentWidth": 768,
+      "heading": "Planning a personal assistant",
+      "overflow": false,
+      "page": "session",
+      "width": 768
+    },
+    {
+      "documentWidth": 768,
+      "heading": "Your sessions",
+      "overflow": false,
+      "page": "sessions",
+      "width": 768
+    },
+    {
+      "documentWidth": 768,
+      "heading": "Assistants",
+      "overflow": false,
+      "page": "assistants",
+      "width": 768
+    },
+    {
+      "documentWidth": 768,
+      "heading": "Settings",
+      "overflow": false,
+      "page": "settings",
+      "width": 768
+    },
+    {
+      "documentWidth": 768,
+      "heading": "A little context, within reach.",
+      "overflow": false,
+      "page": "overlay",
+      "width": 768
+    },
+    {
+      "documentWidth": 390,
+      "heading": "Ready when you are.",
+      "overflow": false,
+      "page": "home",
+      "width": 390
+    },
+    {
+      "documentWidth": 390,
+      "heading": "Planning a personal assistant",
+      "overflow": false,
+      "page": "session",
+      "width": 390
+    },
+    {
+      "documentWidth": 390,
+      "heading": "Your sessions",
+      "overflow": false,
+      "page": "sessions",
+      "width": 390
+    },
+    {
+      "documentWidth": 390,
+      "heading": "Assistants",
+      "overflow": false,
+      "page": "assistants",
+      "width": 390
+    },
+    {
+      "documentWidth": 390,
+      "heading": "Settings",
+      "overflow": false,
+      "page": "settings",
+      "width": 390
+    },
+    {
+      "documentWidth": 390,
+      "heading": "A little context, within reach.",
+      "overflow": false,
+      "page": "overlay",
+      "width": 390
+    },
+    {
+      "documentWidth": 320,
+      "heading": "Ready when you are.",
+      "overflow": false,
+      "page": "home",
+      "width": 320
+    },
+    {
+      "documentWidth": 320,
+      "heading": "Planning a personal assistant",
+      "overflow": false,
+      "page": "session",
+      "width": 320
+    },
+    {
+      "documentWidth": 320,
+      "heading": "Your sessions",
+      "overflow": false,
+      "page": "sessions",
+      "width": 320
+    },
+    {
+      "documentWidth": 320,
+      "heading": "Assistants",
+      "overflow": false,
+      "page": "assistants",
+      "width": 320
+    },
+    {
+      "documentWidth": 320,
+      "heading": "Settings",
+      "overflow": false,
+      "page": "settings",
+      "width": 320
+    },
+    {
+      "documentWidth": 320,
+      "heading": "A little context, within reach.",
+      "overflow": false,
+      "page": "overlay",
+      "width": 320
+    }
+  ]
+}

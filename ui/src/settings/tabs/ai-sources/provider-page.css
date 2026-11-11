@@ -1,0 +1,104 @@
+.settings-scope .provider-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 10px;
+}
+.settings-scope .provider-header-name {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.settings-scope .provider-method {
+  margin-bottom: 16px;
+}
+.settings-scope .provider-method-label {
+  display: block;
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.settings-scope .provider-method-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid light-dark(rgba(32, 39, 53, 0.1), rgba(255, 255, 255, 0.1));
+  border-radius: 12px;
+  background: light-dark(rgba(32, 39, 53, 0.03), rgba(255, 255, 255, 0.03));
+}
+.settings-scope .provider-method-row {
+  transition: border-color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .settings-scope .provider-method-row:hover {
+    border-color: rgba(var(--lt-accent-rgb), 0.35);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .settings-scope .provider-method-row {
+    transition: none;
+  }
+}
+.settings-scope .provider-method-row.connected {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+}
+.settings-scope .provider-method-copy {
+  min-width: 0;
+}
+.settings-scope .provider-method-copy strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+.settings-scope .provider-method-copy p {
+  margin: 2px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.settings-scope .provider-method-row .api-grid-card-button {
+  width: auto;
+  white-space: nowrap;
+}
+.settings-scope .provider-method-error {
+  margin: 8px 0 0;
+  color: #ef4444;
+  font-size: 12px;
+}
+.settings-scope .provider-method-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(var(--lt-accent-rgb), 0.2);
+  border-radius: 10px;
+  background: rgba(var(--lt-accent-rgb), 0.08);
+  color: light-dark(rgba(32, 39, 53, 0.75), rgba(255, 255, 255, 0.75));
+  font-size: 12px;
+  line-height: 1.45;
+}
+.settings-scope .provider-method-note > svg {
+  flex: none;
+  margin-top: 1px;
+  color: rgba(var(--lt-accent-rgb), 0.8);
+}
+.settings-scope .provider-method-note-body {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+@media (max-width: 520px) {
+  .settings-scope .provider-method-row {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+  .settings-scope .provider-method-row .api-grid-card-button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}

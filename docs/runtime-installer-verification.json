@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "method": "Existing Homebrew installation, auto-update disabled",
+  "formula": "whisper-cpp",
+  "resolvedExecutable": "/opt/homebrew/Cellar/whisper.cpp/1.9.5/bin/whisper-server",
+  "limitations": [
+    "The runtime was already installed; a fresh package download was not exercised.",
+    "Homebrew is required and is not installed by this application."
+  ]
+}

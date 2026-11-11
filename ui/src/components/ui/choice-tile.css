@@ -1,0 +1,58 @@
+.choice-tile.choice-tile {
+  font-family: inherit;
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+  min-width: 0;
+  padding: var(--ui-space-2);
+  border: 1px solid var(--ui-setting-border);
+  border-radius: var(--ui-radius-control);
+  text-align: left;
+  background: var(--ui-setting-surface);
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    border-color var(--ui-motion-fast) ease-out,
+    transform var(--ui-motion-standard) var(--ui-ease-out),
+    background-color var(--ui-motion-fast) ease-out;
+}
+.choice-tile[data-state='checked'] {
+  border-color: var(--primary);
+  background: var(--ui-selected-surface);
+}
+.choice-tile:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+.choice-tile:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.choice-tile-caption {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-height: 20px;
+  font-size: var(--ui-text-caption);
+}
+.choice-tile-caption svg {
+  width: 14px;
+  height: 14px;
+}
+.choice-tile-indicator {
+  margin-left: auto;
+  color: var(--primary);
+}
+.choice-tile-preview {
+  width: 100%;
+}
+@media (hover: hover) and (pointer: fine) {
+  .choice-tile:not(:disabled):hover {
+    border-color: var(--primary);
+    transform: translateY(var(--ui-hover-lift));
+  }
+  .choice-tile:not(:disabled):active {
+    transform: scale(var(--ui-press-scale));
+  }
+}

@@ -1,0 +1,45 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const { loadTsx } = require('./helpers/load-tsx.cjs');
+
+test('repeated failures update one short-lived, dismissible error notification', () => {
+  const visible = new Map();
+  const { showError } = loadTsx('src/features/workspace/error-toast.ts', {
+    sonner: { toast: { error: (message, options) => visible.set(options.id, { message, ...options }) } },
+  });
+  const action = { label: 'Connect AI', onClick() {} };
+  showError('Missing key', action);
+  showError('Missing key', action);
+  showError('Provider unavailable');
+  assert.equal(visible.size, 1);
+  const error = [...visible.values()][0];
+  assert.equal(error.message, 'Provider unavailable');
+  assert.equal(error.duration, 3000);
+  assert.equal(error.closeButton, true);
+  assert.equal(error.action, undefined);
+});
+
+test('a refused Keychain read offers a restart, every shown error is reported, and main-process errors are not sent back', () => {
+  const visible = new Map();
+  const reported = [];
+  let restarted = 0;
+  const keychain = 'macOS blocked the Keychain fixture.';
+  const { showError, setRestartAction, setErrorReport } = loadTsx('src/features/workspace/error-toast.ts', {
+    sonner: { toast: { error: (message, options) => visible.set(options.id, { message, ...options }) } },
+    'src/i18n.ts': { documentT: (key) => (key === 'common.restartApp' ? 'Restart app' : key) },
+    'src/locales/en.ts': { en: { 'error.keychainBlocked': keychain } },
+  });
+  setRestartAction(() => restarted++);
+  setErrorReport((message) => reported.push(message));
+  showError(keychain);
+  const shown = visible.get('workspace-error');
+  assert.equal(shown.duration, 15000);
+  assert.equal(shown.action.label, 'Restart app');
+  shown.action.onClick();
+  assert.equal(restarted, 1);
+  showError('Provider unavailable');
+  assert.equal(visible.get('workspace-error').action, undefined);
+  assert.equal(visible.get('workspace-error').duration, 3000);
+  showError('Sent by the main process', undefined, { fromMain: true });
+  assert.deepEqual(reported, [keychain, 'Provider unavailable']);
+});

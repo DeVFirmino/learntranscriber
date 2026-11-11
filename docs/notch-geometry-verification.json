@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-24",
+  "scope": "Development Electron Notch geometry; isolated synthetic data",
+  "backend": {
+    "command": "npm test",
+    "passed": 143,
+    "failed": 0
+  },
+  "ui": {
+    "command": "npm run ui:test",
+    "passed": 34,
+    "failed": 0
+  },
+  "build": {
+    "command": "npm run ui:build",
+    "passed": true,
+    "warning": "Existing chunk size warning"
+  },
+  "syntax": {
+    "command": "npm run check",
+    "files": 82,
+    "passed": true
+  },
+  "focusedNative": {
+    "command": "LEARNTRANSCRIBER_SMOKE_FOCUS=notch-geometry npm run smoke",
+    "passed": true,
+    "checks": [
+      "Isolated native workspace loads",
+      "Production shadcn bundle uses native data without preview fallback",
+      "Expanded Notch exposes drag and resize handles",
+      "Main workspace cannot move the owned Notch",
+      "Main workspace cannot resize the owned Notch",
+      "Notch uses its bounded resize grip instead of native resizing",
+      "Notch resize persists its bounded expanded size",
+      "Drag saves an unpinned position inside the display",
+      "Expanding restores the moved position and size",
+      "Near-top drag snaps to a pinned display position",
+      "Dragging the Notch header moves and unpins the native window",
+      "Dragging the resize grip updates the native size",
+      "A header drag does not swallow the next collapsed Notch click",
+      "Dragging the collapsed Notch saves its position without opening it",
+      "A click after a collapsed drag opens the saved geometry",
+      "Geometry changes preserve Notch capture protection",
+      "Notch geometry renderer contains no runtime console errors"
+    ],
+    "consoleErrors": []
+  },
+  "fullNative": {
+    "command": "npm run smoke",
+    "passed": true,
+    "checks": 195,
+    "consoleErrors": []
+  },
+  "limitations": [
+    "Local visual review is pending.",
+    "Packaged application and meeting attendee-view exclusion were not tested."
+  ]
+}

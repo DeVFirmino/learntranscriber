@@ -1,0 +1,96 @@
+.settings-scope .permissions-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.settings-scope .permission-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 76px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.settings-scope .permission-row-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--brand-blue);
+}
+.settings-scope .permission-row-copy {
+  min-width: 0;
+}
+.settings-scope .permission-row-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.settings-scope .permission-row-description {
+  margin: 3px 0 0;
+  white-space: normal;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.settings-scope .permission-row .permission-row-status {
+  font-size: 13px;
+  min-height: 36px;
+  white-space: nowrap;
+}
+.settings-scope .permission-row .permission-row-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  min-width: 132px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+@media (max-width: 680px) {
+  .settings-scope .permission-row {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    gap: 8px 12px;
+  }
+  .settings-scope .permission-row-icon {
+    align-self: start;
+    margin-top: 2px;
+  }
+  .settings-scope .permission-row-description {
+    white-space: normal;
+  }
+  .settings-scope .permission-row .permission-row-action {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 440px) {
+  .settings-scope .permission-row { grid-template-columns: 24px minmax(0, 1fr); }
+  .settings-scope .permission-row .permission-row-status { grid-column: 2; justify-self: start; }
+}
+.settings-scope .permission-row .permission-row-action {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--foreground);
+  font-family: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.settings-scope .permission-row .permission-row-action:hover { background: var(--muted); }
+.settings-scope .permission-row .permission-row-action:disabled { opacity: .45; cursor: not-allowed; }
+.settings-scope .permission-row .permission-row-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.settings-scope .permission-row .permission-row-status[data-variant='default'] {
+  background: color-mix(in srgb, var(--primary) 15%, var(--background));
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+  color: var(--foreground);
+}

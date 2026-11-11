@@ -1,0 +1,58 @@
+.response-code-block {
+  background: #f6f8fb;
+  color: #192536;
+  --code-keyword: #174ea6;
+  --code-string: #14612e;
+  --code-number: #874609;
+  --code-comment: #576477;
+  --code-function: #07556e;
+}
+.dark .response-code-block {
+  background: #0c1119;
+  color: #edf2fa;
+  --code-keyword: #93c5fd;
+  --code-string: #a7e0b3;
+  --code-number: #f7c98a;
+  --code-comment: #a3adbf;
+  --code-function: #89ddff;
+}
+.response-code-block pre.response-code {
+  max-width: 100%;
+  margin: 0;
+  white-space: pre;
+  overflow-wrap: normal;
+  tab-size: 2;
+  border-radius: 0 0 8px 8px;
+  scrollbar-width: thin;
+}
+.response-code-block pre.response-code[data-wrap='true'] {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.response-code:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: -3px;
+}
+.response-code code {
+  font-size: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.response-code ::selection {
+  background: #2581ff55;
+}
+.response-code :is(.hljs-keyword, .hljs-selector-tag, .hljs-type, .hljs-literal) {
+  color: var(--code-keyword);
+}
+.response-code :is(.hljs-string, .hljs-regexp, .hljs-template-tag) {
+  color: var(--code-string);
+}
+.response-code :is(.hljs-number, .hljs-symbol, .hljs-attr) {
+  color: var(--code-number);
+}
+.response-code :is(.hljs-comment, .hljs-quote) {
+  color: var(--code-comment);
+  font-style: italic;
+}
+.response-code :is(.hljs-title, .hljs-built_in, .hljs-tag, .hljs-selector-class) {
+  color: var(--code-function);
+}

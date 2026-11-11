@@ -1,0 +1,42 @@
+{
+  "codex.png": {
+    "source": "https://openai.gallerycdn.vsassets.io/extensions/openai/chatgpt/26.51021.22027/1792788319200/Microsoft.VisualStudio.Services.Icons.Default",
+    "page": "https://marketplace.visualstudio.com/items?itemName=openai.chatgpt",
+    "sha256": "2ce1c57dd3b312417106a487815ab1235bddce17e1fa9b32a2f048bd71ee25d3"
+  },
+  "qwen.png": {
+    "source": "https://img.alicdn.com/imgextra/i4/O1CN01OXv3EM1FN8t9W4P79_!!6000000000474-2-tps-80-80.png",
+    "page": "https://qwen.ai/",
+    "sha256": "cd9390bc4209c319121d111f3a1f535b3c7dd909b8f860d41acc9744138d58df"
+  },
+  "gemma.svg": {
+    "source": "https://storage.googleapis.com/gdm-deepmind-com-prod-public/media/original_images/nav__dm__gemma__large.svg",
+    "page": "https://deepmind.google/models/gemma/",
+    "sha256": "6e8124788ad93b54be99e45d261c7ceb686f4f4f5434403b73cdc706f6c0362e"
+  },
+  "ollama.png": {
+    "source": "https://ollama.com/public/icon-64x64.png",
+    "page": "https://ollama.com/",
+    "sha256": "8f38edfb007d7b74f03d2ad7a57c023daa678031795ad11836df593970764a0b"
+  },
+  "lmstudio.svg": {
+    "source": "https://lmstudio.ai/assets/marketing/brand/page/logos/lm-studio-icon-color.svg",
+    "page": "https://lmstudio.ai/brand",
+    "sha256": "18950f44a1ba87eb6de782ed6c7691de21c1bfebf0000c7c896240aed104ffef"
+  },
+  "openrouter.png": {
+    "source": "https://openrouter.ai/favicon/glyph.png",
+    "page": "https://openrouter.ai/",
+    "sha256": "e6ce76bf956ac68569a7b1456fe0310fb9cc22bc1bc0fd8defd5daae099480b8"
+  },
+  "gemini.png": {
+    "source": "https://www.gstatic.com/lamda/images/gemini_sparkle_4g_512_lt_f94943af3be039176192d.png",
+    "page": "https://gemini.google.com/",
+    "sha256": "5e7cfecaa53f4f65a313fe89b0f389548126544a78fad8489510c70ae641a4a1"
+  },
+  "apple.png": {
+    "source": "https://www.apple.com/favicon.ico",
+    "page": "https://www.apple.com/",
+    "sha256": "e50e93c956287d829a6d66d988e15941dc11f22bb49ff104773f7359be635d6b"
+  }
+}

@@ -1,0 +1,92 @@
+.assistant-picker-trigger[data-slot='select-trigger'] {
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px #0003;
+}
+.assistant-picker-trigger[data-slot='select-trigger']:hover {
+  background: var(--accent);
+}
+.assistant-picker-trigger[data-slot='select-trigger'] > svg:last-child {
+  color: var(--muted-foreground);
+}
+.assistant-picker-menu {
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px #0004;
+}
+.assistant-picker-menu [role='option']:focus,
+.assistant-picker-menu [role='option'][data-highlighted] {
+  background: var(--accent);
+  color: var(--popover-foreground);
+}
+.assistant-picker-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--popover-foreground);
+  font-size: 12px;
+  font-weight: 500;
+}
+.assistant-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-left: 2px solid transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  cursor: default;
+  user-select: none;
+}
+.assistant-picker-item[data-state='checked'] {
+  border-left-color: #2581ff;
+  background: var(--accent);
+}
+.assistant-picker-source {
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.assistant-picker-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 6px 4px;
+}
+.assistant-picker-page-button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--muted-foreground);
+  outline: none;
+}
+.assistant-picker-page-button[data-highlighted] {
+  background: var(--accent);
+  color: var(--popover-foreground);
+}
+.assistant-picker-page-button[data-disabled] {
+  opacity: 0.35;
+}
+.assistant-picker-page {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+.assistant-picker-footer {
+  margin: 0 -4px -4px;
+  padding: 4px;
+  border-top: 1px solid var(--border);
+}
+.assistant-picker-manage {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}

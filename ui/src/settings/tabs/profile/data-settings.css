@@ -1,0 +1,60 @@
+:is(.data-settings, .data-clear-dialog) { --data-danger-action: var(--color-red-700); --data-danger-foreground: #fff; }
+.settings-scope .data-settings [data-slot='card'] {
+  --card-spacing: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+  box-shadow: none;
+}
+.settings-scope .data-settings [data-slot='card-title'],
+.settings-scope .data-settings h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.settings-scope .data-settings h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.settings-scope .data-settings p,
+.settings-scope .data-settings [data-slot='card-description'] {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+.settings-scope .data-settings dl {
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.settings-scope .data-settings dt { font-size: 13px; color: var(--muted-foreground); }
+.settings-scope .data-settings dd { margin: 4px 0 0; font-size: 28px; font-weight: 600; line-height: 1.4; }
+.settings-scope .data-settings ul { margin: 0; padding: 0; list-style: none; }
+.settings-scope .data-settings li { padding: 20px 0; border-bottom: 1px solid var(--border); }
+.settings-scope .data-settings li:first-child { padding-top: 0; }
+.settings-scope .data-settings li:last-child { padding-bottom: 0; border-bottom: 0; }
+.settings-scope .data-settings [data-slot='badge'] { padding: 3px 10px; height: auto; border: 1px solid var(--border); font-size: 12px; color: var(--muted-foreground); }
+.settings-scope .data-settings [data-slot='button'] {
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font: 500 13px/1.5 var(--font-sans);
+  cursor: pointer;
+}
+.settings-scope .data-settings [data-slot='button']:hover { background: var(--muted); }
+.settings-scope .data-settings [data-slot='button']:disabled { cursor: not-allowed; }
+.settings-scope .data-settings .data-delete-card { background: transparent; border-color: color-mix(in srgb, var(--destructive) 35%, var(--border)); }
+.settings-scope .data-settings [data-variant='destructive'] { background: var(--data-danger-action); border-color: var(--data-danger-action); color: var(--data-danger-foreground); }
+.settings-scope .data-settings [data-variant='destructive']:hover { background: var(--color-red-800); }
+@media (max-width: 600px) {
+  .settings-scope .data-settings [data-slot='card'] { --card-spacing: 18px; }
+}
+
+.data-clear-dialog [data-variant='destructive'] { background: var(--data-danger-action); color: var(--data-danger-foreground); }
+.data-clear-dialog [data-variant='destructive']:hover { background: var(--color-red-800); }

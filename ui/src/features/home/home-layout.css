@@ -1,0 +1,207 @@
+.home-columns {
+  align-items: start;
+  gap: 20px;
+  grid-template-areas: 'recent' 'details';
+}
+.home-column {
+  gap: 20px;
+  min-width: 0;
+}
+.home-column > [data-movable]:empty {
+  display: none;
+}
+.home-details-area {
+  grid-area: details;
+}
+.home-recent-area {
+  grid-area: recent;
+  min-width: 0;
+}
+@media (min-width: 960px) {
+  .home-columns {
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+    grid-template-areas: 'recent details';
+  }
+}
+.home-tile {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 9%, var(--card));
+}
+.home-recent-list {
+  display: grid;
+}
+.home-recent-list > li + li {
+  border-top: 1px solid var(--border);
+}
+.home-recent-row {
+  padding: 12px 8px;
+  text-align: left;
+  border-radius: 10px;
+}
+.home-recent-row:hover {
+  background: var(--muted);
+}
+.home-recent-when {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 520px) {
+  .home-recent-when {
+    flex-basis: 100%;
+    padding-left: 50px;
+  }
+}
+.home-tile-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+.home-tile-sm svg {
+  width: 16px;
+  height: 16px;
+}
+.home-setup-row {
+  border-radius: 10px;
+}
+.home-setup-row:hover {
+  background: var(--muted);
+}
+/* The activity card sits in the side column under privacy: the three numbers, then the week's bars. */
+.home-activity {
+  display: grid;
+  gap: 18px;
+  padding: 18px 20px;
+}
+.home-activity-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+.home-activity-numbers > div {
+  padding: 0 20px;
+}
+.home-activity-numbers > div:first-child {
+  padding-left: 0;
+}
+.home-activity-numbers > div + div {
+  border-left: 1px solid var(--border);
+}
+.home-activity-numbers dt {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.home-activity-numbers dd {
+  margin: 2px 0 0;
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.home-activity-chart {
+  margin: 0;
+}
+.home-activity-chart figcaption {
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.home-activity-chart ol {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  height: 64px;
+}
+.home-activity-chart li {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.home-activity-bar {
+  align-self: end;
+  width: 100%;
+  max-width: 22px;
+  height: max(4px, calc(var(--bar) * 100%));
+  border-radius: 4px;
+  background: var(--primary);
+  transform-origin: bottom;
+}
+.home-activity-bar[data-empty] {
+  background: var(--border);
+}
+/* The status line above the hero title while a recording runs: a pulsing dot, the state and the clock. */
+.home-live-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.home-live-dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+[data-live='paused'] .home-live-dot {
+  background: var(--muted-foreground);
+}
+.home-live-clock {
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+.home-shortcuts {
+  display: grid;
+  gap: 2px;
+}
+.home-shortcuts li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.home-shortcuts li + li {
+  border-top: 1px solid var(--border);
+}
+.home-shortcuts kbd {
+  min-width: 22px;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--muted);
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .home-activity {
+    gap: 16px;
+    padding: 16px;
+  }
+  .home-activity-numbers > div {
+    padding: 0 12px;
+  }
+  .home-activity-numbers dd {
+    font-size: 22px;
+  }
+}
+html:not(.dark) .home-tile {
+  background: color-mix(in srgb, var(--primary) 13%, var(--card));
+}
+html:not(.dark) .home-activity {
+  background: linear-gradient(120deg, color-mix(in srgb, var(--primary) 9%, var(--card)), var(--card) 55%);
+  border-color: color-mix(in srgb, var(--primary) 18%, var(--border));
+}
+html:not(.dark) .home-activity-numbers dd {
+  color: color-mix(in srgb, var(--primary) 70%, var(--foreground));
+}

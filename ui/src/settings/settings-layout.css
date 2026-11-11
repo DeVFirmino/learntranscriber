@@ -1,0 +1,10 @@
+
+.settings-scope .settings-container-standalone .settings-content {
+  padding: 28px 36px;
+}
+@media (max-width: 959px) {
+  .settings-scope .settings-container-standalone .settings-content {
+    padding: 20px 16px;
+  }
+}
+

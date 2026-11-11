@@ -1,0 +1,55 @@
+/* This settings page renders on browser defaults; Tailwind's preflight resets them. These zero-specificity rules
+   restore the user-agent values inside the settings page so its styles land on that same base. The
+   app's shared components (marked with data-slot) keep their own styles: this file is not in a cascade layer, so
+   it would otherwise beat every Tailwind utility on them. */
+.settings-scope
+  :where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, blockquote, figure, hr, pre):where(:not([data-slot])) {
+  margin: revert;
+  padding: revert;
+  font-size: revert;
+  font-weight: revert;
+  line-height: revert;
+}
+.settings-scope :where(h1, h2, h3, h4, h5, h6, p, li, span, div, label, button) {
+  text-wrap: wrap;
+}
+.settings-scope :where(ul, ol) {
+  list-style: revert;
+}
+.settings-scope :where(button, input, select, textarea):where(:not([data-slot])) {
+  font: revert;
+  color: revert;
+  letter-spacing: revert;
+  background-color: revert;
+  padding: revert;
+  border-radius: revert;
+  appearance: revert;
+}
+.settings-scope :where(img, svg, video, canvas) {
+  display: revert;
+  vertical-align: revert;
+}
+.settings-scope :where(a) {
+  color: revert;
+  text-decoration: revert;
+}
+.settings-scope :where(*:not([data-slot]), :not([data-slot])::before, :not([data-slot])::after) {
+  border-style: revert;
+  border-width: revert;
+}
+/* Page geometry: the settings page fills its window. Text starts from the browser defaults
+   instead of the workspace's inherited size and line height. */
+.settings-scope {
+  font-size: medium;
+  line-height: normal;
+  letter-spacing: normal;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background-color: var(--flavor-background);
+}
+/* The workspace's thin scrollbar setting would override this page's own ::-webkit-scrollbar styles. */
+.settings-scope :where(*) {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}

@@ -1,0 +1,208 @@
+{
+  "date": "2026-10-25",
+  "runtime": {
+    "llm": "llama-server 0.7.0 build 11669",
+    "whisper": "whisper-server 1.9.5",
+    "machine": "Apple Silicon, 18 GB"
+  },
+  "PG-01": {
+    "date": "2026-10-25T21:38:26.242Z",
+    "capped": {
+      "requested": 131072,
+      "effective": 40960,
+      "notice": "The model supports 40,960 tokens; using that instead of 131,072."
+    },
+    "nonAllocationFailure": {
+      "retried": false,
+      "contextSizeKept": 4096
+    }
+  },
+  "PG-02": {
+    "date": "2026-10-25T21:40:08.244Z",
+    "downloadedNow": true,
+    "downloadMs": 6160,
+    "projectorAvailable": true,
+    "contextSize": 4096,
+    "answers": {
+      "red": " Red",
+      "blue": " Blue"
+    },
+    "redRecognised": true,
+    "blueRecognised": true,
+    "textOnlyRouteRefusesImages": true
+  },
+  "PG-03": {
+    "normal": {
+      "date": "2026-10-25T21:42:08.189Z",
+      "model": "Whisper tiny · Multilingual · 77 MB",
+      "audioSeconds": 61,
+      "wallSeconds": 61,
+      "drainAfterStopMs": 178,
+      "finals": {
+        "THEY": 10,
+        "ME": 3
+      },
+      "previews": 90,
+      "fallingBehindErrors": 0,
+      "wordErrorRate": {
+        "THEY": 0.027,
+        "ME": 0
+      }
+    },
+    "continuousSpeech": {
+      "date": "2026-10-25T21:51:00.900Z",
+      "model": "Whisper tiny · Multilingual · 77 MB",
+      "audioSeconds": 147,
+      "wallSeconds": 147,
+      "drainAfterStopMs": 383,
+      "finals": {
+        "THEY": 3,
+        "ME": 3
+      },
+      "finalDecodes": [
+        {
+          "seconds": 4.4,
+          "ms": 70,
+          "chars": 58,
+          "head": "I can take the monitoring task for the notification queue."
+        },
+        {
+          "seconds": 60,
+          "ms": 1097,
+          "chars": 1088,
+          "head": "Thanks everyone for joining the quarterly planning review this morning.\n The fir"
+        },
+        {
+          "seconds": 4.9,
+          "ms": 69,
+          "chars": 68,
+          "head": "can we confirm the Saturday cutover window with the operations team."
+        },
+        {
+          "seconds": 60,
+          "ms": 821,
+          "chars": 1074,
+          "head": "on a Saturday to keep the risk low.\n Maria will own the rollback plan and share "
+        },
+        {
+          "seconds": 3.5,
+          "ms": 79,
+          "chars": 66,
+          "head": "I will send the interview schedule to everyone after this meeting."
+        },
+        {
+          "seconds": 27,
+          "ms": 381,
+          "chars": 469,
+          "head": "and engineers. Interviews are scheduled for the next two weeks, and we expect of"
+        }
+      ],
+      "previews": 247,
+      "fallingBehindErrors": 0,
+      "wordErrorRate": {
+        "THEY": 0.025,
+        "ME": 0
+      }
+    }
+  },
+  "PG-05": {
+    "date": "2026-10-25T21:44:42.573Z",
+    "model": "Qwen3 0.6B Q8_0",
+    "routed": {
+      "systemInChat": true,
+      "realtimeInInsight": true,
+      "realtimeNotInChat": true,
+      "knowledgeInChat": true,
+      "knowledgeInInsight": true
+    },
+    "modelFollowed": {
+      "systemPrompt": true,
+      "realtimePromptInInsight": true,
+      "realtimePromptAbsentFromChat": true,
+      "knowledge": true,
+      "plainControlLacksKnowledge": true,
+      "followUpPrompt": "1/2"
+    },
+    "answers": {
+      "system": "ZEBRA: Hello! How are you today?",
+      "realtime": "KIWI: We need to cut costs on the cloud bill next quarter.",
+      "realtimeChat": "Hello! 😊 How can I assist you today?",
+      "knowledge": "The internal project codename is HELIOTROPE.",
+      "plain": "The internal project codename is **\"CostCut\"**.",
+      "followUps": [
+        {
+          "text": "What are the potential cost savings from shifting idle workloads to smaller instances?",
+          "prompt": "What are the potential cost savings from shifting idle workloads to smaller instances?"
+        },
+        {
+          "text": "How can the budget be optimized by reviewing storage tiers every month?",
+          "prompt": "How can the budget be optimized by reviewing storage tiers every month?"
+        }
+      ]
+    }
+  },
+  "PG-16": {
+    "contextSize": 4096,
+    "short": {
+      "summary": {
+        "ok": true,
+        "value": "**Overview:**  \nThe meeting discussed quarterly planning topics, including the migration of the billing service, hiring for backend engineers, and customer feedback from the mobile app. Decisions were made for the migration cutover, hiring, and monitoring for notification queues. Open questions and next steps were also outlined.\n\n**Decisions:**  \n1. Migration of billing service to new database cluster agreed.  \n2. Hiring for two backend engineers ongoing.  \n3. Interview schedule and expected offers confirmed.  \n4. Monitoring of the notification queue added by Daniel.  \n5. Conference trip budget approved, with plans to book flights soon.\n\n**Open Questions:**  \n- What specific changes need to be made to the notification queue during the migration?  \n- How will the hiring process be managed for the open positions?  \n- What is the next step to ensure the customer feedback is addressed?\n\n**Next Steps:**  \n- Maria will share the rollback plan by Thursday afternoon.  \n- Interviews scheduled for the next two weeks.  \n- Daniel will monitor the notification queue for any issues.  \n- Flights for the conference trip will be booked soon."
+      },
+      "rewrite": {
+        "ok": true,
+        "value": "- The meeting discussed quarterly planning topics, including the migration of the billing service, hiring for backend engineers, and customer feedback from the mobile app. Decisions were made for the migration cutover, hiring, and monitoring of the notification queue.  \n- Maria will share the rollback plan by Thursday afternoon, and interviews will be scheduled for the next two weeks.  \n- Daniel will monitor the notification queue for any issues."
+      },
+      "rewriteHasThreeBullets": true
+    },
+    "long": {
+      "transcriptCharacters": 38270,
+      "summary": {
+        "ok": true,
+        "characters": 1262,
+        "head": "**Overview:**  \nThe conversation discusses quarterly planning reviews covering the migration of the billing service, hiring for backend engineers, customer feedback on a mobile application, and a conference trip budget approval.  \n\n**Decisions:**  \n- The migration of the billing service to a new dat"
+      },
+      "rewrite": {
+        "ok": true,
+        "value": "- The meeting discussed quarterly planning topics, including the migration of the billing service, hiring for backend engineers, and customer feedback from the mobile app. Decisions were made for the migration cutover, hiring, and monitoring of the notification queue.  \n- Maria will share the rollback plan by Thursday afternoon.  \n- Daniel will monitor the notification queue for any issues."
+      }
+    }
+  },
+  "PG-17": {
+    "date": "2026-10-25T21:54:05.467Z",
+    "model": "SmolVLM 256M Q8_0 + projector",
+    "answers": {
+      "redThenBlue": " The image depicts a red background with no discernible patterns or colors, which likely represents a plain, monochromatic design or a plain background. The text at the bottom of the image reads \"The White House,\" which is a reference to the White House, which was an official residence located at 1323 Pennsylvania Ave. in Washington, D.C., United States.",
+      "blueThenRed": " The image contains a red background."
+    },
+    "bothColoursNamed": false,
+    "orderPreserved": false,
+    "serverEncoding": {
+      "date": "2026-10-25T21:54:42.540Z",
+      "promptTokens": {
+        "none": 10,
+        "one": 144,
+        "two": 278,
+        "four": 546
+      },
+      "perImage": 134,
+      "everyImageEncoded": true
+    }
+  },
+  "PG-09": {
+    "date": "2026-10-25T22:28:47.246Z",
+    "model": "Qwen3 0.6B Q8_0",
+    "runsPerScenario": 10,
+    "passed": {
+      "create": "5/10",
+      "followUp": "0/10",
+      "search": "8/10",
+      "deleteGeneral": "6/10"
+    },
+    "withoutPromptExamples": {
+      "create": "5/10",
+      "followUp": "0/10",
+      "search": "8/10",
+      "deleteGeneral": "6/10"
+    }
+  }
+}

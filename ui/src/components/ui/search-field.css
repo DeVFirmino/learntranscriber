@@ -1,0 +1,27 @@
+.search-field {
+  position: relative;
+  width: 100%;
+}
+.search-field [data-slot='input'] {
+  height: var(--ui-control-height);
+  padding-inline: 40px;
+  background: var(--card);
+}
+.search-field-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+.search-field > button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+.search-field input::-webkit-search-cancel-button {
+  display: none;
+}

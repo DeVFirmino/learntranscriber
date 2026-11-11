@@ -1,0 +1,86 @@
+{
+  "note": "Shared inputs for the native rules (test/contract-fixtures.test.cjs) and the browser preview (ui/test/mock-contract.test.cjs). `native` and `mock` name the expected outcome; a different value on the same case is a confirmed, documented difference to fix separately.",
+  "settings": [
+    {"name": "onboarding milestones are independent", "patch": {"onboardingStarted": true, "onboardingDemoSeen": true, "onboardingCompleted": false}, "native": "accepts", "mock": "accepts"},
+    {"name": "onboarding microphone choice", "patch": {"onboardingAudioSource": "microphone"}, "native": "accepts", "mock": "accepts"},
+    {"name": "onboarding computer choice", "patch": {"onboardingAudioSource": "computer"}, "native": "accepts", "mock": "accepts"},
+    {"name": "onboarding unchosen source", "patch": {"onboardingAudioSource": ""}, "native": "accepts", "mock": "accepts"},
+    {"name": "onboarding rejects unsupported source", "patch": {"onboardingAudioSource": "browser"}, "native": "rejects", "mock": "rejects"},
+    {"name": "onboarding rejects optimistic string milestone", "patch": {"onboardingDemoSeen": "true"}, "native": "rejects", "mock": "rejects"},
+    {"name": "minimum workspace zoom", "patch": {"workspaceZoom": 70}, "native": "accepts", "mock": "accepts"},
+    {"name": "maximum workspace zoom", "patch": {"workspaceZoom": 150}, "native": "accepts", "mock": "accepts"},
+    {"name": "workspace zoom below minimum", "patch": {"workspaceZoom": 60}, "native": "rejects", "mock": "rejects"},
+    {"name": "workspace zoom above maximum", "patch": {"workspaceZoom": 160}, "native": "rejects", "mock": "rejects"},
+    {"name": "workspace zoom between steps", "patch": {"workspaceZoom": 115}, "native": "rejects", "mock": "rejects"},
+    {"name": "workspace zoom with wrong type", "patch": {"workspaceZoom": "120"}, "native": "rejects", "mock": "rejects"},
+    { "name": "valid opacity", "patch": { "overlayOpacity": 0.5 }, "native": "accepts", "mock": "accepts" },
+    { "name": "opacity above 100%", "patch": { "overlayOpacity": 5 }, "native": "rejects", "mock": "rejects" },
+    { "name": "unknown provider", "patch": { "provider": "unknown" }, "native": "rejects", "mock": "rejects" },
+    {
+      "name": "unsupported interface language",
+      "patch": { "uiLanguage": "fr" },
+      "native": "rejects",
+      "mock": "rejects"
+    },
+    {
+      "name": "non-http endpoint",
+      "patch": { "customBaseUrl": "ftp://example.com" },
+      "native": "rejects",
+      "mock": "rejects"
+    },
+    {
+      "name": "unconfigured custom endpoint",
+      "patch": { "customBaseUrl": "" },
+      "native": "accepts",
+      "mock": "accepts"
+    },
+    {
+      "name": "empty transcription endpoint",
+      "patch": { "transcriptionBaseUrl": "" },
+      "native": "rejects",
+      "mock": "rejects"
+    },
+    {
+      "name": "Gemini transcription selection",
+      "patch": { "transcriptionProvider": "gemini" },
+      "native": "accepts",
+      "mock": "accepts"
+    },
+    { "name": "unknown surface theme", "patch": { "surfaceTheme": "blue" }, "native": "rejects", "mock": "rejects" },
+    {
+      "name": "removed connector prompt setting",
+      "patch": { "globalMcpNextActionPrompt": "Choose a tool" },
+      "native": "rejects",
+      "mock": "rejects"
+    },
+    { "name": "unknown setting", "patch": { "noSuchSetting": true }, "native": "rejects", "mock": "rejects" }
+  ],
+  "assistants": [
+    {
+      "name": "valid assistant",
+      "input": { "name": "Coach", "prompt": "Help the user practice." },
+      "native": "accepts",
+      "mock": "accepts"
+    },
+    { "name": "empty name", "input": { "name": "", "prompt": "Help." }, "native": "rejects", "mock": "rejects" },
+    {
+      "name": "name over 80 characters",
+      "input": {
+        "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+        "prompt": "Help."
+      },
+      "native": "rejects",
+      "mock": "rejects"
+    },
+    {
+      "name": "knowledge file name with a newline",
+      "input": { "name": "Coach", "prompt": "Help.", "knowledgeFiles": [{ "name": "a\nb", "content": "", "size": 0 }] },
+      "native": "rejects",
+      "mock": "accepts"
+    }
+  ],
+  "deletions": [
+    { "name": "built-in assistant", "id": "general", "native": "accepts", "mock": "accepts" },
+    { "name": "unknown assistant", "id": "missing", "native": "rejects", "mock": "rejects" }
+  ]
+}

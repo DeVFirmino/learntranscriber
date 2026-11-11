@@ -1,0 +1,107 @@
+{
+  "name": "learntranscriber",
+  "version": "0.1.0",
+  "description": "Personal macOS conversation assistant",
+  "license": "MIT",
+  "private": true,
+  "main": "src/main/index.cjs",
+  "scripts": {
+    "check": "node scripts/check.cjs && npm run format:check && npm run lint",
+    "format": "prettier --write \"src/**/*.cjs\" \"scripts/**/*.cjs\" \"test/**/*.cjs\" \"ui/src/**/*.{ts,tsx}\" \"ui/test/**/*.cjs\"",
+    "format:check": "prettier --check \"src/**/*.cjs\" \"scripts/**/*.cjs\" \"test/**/*.cjs\" \"ui/src/**/*.{ts,tsx}\" \"ui/test/**/*.cjs\"",
+    "lint": "oxlint src scripts test && npm --prefix ui run lint",
+    "native:build": "node scripts/build-native.cjs",
+    "pack": "npm run ui:build && npm run native:build && node scripts/pack.cjs",
+    "smoke": "node scripts/smoke.cjs",
+    "start": "npm run ui:build && npm run native:build && electron .",
+    "test": "node --test test/*.test.cjs",
+    "ui:build": "npm --prefix ui run build",
+    "ui:test": "npm --prefix ui test",
+    "dmg": "npm run ui:build && npm run native:build && node scripts/pack.cjs --dmg"
+  },
+  "devDependencies": {
+    "electron": "45.2.3",
+    "electron-builder": "26.15.3",
+    "oxlint": "^1.89.0",
+    "prettier": "^3.9.10"
+  },
+  "build": {
+    "appId": "dev.danieldias.learntranscriber",
+    "productName": "LearnTranscriber",
+    "copyright": "Copyright © 2026 Daniel Dias",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "!src/renderer/**/*",
+      "ui/dist/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".local/native/apple-speech",
+        "to": "native/apple-speech"
+      },
+      {
+        "from": ".local/native/context-helper",
+        "to": "native/context-helper"
+      },
+      {
+        "from": ".local/native/system-audio",
+        "to": "native/system-audio"
+      }
+    ],
+    "mac": {
+      "icon": "assets/icon.png",
+      "category": "public.app-category.productivity",
+      "identity": null,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Transcribe your voice when you start listening.",
+        "NSAudioCaptureUsageDescription": "Transcribe meeting audio when you enable system audio.",
+        "NSSpeechRecognitionUsageDescription": "Recognize speech locally when you select Apple Speech and start listening.",
+        "NSScreenCaptureUsageDescription": "Analyze a display when you explicitly capture it."
+      },
+      "minimumSystemVersion": "14.0",
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "binaries": [
+        "Contents/Resources/native/apple-speech",
+        "Contents/Resources/native/system-audio",
+        "Contents/Resources/native/context-helper"
+      ]
+    },
+    "dmg": {
+      "title": "LearnTranscriber",
+      "format": "UDZO",
+      "contents": [
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        },
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 300
+      }
+    },
+    "electronFuses": {
+      "runAsNode": false,
+      "enableCookieEncryption": true,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "grantFileProtocolExtraPrivileges": false,
+      "resetAdHocDarwinSignature": true
+    }
+  }
+}

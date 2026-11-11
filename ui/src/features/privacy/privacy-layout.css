@@ -1,0 +1,19 @@
+.privacy-page [data-slot='card-content'] > .border-b {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.privacy-page [data-slot='card-content'] > .border-b > :first-child {
+  flex: 1;
+}
+.privacy-page [data-slot='card-content'] > .border-b > :last-child {
+  flex-shrink: 0;
+}
+.privacy-page [data-slot='card-content'] > .border-b .font-medium {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+@media (max-width: 640px) {
+  .privacy-page [data-slot='card-content'] > .border-b {
+    gap: 12px;
+  }
+}

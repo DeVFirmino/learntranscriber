@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "binary": "/opt/homebrew/bin/whisper-server",
+  "model": "ggml-tiny.en.bin",
+  "sha256": "921e4cf8686fdd993dcd081a5da5b6c365bfde1162e72b08d75ac75289920b1f",
+  "bytes": 77704715,
+  "sample": "https://raw.githubusercontent.com/ggml-org/whisper.cpp/master/samples/jfk.wav",
+  "recognizedExpectedWords": true,
+  "serverStopped": true,
+  "limitations": [
+    "Public sample, not meeting audio or microphone capture.",
+    "This check exercises the manager and actual Whisper runtime, not native renderer IPC."
+  ]
+}

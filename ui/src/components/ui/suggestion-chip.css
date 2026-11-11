@@ -1,0 +1,34 @@
+.suggestion-chip[data-slot='button'] {
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 7px 12px;
+  border-color: var(--border);
+  background: var(--card);
+  font-size: 12px;
+  line-height: 1.5;
+  max-width: 100%;
+  transition: border-color var(--ui-motion-fast) var(--ui-ease-out), background-color var(--ui-motion-fast) var(--ui-ease-out), transform var(--ui-motion-fast) var(--ui-ease-out);
+}
+.suggestion-chip svg {
+  color: var(--brand-icon-accent);
+  transition: transform var(--ui-motion-fast) var(--ui-ease-out);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .suggestion-chip:not(:disabled):hover {
+    border-color: var(--primary);
+    transform: translateY(var(--ui-hover-lift));
+  }
+  .suggestion-chip:not(:disabled):hover svg {
+    transform: translate(2px, -2px);
+  }
+  .suggestion-chip:not(:disabled):active {
+    transform: scale(var(--ui-press-scale));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .suggestion-chip[data-slot='button'],
+  .suggestion-chip svg {
+    transition: none;
+  }
+}

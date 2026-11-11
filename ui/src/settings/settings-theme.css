@@ -1,0 +1,91 @@
+/* The workspace and settings share the app's blue accent and graphite surfaces. */
+.settings-scope {
+  --lt-accent-rgb: 37, 129, 255;
+  --lt-accent-deep-rgb: 23, 100, 199;
+  --lt-accent-hover-rgb: 66, 146, 255;
+  --lt-accent-hover-deep-rgb: 30, 112, 218;
+  --lt-active-rgb: 128, 180, 255;
+  --lt-blue-rgb: 37, 129, 255;
+
+  --color-black: light-dark(#fafbfc, #111216);
+  --color-dark-gray: light-dark(#e2e6ed, #282c38);
+  --flavor-background: light-dark(#fafbfc, #111216);
+  --flavor-background-alternate: light-dark(#f1f3f7, #191b22);
+  --glass-bg: light-dark(#f1f3f7, #191b22);
+  --glass-bg-medium: light-dark(#f1f3f7, #191b22);
+  --glass-border: light-dark(#e2e6ed, #2b2e39);
+  --glass-button-bg: light-dark(#e2e6ed, #22252e);
+  --glass-button-border: light-dark(#c3cbd8, #343847);
+  --modal-bg: light-dark(#fafbfc, #111216);
+  --modal-card-bg: light-dark(#f1f3f7, #191b22);
+  --modal-accent-bg: light-dark(#e2e6ed, #242731);
+  --modal-border: light-dark(#c3cbd8, #343847);
+}
+
+/* The standalone settings container's own background, distinct from the page. */
+
+.settings-scope .settings-container-standalone {
+  background-color: light-dark(#fafbfc, #111216);
+}
+
+/* Brand and utility icons share consistent sizing hooks. */
+.settings-scope .settings-icon {
+  flex-shrink: 0;
+  vertical-align: -0.125em;
+}
+
+/* Product artwork keeps its original colors, with a neutral plate for monochrome marks. */
+.settings-scope .settings-icon.third-party-logo {
+  box-sizing: border-box;
+  background: light-dark(#202735, #fff);
+  border: 0;
+  border-radius: 5px;
+  padding: 3px;
+  filter: none;
+  opacity: 1;
+}
+
+.settings-scope .settings-icon.third-party-logo.logo-blend,
+.settings-scope .settings-icon.third-party-logo.logo-invert {
+  background: transparent;
+  padding: 0;
+}
+
+.dark .settings-scope .settings-icon.third-party-logo.logo-invert {
+  filter: invert(1);
+}
+
+.settings-scope .api-grid-card-icon .third-party-logo,
+.settings-scope .local-engine-card-icon .third-party-logo {
+  width: 28px;
+  height: 28px;
+}
+
+.settings-scope .local-model-manager .model-list-icon .third-party-logo {
+  width: 28px;
+  height: 28px;
+  filter: none;
+  opacity: 1;
+}
+
+/* Icon scale and interaction refinements keep the existing layout and theme. */
+
+/* Connection labels remain readable in every locale without widening the navigation. */
+
+.settings-scope :is(button, a, input, select, textarea, summary):focus-visible {
+  outline: 2px solid rgb(var(--lt-active-rgb));
+  outline-offset: 3px;
+}
+
+.settings-scope button:disabled {
+  cursor: not-allowed;
+}
+
+.settings-scope .settings-loading {
+  padding: 24px;
+  color: var(--color-text-secondary);
+}
+
+.light .settings-scope { --lt-active-rgb: 29, 95, 185; --color-text-on-accent: #fff; --flavor-action-text: #fff; --flavor-cta-text: #fff; }
+.light .settings-scope .settings-icon.third-party-logo { background: #fff; }
+.light .settings-scope .glass-button.primary { color: #fff; }

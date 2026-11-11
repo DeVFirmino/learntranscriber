@@ -1,0 +1,164 @@
+{
+  "home": {
+    "foreground": "M3 10.5 12 3l9 7.5",
+    "accent": "M19 13v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "sessions": {
+    "foreground": "M5 11V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M3 7.5h4M10.5 7.5h4",
+    "accent": "M19 13.5V19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-5.5M3 16.5h4M10.5 16.5h4",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "assistants": {
+    "foreground": "M16 7.5a4 4 0 1 1-8 0 4 4 0 0 1 8 0z",
+    "accent": "M4.5 20.5c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "connections": {
+    "foreground": "M9 3v3.5M15 3v3.5M6 9h12",
+    "accent": "M18 11.5v.5a6 6 0 0 1-12 0v-.5M12 18v3.5",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "settings": {
+    "foreground": "M5.31 14.05L2.67 13.81A9.5 9.5 0 0 1 2.67 10.19L5.31 9.95A7 7 0 0 1 6.88 7.23L5.77 4.83A9.5 9.5 0 0 1 8.91 3.02L10.43 5.18A7 7 0 0 1 13.57 5.18L15.09 3.02A9.5 9.5 0 0 1 18.23 4.83L17.12 7.23M9.1 12.78A3 3 0 0 1 14.12 9.88",
+    "accent": "M18.69 9.95L21.33 10.19A9.5 9.5 0 0 1 21.33 13.81L18.69 14.05A7 7 0 0 1 17.12 16.77L18.23 19.17A9.5 9.5 0 0 1 15.09 20.98L13.57 18.82A7 7 0 0 1 10.43 18.82L8.91 20.98A9.5 9.5 0 0 1 5.77 19.17L6.88 16.77M14.9 11.22A3 3 0 0 1 9.88 14.12",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "listen": {
+    "foreground": "M9 5.5a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z",
+    "accent": "M5.5 10.5a6.5 6.5 0 0 0 13 0M12 17v4",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "transcript": {
+    "foreground": "M5 11V4.5a2 2 0 0 1 2-2h7l5 5V11M14 2.5v5h5",
+    "accent": "M19 13.5v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6M9 17.5h6",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "capture": {
+    "foreground": "M3 11.5V9a2 2 0 0 1 2-2h2l1.5-2.2A2 2 0 0 1 10.2 4h3.6a2 2 0 0 1 1.7.8L17 7h2a2 2 0 0 1 2 2v2.5M9 12a3 3 0 0 1 6 0",
+    "accent": "M21 14v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M15 14.5a3 3 0 0 1-6 0",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "screen": {
+    "foreground": "M2.5 10.5v-5a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v5",
+    "accent": "M21.5 13v1.5a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2V13M12 16.5v4M8 20.5h8",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "privacy": {
+    "foreground": "M4.5 11V5.75L12 2.75l7.5 3V11",
+    "accent": "M19.3 13.5c-.85 3.6-3.5 6.4-7.3 7.75-3.8-1.35-6.45-4.15-7.3-7.75",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "stealth": {
+    "foreground": "M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49M14.084 14.158a3 3 0 0 1-4.242-4.242",
+    "accent": "M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143M3 3l18 18",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "shortcuts": {
+    "foreground": "M2.5 11V7.5a5 5 0 0 1 5-5h9a5 5 0 0 1 5 5V11M10 10h4v4h-4zM10 10V8.25A1.75 1.75 0 1 0 8.25 10H10M14 10V8.25A1.75 1.75 0 1 1 15.75 10H14M14 14v1.75A1.75 1.75 0 1 0 15.75 14H14M10 14v1.75A1.75 1.75 0 1 1 8.25 14H10",
+    "accent": "M21.5 13.5v3a5 5 0 0 1-5 5h-9a5 5 0 0 1-5-5v-3",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "audio": {
+    "foreground": "M3 10.5v3M7.5 7v10M12 3v7.5",
+    "accent": "M12 13.5V21M16.5 7v10M21 10.5v3",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "models": {
+    "foreground": "M12 2.5l9 4.5-9 4.5-9-4.5z",
+    "accent": "M3 12l9 4.5 9-4.5M3 16.5l9 4.5 9-4.5",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "memory": {
+    "foreground": "M10.5 4.5A3 3 0 0 0 5.7 6.4 3.3 3.3 0 0 0 3.5 12a3.3 3.3 0 0 0 2.2 5.6 3 3 0 0 0 4.8 1.9M7 11.5c1.6 0 3-.9 3.5-2.5M10.5 16a3 3 0 0 0-3-1.5",
+    "accent": "M13.5 4.5a3 3 0 0 1 4.8 1.9 3.3 3.3 0 0 1 2.2 5.6 3.3 3.3 0 0 1-2.2 5.6 3 3 0 0 1-4.8 1.9M17 11.5c-1.6 0-3-.9-3.5-2.5M13.5 16a3 3 0 0 1 3-1.5",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "timer": {
+    "foreground": "M5.5 17.25A7.5 7.5 0 0 1 17.75 8.68M10 2.5h4M12 2.5v3.5M12 13.5V9.5",
+    "accent": "M19.39 12.2A7.5 7.5 0 0 1 8.25 20",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "scroll": {
+    "foreground": "M12 3v12.5M6.5 10.5 12 16l5.5-5.5",
+    "accent": "M5 20.5h14",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "selection": {
+    "foreground": "M9 2.5h6a1 1 0 0 1 1 1v1.5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1zM8 4.25H6.5a2 2 0 0 0-2 2V11M16 4.25h1.5a2 2 0 0 1 2 2V11",
+    "accent": "M19.5 13.5V19.5a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-6M8.5 16.5h7",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "compact": {
+    "foreground": "M3.5 3.5 10 10M10 4.5V10H4.5",
+    "accent": "M20.5 20.5 14 14M14 19.5V14h5.5",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "key": {
+    "foreground": "M13.5 8.5a5 5 0 1 1-10 0 5 5 0 0 1 10 0z",
+    "accent": "M14 14l7 7M17.5 17.5l2.5-2.5M19.5 19.5l2-2",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "cloud": {
+    "foreground": "M3.74 15.87A4 4 0 0 1 7 10.53A5.5 5.5 0 1 1 18 10.63A4 4 0 0 1 20.63 12.81",
+    "accent": "M20.86 15.54A4 4 0 0 1 17 18.5H7.5A4 4 0 0 1 5.5 17.96",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "terminal": {
+    "foreground": "M2.5 11V6.5a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2V11M7 9l3 3-3 3",
+    "accent": "M21.5 13.5v4a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2v-4M13 15h4",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "vault": {
+    "foreground": "M3 9 7 3.5h10L21 9z",
+    "accent": "M20 11.5 12 20.5 4 11.5",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "calendar": {
+    "foreground": "M4 11V6.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V11M8 2.5v4M16 2.5v4",
+    "accent": "M20 13.5v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-5M8 17h.01M12 17h.01M16 17h.01",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "sheets": {
+    "foreground": "M3.5 11V5.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2V11M3.5 7.5h17M9.5 3.5V11",
+    "accent": "M20.5 13.5v5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-5M3.5 17h17M9.5 13.5v7",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "vision": {
+    "foreground": "M2.06 11.65A10.75 10.75 0 0 1 21.94 11.65M8.83 10.52A3.5 3.5 0 0 1 15.17 10.52",
+    "accent": "M20.7 14.57A10.75 10.75 0 0 1 3.3 14.57M15.17 13.48A3.5 3.5 0 0 1 8.83 13.48",
+    "foregroundStroke": true,
+    "accentStroke": true
+  },
+  "notch": {
+    "foreground": "M2.5 10.5v-5a2 2 0 0 1 2-2H9l.8 1.6a1 1 0 0 0 .9.4h2.6a1 1 0 0 0 .9-.4l.8-1.6h4.5a2 2 0 0 1 2 2v5",
+    "accent": "M21.5 13v1.5a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2V13M12 16.5v4M8 20.5h8",
+    "foregroundStroke": true,
+    "accentStroke": true
+  }
+}

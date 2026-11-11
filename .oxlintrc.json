@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["oxc", "unicorn"],
+  "env": { "node": true, "es2024": true },
+  "rules": {
+    "no-unused-vars": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "eqeqeq": "error",
+    "unicorn/no-await-expression-member": "off"
+  },
+  "ignorePatterns": ["ui/**", "dist/**", ".local/**", "native/**"]
+}

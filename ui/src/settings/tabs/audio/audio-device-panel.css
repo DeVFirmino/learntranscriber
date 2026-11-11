@@ -1,0 +1,89 @@
+/* Your Audio as one card: the device line, its menu, then the meter beside its test button. */
+.settings-scope .audio-device-panel {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+}
+.settings-scope .audio-device-tile {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 12%, var(--card));
+  color: var(--primary);
+}
+.settings-scope .audio-device-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.settings-scope .audio-device-check {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: #22c55e;
+}
+.settings-scope .audio-device-panel[data-unavailable] .audio-device-status {
+  color: var(--destructive);
+}
+/* The settings scope reverts native button styles, so the trigger states its own, like the language picker. */
+.settings-scope .audio-device-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--ui-control-height);
+  padding: var(--ui-space-2) var(--ui-space-3);
+  border: 1px solid var(--ui-setting-border);
+  border-radius: var(--ui-radius-control);
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.settings-scope .audio-device-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.settings-scope .microphone-test {
+  display: grid;
+  gap: 6px;
+}
+.settings-scope .microphone-test-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.settings-scope .microphone-test-row .audio-meter {
+  flex: 1;
+  min-width: 0;
+  margin-top: 0;
+}
+.settings-scope .microphone-test-row .audio-probe-control[data-slot='button'] {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.settings-scope .microphone-test-hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+@media (max-width: 480px) {
+  .settings-scope .microphone-test-row {
+    flex-wrap: wrap;
+  }
+  .settings-scope .microphone-test-row .audio-meter {
+    flex-basis: 100%;
+  }
+}

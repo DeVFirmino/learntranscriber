@@ -1,0 +1,52 @@
+/* Sessions as rows under each day, the same compact list as Home's recent sessions. */
+.session-day-list {
+  display: grid;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+}
+.session-day-list > .session-row + .session-row {
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+}
+.session-row {
+  padding: 12px;
+}
+.session-row:hover,
+.session-row[data-selected] {
+  background: var(--muted);
+}
+.session-row-tile {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 9%, var(--card));
+}
+html:not(.dark) .session-row-tile {
+  background: color-mix(in srgb, var(--primary) 13%, var(--card));
+}
+.session-row-title {
+  min-width: 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-underline-offset: 4px;
+}
+.session-row-title:hover {
+  text-decoration: underline;
+}
+.session-row-meta {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 560px) {
+  .session-row-meta {
+    display: none;
+  }
+}

@@ -1,0 +1,159 @@
+.onboarding-stage {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 32px 16px;
+}
+.onboarding-floating {
+  height: 100dvh;
+  padding: 8px;
+}
+.onboarding-surface {
+  width: min(100%, 620px);
+  max-height: 100%;
+  overflow: auto;
+  border-radius: 16px;
+  background: var(--float-ground);
+  color: var(--foreground);
+  box-shadow: 0 14px 40px #0003;
+  scrollbar-width: thin;
+  scrollbar-color: var(--float-line) transparent;
+}
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--float-line);
+  -webkit-app-region: drag;
+}
+.onboarding-header > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.onboarding-header button {
+  -webkit-app-region: no-drag;
+}
+.onboarding-welcome,
+.onboarding-placeholder {
+  padding: 24px 28px;
+}
+.onboarding-mark {
+  width: 96px;
+  height: 86px;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 18px 18px rgb(0 0 0 / 0.22));
+  animation: onboarding-mark-drift 8s ease-in-out infinite alternate;
+}
+@keyframes onboarding-mark-drift {
+  from {
+    transform: translateY(-4px) rotate(-3deg);
+  }
+  to {
+    transform: translateY(5px) rotate(2deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-mark {
+    animation: none;
+  }
+}
+.onboarding-surface h1 {
+  max-width: 18ch;
+  font-size: clamp(26px, 4vw, 30px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  outline: none;
+}
+.onboarding-surface p {
+  margin-top: 14px;
+  max-width: 46ch;
+  color: var(--float-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.onboarding-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+}
+.onboarding-surface .onboarding-primary {
+  min-height: 40px;
+  background: #f2f5fb;
+  color: #17243a;
+}
+.onboarding-primary svg {
+  color: #1764c7;
+}
+@media (hover: hover) and (pointer: fine) {
+  .onboarding-surface .onboarding-primary:hover {
+    background: #dceaff;
+  }
+}
+@media (max-width: 460px) {
+  .onboarding-welcome,
+  .onboarding-placeholder {
+    padding: 22px;
+  }
+}
+
+.onboarding-welcome .onboarding-actions {
+  justify-content: flex-end;
+}
+
+.onboarding-floating .onboarding-surface {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 16px);
+}
+.onboarding-header { flex: none; }
+.onboarding-floating .onboarding-step,
+.onboarding-floating .onboarding-placeholder {
+  min-height: 0;
+  overflow-y: auto;
+}
+.onboarding-step .onboarding-actions {
+  position: sticky;
+  bottom: 0;
+  padding-block: 12px;
+  background: var(--float-ground);
+}
+.onboarding-header-end {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.onboarding-guide {
+  display: flex;
+  gap: 5px;
+}
+.onboarding-guide i {
+  width: 20px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--float-line);
+  transition: background-color 200ms ease;
+}
+.onboarding-guide i[data-state='done'],
+.onboarding-guide i[data-state='current'] {
+  background: var(--brand-blue);
+}
+.onboarding-guide i[data-state='current'] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 18%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-guide i {
+    transition: none;
+  }
+}
+.onboarding-header .onboarding-skip {
+  color: var(--float-muted);
+  font-weight: 500;
+}

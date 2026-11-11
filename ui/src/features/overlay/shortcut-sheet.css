@@ -1,0 +1,56 @@
+.shortcut-sheet {
+  width: 17rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 4px 16px #0004;
+  font-size: 12px;
+  animation: shortcut-sheet-in 120ms ease-out;
+}
+.shortcut-sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+.shortcut-sheet-group {
+  margin: 0;
+  padding: 6px 10px 2px;
+  color: var(--muted-foreground);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.shortcut-sheet-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+}
+.shortcut-sheet-row[data-primary] {
+  border-left: 2px solid #2581ff;
+  padding-left: 8px;
+}
+.shortcut-sheet-footer {
+  margin: 4px 0 0;
+  padding: 6px 10px 8px;
+  border-top: 1px solid var(--border);
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+@keyframes shortcut-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shortcut-sheet {
+    animation: none;
+  }
+}

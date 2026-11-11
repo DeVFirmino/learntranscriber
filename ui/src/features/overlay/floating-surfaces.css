@@ -1,0 +1,170 @@
+[data-session-panel] {
+  background: var(--float-ground);
+  border-color: var(--float-line);
+  border-radius: 14px;
+  box-shadow: none;
+}
+[data-session-panel] > header {
+  padding: 12px 42px 12px 14px;
+  gap: 10px;
+  background: var(--float-ground);
+  border-color: var(--float-line);
+}
+[data-session-panel] > header > nav {
+  border-radius: 10px;
+  border: 1px solid var(--float-line);
+  background: var(--float-input);
+  padding: 4px;
+  gap: 3px;
+}
+[data-session-panel] > header > nav button {
+  border-radius: 7px;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  gap: 6px;
+  color: var(--float-muted);
+}
+[data-session-panel] > header > nav button[aria-current='page'] {
+  background: var(--float-active);
+  color: var(--float-active-text);
+  box-shadow: none;
+}
+[data-session-panel] > header > nav button:hover {
+  background: var(--float-hover);
+}
+[data-session-panel] > header > nav button[aria-current='page']:hover {
+  background: var(--float-active);
+}
+[data-session-panel] > header > [role='button'] {
+  top: 14px;
+  right: 7px;
+  border-color: var(--float-line);
+  border-radius: 6px;
+}
+[data-session-panel] > header > div:last-child {
+  gap: 4px;
+}
+[data-session-panel] > header button[aria-expanded='true'] {
+  background: var(--float-active);
+  color: var(--float-active-text);
+}
+[data-panel-scroll] > div {
+  padding: 18px;
+}
+[data-answer-card] {
+  background: var(--float-raised);
+  border: 1px solid var(--float-line);
+  border-radius: 10px;
+  padding: 12px 16px 16px;
+  line-height: 1.7;
+}
+[data-answer-card] > header {
+  font-size: 11px;
+  color: var(--float-muted);
+  margin-bottom: 6px;
+}
+[data-answer-card] .assistant-response {
+  line-height: 1.7;
+}
+[data-session-panel] .text-muted-foreground {
+  color: var(--float-muted);
+}
+[data-session-panel] [role='group']:not([data-slot='input-group']):not([data-follow-up-suggestions]) {
+  border: 1px solid var(--float-line);
+  border-radius: 10px;
+  background: var(--float-raised);
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 14px;
+}
+[data-session-panel] [role='group']:not([data-slot='input-group']):not([data-follow-up-suggestions]) button:not(.suggestion-chip) {
+  background: var(--float-input);
+  border-color: var(--float-line);
+  border-radius: 7px;
+  min-height: 30px;
+}
+[data-session-panel] [role='group']:not([data-slot='input-group']):not([data-follow-up-suggestions]) button:hover {
+  background: var(--float-hover);
+}
+[data-session-panel] > form {
+  padding: 14px 18px 18px;
+  border-color: var(--float-line);
+  background: var(--float-ground);
+}
+[data-session-panel] > div:not([data-panel-scroll]) {
+  border-color: var(--float-line);
+}
+[data-floating-bar] > div:first-child label {
+  background: var(--float-raised);
+  border-color: var(--float-line);
+  box-shadow: none;
+  height: 32px;
+  padding-inline: 12px;
+}
+[data-floating-bar] .bar-card {
+  background: var(--float-ground);
+  border-color: var(--float-line);
+  box-shadow: none;
+  padding: 10px 12px;
+  gap: 10px;
+}
+[data-bar-controls] {
+  gap: 8px;
+}
+[data-bar-controls] button {
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+[data-bar-controls] button[data-variant='secondary'] {
+  background: var(--float-raised);
+}
+[data-bar-controls] [role='timer'] {
+  color: var(--float-muted);
+  font-size: 12px;
+  padding-inline: 6px;
+}
+[data-bar-prompt] {
+  height: 40px;
+  background: var(--float-input);
+  border-color: var(--float-line);
+  border-radius: 10px;
+}
+[data-bar-prompt] button {
+  border-radius: 7px;
+}
+[data-floating-bar] .text-muted-foreground {
+  color: var(--float-muted);
+}
+
+
+/* The opacity setting fades the whole floating assistant, text and controls with its background, so a low value
+   lets what is behind it through evenly. The panel keeps its own near-solid ground under that. */
+[data-floating] {
+  opacity: var(--floating-frame-opacity, 1);
+}
+[data-floating] [data-session-panel],
+[data-floating] [data-compact-question],
+[data-floating] [data-floating-bar] .bar-card {
+  background: rgb(var(--float-ground-rgb) / 0.95);
+}
+[data-floating] [data-session-panel] > header,
+[data-floating] [data-session-panel] > form,
+[data-floating] [data-session-panel] > div:not([data-panel-scroll]),
+[data-floating] [data-session-panel] [data-panel-scroll],
+[data-floating] [data-panel-settings] {
+  background: transparent;
+}
+[data-floating] .floating-composer textarea { font-size: 18px; line-height: 1.5; }
+[data-floating] [data-panel-scroll] { line-height: 1.65; }
+[data-floating] .floating-conversation .message-bubble {
+  background: color-mix(in srgb, var(--float-raised) 92%, transparent);
+}
+[data-floating] .floating-conversation .message-bubble[data-message-role='user'] { background: var(--message-user-background); }
+[data-session-panel] > form { padding: 8px 12px 10px; }
+[data-floating] .floating-composer .input-group-control[data-slot='textarea'] {
+  min-height: 42px;
+  padding: 10px 12px 4px;
+}
+[data-floating] .floating-composer .input-group-addon[data-align='block-end'] { padding: 4px 8px 8px; }

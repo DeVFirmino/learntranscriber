@@ -1,0 +1,102 @@
+.action-button[data-action-button][data-slot='button'] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  max-width: 100%;
+  white-space: normal;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  background: color-mix(in srgb, var(--primary) 12%, var(--card));
+  color: var(--foreground);
+  font-weight: 600;
+  font-size: 13px;
+  gap: var(--ui-space-2);
+  padding-inline: var(--ui-space-4);
+}
+.action-button[data-action-button][data-slot='button'][data-size='default'] {
+  min-height: var(--ui-control-height);
+  height: auto;
+  padding-block: 8px;
+}
+.action-button[data-action-button][data-slot='button'][data-size='sm'] {
+  min-height: 32px;
+  height: auto;
+  padding-block: 5px;
+}
+.action-button[data-action-button][data-slot='button'][data-tone='contrast'] {
+  background: #f5f7fb;
+  color: #141923;
+  border-color: #f5f7fb;
+}
+.action-button-fill {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--primary);
+  clip-path: circle(0 at 24px 50%);
+  transition: clip-path 300ms var(--ui-ease-out);
+  pointer-events: none;
+}
+.action-button-mark {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  flex-shrink: 0;
+  color: var(--brand-icon-accent);
+  transition: opacity var(--ui-motion-fast) var(--ui-ease-out), transform var(--ui-motion-standard) var(--ui-ease-out);
+}
+.action-button-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.action-button-label {
+  position: relative;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  transition: transform var(--ui-motion-standard) var(--ui-ease-out);
+}
+.action-button-arrow {
+  position: relative;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity var(--ui-motion-fast) var(--ui-ease-out), transform var(--ui-motion-standard) var(--ui-ease-out);
+}
+.action-button[data-action-button][data-slot='button']:enabled:is(:focus-visible, :hover):not([aria-busy='true']) {
+  color: #fff;
+  background: color-mix(in srgb, var(--primary) 12%, var(--card));
+  border-color: var(--brand-icon-accent);
+}
+.action-button[data-action-button][data-slot='button']:enabled:focus-visible:not([aria-busy='true']) .action-button-fill {
+  clip-path: circle(150% at 24px 50%);
+}
+.action-button[data-action-button][data-slot='button']:enabled:focus-visible:not([aria-busy='true']) .action-button-mark {
+  opacity: 0;
+  transform: translateX(-4px);
+}
+.action-button[data-action-button][data-slot='button']:enabled:focus-visible:not([aria-busy='true']) .action-button-label {
+  transform: translateX(-6px);
+}
+.action-button[data-action-button][data-slot='button']:enabled:focus-visible:not([aria-busy='true']) .action-button-arrow {
+  opacity: 1;
+  transform: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .action-button[data-action-button][data-slot='button']:enabled:hover:not([aria-busy='true']) .action-button-fill { clip-path: circle(150% at 24px 50%); }
+  .action-button[data-action-button][data-slot='button']:enabled:hover:not([aria-busy='true']) .action-button-mark { opacity: 0; transform: translateX(-4px); }
+  .action-button[data-action-button][data-slot='button']:enabled:hover:not([aria-busy='true']) .action-button-label { transform: translateX(-6px); }
+  .action-button[data-action-button][data-slot='button']:enabled:hover:not([aria-busy='true']) .action-button-arrow { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .action-button-fill,
+  .action-button-mark,
+  .action-button-label,
+  .action-button-arrow { transition: none; }
+}

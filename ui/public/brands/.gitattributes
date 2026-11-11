@@ -1,0 +1,2 @@
+# Preserve original artwork bytes so recorded source hashes survive checkout.
+*.svg -text whitespace=cr-at-eol

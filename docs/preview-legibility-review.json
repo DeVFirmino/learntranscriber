@@ -1,0 +1,264 @@
+{
+  "scope": "Targeted review of the three reported design findings.",
+  "fixed": [
+    "Raised all functional preview text below 11px to 11px, including the narrow-screen notice.",
+    "Expanded speaker badges to fit the larger labels.",
+    "Removed the assistant response's colored side border."
+  ],
+  "suppressed": [
+    {
+      "rule": "wide-tracking",
+      "file": "preview/index.html",
+      "reason": "Wide tracking is confined to short uppercase labels; computed body-text checks passed across all 30 route/viewport combinations."
+    }
+  ],
+  "left_standing": [
+    {
+      "rule": "gpt-thin-border-wide-shadow",
+      "severity": "advisory",
+      "reason": "New advisory from the bounded scan; existing border/shadow treatment is outside the three requested findings and was not modified or suppressed."
+    }
+  ],
+  "checks": [
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "home",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1280
+    },
+    {
+      "answerBorder": "0px",
+      "overflow": false,
+      "page": "session",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1280
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "sessions",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1280
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "assistants",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1280
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "settings",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1280
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "overlay",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1280
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "home",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1024
+    },
+    {
+      "answerBorder": "0px",
+      "overflow": false,
+      "page": "session",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1024
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "sessions",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1024
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "assistants",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1024
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "settings",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1024
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "overlay",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 1024
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "home",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 768
+    },
+    {
+      "answerBorder": "0px",
+      "overflow": false,
+      "page": "session",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 768
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "sessions",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 768
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "assistants",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 768
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "settings",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 768
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "overlay",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 768
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "home",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 390
+    },
+    {
+      "answerBorder": "0px",
+      "overflow": false,
+      "page": "session",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 390
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "sessions",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 390
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "assistants",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 390
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "settings",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 390
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "overlay",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 390
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "home",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 320
+    },
+    {
+      "answerBorder": "0px",
+      "overflow": false,
+      "page": "session",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 320
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "sessions",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 320
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "assistants",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 320
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "settings",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 320
+    },
+    {
+      "answerBorder": null,
+      "overflow": false,
+      "page": "overlay",
+      "undersized": [],
+      "wideBodyTracking": [],
+      "width": 320
+    }
+  ]
+}

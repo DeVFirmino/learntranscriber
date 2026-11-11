@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "Production file URL loads in a sandbox with fixture preload",
+    "Native 700px window has no horizontal overflow",
+    "Missing native preload displays an error without mock data",
+    "No external network requests or normal-load console errors"
+  ],
+  "networkRequests": [],
+  "consoleErrors": [],
+  "limitations": [
+    "Sandboxed Electron with an in-memory fixture bridge, not the production backend.",
+    "No microphone, accounts, system audio or provider calls."
+  ]
+}

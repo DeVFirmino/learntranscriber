@@ -1,0 +1,46 @@
+.preference-field.preference-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--ui-space-4);
+  border: 1px solid var(--ui-setting-border);
+  border-radius: var(--ui-radius-panel);
+  background: var(--ui-setting-surface);
+}
+.preference-field-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-3);
+}
+.preference-field-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-selected-surface);
+  color: var(--brand-icon-accent);
+}
+.preference-field-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.preference-field .preference-field-heading h4 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: var(--ui-text-label);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.preference-field.preference-field > p {
+  margin-block: var(--ui-space-3) var(--ui-space-4);
+  color: var(--muted-foreground);
+  font-size: var(--ui-text-caption);
+  line-height: 1.6;
+  max-width: 42ch;
+}
+.preference-field-control {
+  min-width: 0;
+  margin-top: auto;
+}

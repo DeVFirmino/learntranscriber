@@ -1,0 +1,97 @@
+[
+  {
+    "action": "execute",
+    "accelerator": "CommandOrControl+Enter",
+    "enabled": true
+  },
+  {
+    "action": "screenshot",
+    "accelerator": "CommandOrControl+E",
+    "enabled": true
+  },
+  {
+    "action": "whisper",
+    "accelerator": "CommandOrControl+D",
+    "enabled": true
+  },
+  {
+    "action": "toggleMicCapture",
+    "accelerator": "CommandOrControl+Shift+D",
+    "enabled": true
+  },
+  {
+    "action": "scrollUp",
+    "accelerator": "CommandOrControl+Up",
+    "enabled": true
+  },
+  {
+    "action": "scrollDown",
+    "accelerator": "CommandOrControl+Down",
+    "enabled": true
+  },
+  {
+    "action": "notchHistoryPrev",
+    "accelerator": "CommandOrControl+Left",
+    "enabled": true
+  },
+  {
+    "action": "notchHistoryNext",
+    "accelerator": "CommandOrControl+Right",
+    "enabled": true
+  },
+  {
+    "action": "anchorPrev",
+    "accelerator": "CommandOrControl+Alt+Up",
+    "enabled": true
+  },
+  {
+    "action": "anchorNext",
+    "accelerator": "CommandOrControl+Alt+Down",
+    "enabled": true
+  },
+  {
+    "action": "toggleVisibility",
+    "accelerator": "CommandOrControl+B",
+    "enabled": true
+  },
+  {
+    "action": "toggleActionBar",
+    "accelerator": "CommandOrControl+M",
+    "enabled": true
+  },
+  {
+    "action": "toggleAlwaysOnTop",
+    "accelerator": "CommandOrControl+Shift+A",
+    "enabled": true
+  },
+  {
+    "action": "increaseAppOpacity",
+    "accelerator": "CommandOrControl+Shift+Plus",
+    "enabled": true
+  },
+  {
+    "action": "decreaseAppOpacity",
+    "accelerator": "CommandOrControl+Shift+-",
+    "enabled": true
+  },
+  {
+    "action": "moveWindowLeft",
+    "accelerator": "CommandOrControl+Shift+Left",
+    "enabled": false
+  },
+  {
+    "action": "moveWindowRight",
+    "accelerator": "CommandOrControl+Shift+Right",
+    "enabled": false
+  },
+  {
+    "action": "moveWindowUp",
+    "accelerator": "CommandOrControl+Shift+Up",
+    "enabled": true
+  },
+  {
+    "action": "moveWindowDown",
+    "accelerator": "CommandOrControl+Shift+Down",
+    "enabled": true
+  }
+]

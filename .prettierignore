@@ -1,0 +1,10 @@
+node_modules/
+ui/node_modules/
+ui/dist/
+dist/
+.local/
+native/
+docs/
+*.md
+package-lock.json
+ui/package-lock.json

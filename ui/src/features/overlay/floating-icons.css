@@ -1,0 +1,22 @@
+[data-floating]
+  :is(.lucide-audio-lines, .lucide-messages-square, .lucide-file-text, .lucide-house, .lucide-mic, .lucide-bot) {
+  color: var(--foreground);
+}
+[data-floating] .lucide-sliders-horizontal {
+  color: var(--foreground);
+}
+[data-session-panel] > header > svg {
+  color: var(--float-muted);
+  opacity: 0.7;
+}
+[data-session-panel] > header > nav button svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+[data-floating] [data-variant='default'] svg {
+  stroke: currentColor;
+}
+[data-floating] [data-voice-wave] {
+  color: var(--brand-icon-accent);
+}

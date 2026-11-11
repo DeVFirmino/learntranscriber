@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-24",
+  "scope": "PG-19 surface theme, PG-20 interface language (first slice), PG-21 custom headers, PG-23 history statistics and clear; development Electron with isolated synthetic data",
+  "backend": {
+    "passed": 156,
+    "failed": 0
+  },
+  "ui": {
+    "passed": 37,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "warning": "Existing chunk size warning"
+  },
+  "syntax": {
+    "passed": true,
+    "files": 84
+  },
+  "focused": {
+    "data": {
+      "passed": true,
+      "checks": [
+        "Isolated native workspace loads",
+        "Production shadcn bundle uses native data without preview fallback",
+        "Data tab shows all-time history statistics",
+        "Clearing is unavailable during an active session",
+        "Main process refuses to clear during an active session",
+        "Only the main workspace may clear history",
+        "Confirmation shows the counts to delete",
+        "Cancel keeps history",
+        "Confirmed clear removes history and reports counts",
+        "Search finds no cleared entries",
+        "Clear button is disabled when history is empty",
+        "Data renderer contains no runtime console errors"
+      ],
+      "consoleErrors": []
+    },
+    "customHeaders": {
+      "passed": true,
+      "checks": [
+        "Isolated native workspace loads",
+        "Production shadcn bundle uses native data without preview fallback",
+        "Custom provider shows the header editor",
+        "Saved headers expose names but never values",
+        "Header values are stored encrypted",
+        "Saved header value is hidden in the editor",
+        "Chat requests carry the kept custom header and the bearer key",
+        "Model listing carries the custom header",
+        "Reserved transport headers are rejected",
+        "Header injection is rejected",
+        "The generic key channel cannot overwrite custom headers",
+        "Removing every header deletes the stored secret",
+        "Custom headers renderer contains no runtime console errors"
+      ],
+      "consoleErrors": []
+    },
+    "surfaceTheme": {
+      "passed": true,
+      "checks": [
+        "Isolated native workspace loads",
+        "Production shadcn bundle uses native data without preview fallback",
+        "Floating surfaces start dark",
+        "Light appearance reaches the floating assistant and the Notch",
+        "The workspace stays dark",
+        "Notch uses the light surface token",
+        "Light appearance survives reload",
+        "Unknown appearance values are rejected",
+        "The Notch switch returns every floating surface to dark",
+        "Surface theme renderers contain no runtime console errors"
+      ],
+      "consoleErrors": []
+    },
+    "uiLanguage": {
+      "passed": true,
+      "checks": [
+        "Isolated native workspace loads",
+        "Production shadcn bundle uses native data without preview fallback",
+        "Language tab offers system, English, Spanish and Portuguese",
+        "Portuguese reaches the workspace navigation and document language",
+        "Portuguese reaches the floating assistant",
+        "Portuguese reaches the Notch",
+        "The chosen language survives reload",
+        "Spanish switches every window",
+        "Missing Spanish entries fall back to English",
+        "Unsupported interface languages are rejected",
+        "System language resolves to a supported locale",
+        "Interface language renderers contain no runtime console errors"
+      ],
+      "consoleErrors": []
+    }
+  },
+  "regressions": {
+    "notchSettings": 14,
+    "notchFollowUps": 9,
+    "notchTiming": 7,
+    "notchInteraction": 19,
+    "notchGeometry": 17,
+    "fullNative": 195,
+    "allPassed": true,
+    "consoleErrors": 0
+  },
+  "limitations": [
+    "PG-20 translates navigation, settings tabs, Data, Language and floating windows only.",
+    "Custom headers are not sent to the separate custom transcription endpoint.",
+    "No real third-party provider was contacted; headers were verified against a loopback fixture."
+  ]
+}

@@ -1,0 +1,95 @@
+.onboarding-ai-cards {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 0;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.onboarding-ai-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid var(--float-line);
+  border-radius: 14px;
+  background: var(--float-raised);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+.onboarding-ai-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.onboarding-ai-card img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 8px rgb(0 0 0 / 0.3));
+}
+.onboarding-ai-card[data-selected='true'] {
+  border-color: var(--brand-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 16%, transparent);
+}
+.onboarding-ai-card:has(input:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.onboarding-ai-card .onboarding-choice-text strong {
+  font-size: 14px;
+}
+.onboarding-ai-card .onboarding-choice-text small {
+  font-size: 12px;
+}
+.onboarding-ai-cards:disabled .onboarding-ai-card:not([data-selected='true']) {
+  opacity: 0.55;
+}
+.onboarding-ai-badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand-blue) 16%, transparent);
+  color: var(--float-active-text);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.onboarding-ai-key {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+.onboarding-ai-key-row {
+  display: flex;
+  gap: 8px;
+}
+.onboarding-ai-key-row > button {
+  height: auto;
+}
+.onboarding-ai-key-row input {
+  background: var(--float-input);
+  border-color: var(--float-line);
+}
+.onboarding-ai-progress {
+  margin-top: 14px;
+}
+.onboarding-surface .onboarding-ai-connected {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: var(--float-active-text);
+  font-size: 13px;
+}
+.onboarding-ai-connected svg {
+  width: 15px;
+  height: 15px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-ai-card {
+    transition: none;
+  }
+}

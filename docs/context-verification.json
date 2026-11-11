@@ -1,0 +1,24 @@
+{
+  "platform": "macOS",
+  "swiftBuild": "Swift 6, complete strict concurrency, warnings as errors",
+  "ocr": {
+    "syntheticImageRecognized": true,
+    "expectedText": "Local context verification 4827",
+    "nativeWindowFixtureThroughIPC": true,
+    "desktopCaptureUsed": false
+  },
+  "appleSpeechAssets": {
+    "locale": "en_US",
+    "alreadyInstalled": true,
+    "reservationCreated": true,
+    "reservationReleased": true,
+    "reservedLocalesAfter": [],
+    "newLanguageDownloadTested": false,
+    "recognitionAuthorizationRequested": false
+  },
+  "limitations": [
+    "Foreign-app selections are simulated in native smoke; actual application Accessibility support varies.",
+    "OAuth and Obsidian use local controlled fixtures, not live user accounts or vaults.",
+    "Modern speech recognition and downloading a previously absent language need live validation."
+  ]
+}

@@ -1,0 +1,70 @@
+.workspace-nav-toggle {
+  display: none;
+}
+@media (min-width: 960px) {
+  .workspace-frame {
+    transition: grid-template-columns var(--ui-motion-standard) var(--ui-ease-out);
+  }
+  .workspace-frame[data-nav-collapsed='true'] {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+  .workspace-nav-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--foreground);
+  }
+  .workspace-nav {
+    overflow-x: hidden;
+  }
+  .workspace-nav .workspace-nav-link {
+    gap: 0;
+    white-space: nowrap;
+    transition: background-color var(--ui-motion-fast) var(--ui-ease-out), color var(--ui-motion-fast) var(--ui-ease-out);
+  }
+  .workspace-nav-link > svg {
+    flex-shrink: 0;
+    transition: transform var(--ui-motion-fast) var(--ui-ease-out);
+  }
+  .workspace-nav-link:hover > svg {
+    transform: translateX(2px);
+  }
+  .workspace-nav-label {
+    max-width: 124px;
+    padding-left: 8px;
+    overflow: hidden;
+    opacity: 1;
+    transition: max-width var(--ui-motion-standard) var(--ui-ease-out), padding-left var(--ui-motion-standard) var(--ui-ease-out), opacity 140ms ease-out;
+  }
+  [data-nav-collapsed='true'] .workspace-nav-label {
+    max-width: 0;
+    padding-left: 0;
+    opacity: 0;
+  }
+  [data-nav-collapsed='true'] .workspace-subnav {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace-frame,
+  .workspace-nav-label,
+  .workspace-nav-link,
+  .workspace-nav-link > svg {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .workspace-content:is([data-page='home'], [data-page='assistants']) [data-slot='button']:not(:disabled):not([aria-disabled='true']) {
+    transition:
+      transform var(--ui-motion-standard) var(--ui-ease-out),
+      background-color var(--ui-motion-fast) var(--ui-ease-out),
+      border-color var(--ui-motion-fast) var(--ui-ease-out);
+  }
+  .workspace-content:is([data-page='home'], [data-page='assistants']) [data-slot='button']:not(:disabled):not([aria-disabled='true']):hover {
+    transform: translateY(var(--ui-hover-lift));
+  }
+  .workspace-content:is([data-page='home'], [data-page='assistants']) [data-slot='button']:not(:disabled):not([aria-disabled='true']):active {
+    transform: translateY(0) scale(var(--ui-press-scale));
+  }
+}

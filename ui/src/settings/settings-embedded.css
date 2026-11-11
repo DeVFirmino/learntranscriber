@@ -1,0 +1,67 @@
+.settings-scope.settings-embedded {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  background: transparent;
+  min-width: 0;
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.settings-scope.settings-embedded .settings-container-standalone {
+  display: block;
+  background: transparent;
+  overflow: visible;
+  isolation: auto;
+  backdrop-filter: none;
+}
+.settings-scope.settings-embedded .settings-container-standalone::before {
+  display: none;
+}
+.settings-scope.settings-embedded .settings-content {
+  display: block;
+  padding: 0;
+  height: auto;
+  overflow: visible;
+}
+.settings-scope.settings-embedded :is(.api-tab-container, .provider-content) {
+  height: auto;
+}
+.settings-scope.settings-embedded .api-tab-scroll {
+  overflow: visible;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.settings-scope.settings-embedded .api-grid-title {
+  font-size: 18px;
+}
+.settings-scope.settings-embedded :is(.tab-description, .setting-description) {
+  color: light-dark(#526077, #aeb8ca);
+  font-size: 13px;
+  line-height: 1.65;
+  max-width: 75ch;
+}
+.settings-scope.settings-embedded :is(.profile-section-title, .setting-title, .models-tab-section-title) {
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .settings-scope.settings-embedded .api-grid-header {
+    gap: 16px;
+  }
+}
+
+.settings-screen {
+  max-width: 1120px;
+}
+.settings-scope.settings-embedded .audio-tab-container {
+  max-width: 760px;
+}
+.settings-scope.settings-embedded .audio-tab-container .setting-group {
+  margin-bottom: 0;
+}
+.settings-scope.settings-embedded :is(.features-tab-container, .api-tab-container) {
+  height: auto;
+}

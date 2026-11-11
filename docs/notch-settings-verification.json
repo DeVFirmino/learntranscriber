@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-24",
+  "scope": "Independent Notch settings view; development Electron with isolated synthetic data",
+  "backend": {
+    "passed": 148,
+    "failed": 0
+  },
+  "ui": {
+    "passed": 34,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "warning": "Existing chunk size warning"
+  },
+  "syntax": {
+    "passed": true,
+    "files": 82
+  },
+  "notchSettings": {
+    "passed": true,
+    "checks": [
+      "Isolated native workspace loads",
+      "Production shadcn bundle uses native data without preview fallback",
+      "Notch expands with insight follow-ups",
+      "Settings view replaces Notch content",
+      "Notch opacity applies natively without changing the floating assistant",
+      "Notch opacity rejects values below 45%",
+      "Transcript insight trigger toggles from the Notch",
+      "Reading time saves from the Notch",
+      "Settings view withholds the display acknowledgement",
+      "Returning to content acknowledges the latest insight",
+      "Follow-up suggestions toggle from the Notch",
+      "Disabled follow-ups hide the suggestion controls",
+      "Collapsing closes the settings view",
+      "Notch settings renderer contains no runtime console errors"
+    ],
+    "consoleErrors": []
+  },
+  "regressions": {
+    "notchFollowUps": 9,
+    "notchTiming": 7,
+    "notchInteraction": 19,
+    "notchGeometry": 17,
+    "fullNative": 195,
+    "allPassed": true,
+    "consoleErrors": 0
+  },
+  "limitations": [
+    "Opacity is set through the settings bridge in the native check; the slider drag itself was exercised only in the browser preview.",
+    "Physical OS click routing, the packaged app and meeting attendee-view exclusion were not tested."
+  ]
+}

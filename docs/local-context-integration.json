@@ -1,0 +1,36 @@
+{
+  "verification": "Isolated development Electron integration, not packaged meeting parity",
+  "passed": true,
+  "checkCount": 136,
+  "contextRelatedChecks": [
+    "Managed local LLM streams through renderer IPC",
+    "Managed runtime publishes its effective context capacity",
+    "Oversized native requests reject before persisting a question",
+    "Cancellation during native preflight preserves entries and releases the runtime",
+    "Managed local Whisper transcribes through renderer IPC",
+    "Local voice is the default and does not require an OpenAI credential",
+    "Local voice microphone worklet receives non-silent synthetic PCM",
+    "Local voice runs microphone worklet, transcription and model IPC without a paid API",
+    "Local voice stops microphone tracks while speaking",
+    "Local voice automatically listens for the next question",
+    "Local voice stop releases its microphone and preserves stored history",
+    "Local voice preserves servers started outside the conversation",
+    "Compaction runs through the real preload with the managed local model",
+    "Compaction preserves original searchable entries",
+    "Automatic compaction runs before a long-session answer"
+  ],
+  "consoleErrors": [],
+  "sourceResultSha256": "ef082cbf34be997a2c69f35301c5d84c517a5df73082a44c5ed39e5da9d74fe1",
+  "backendTests": {
+    "passed": 98,
+    "failed": 0,
+    "skipped": 0
+  },
+  "uiTests": {
+    "passed": 25,
+    "failed": 0
+  },
+  "realAudioCaptured": false,
+  "paidProviderUsed": false,
+  "installedPackageReplaced": false
+}

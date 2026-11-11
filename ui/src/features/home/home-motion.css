@@ -1,0 +1,71 @@
+/* Home settles in: cards rise in a short stagger, rows and tiles answer the pointer, and a live recording pulses.
+   Reduced motion keeps every state and drops the movement. */
+@keyframes home-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes home-bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes home-live-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.home-reveal {
+  animation: home-reveal 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--reveal-index, 0) * 60ms + 80ms);
+}
+.home-columns .home-reveal {
+  animation-delay: 260ms;
+}
+.home-column > .home-reveal:nth-child(2) {
+  animation-delay: 340ms;
+}
+.home-activity-bar {
+  animation: home-bar-grow 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--reveal-index, 0) * 45ms + 220ms);
+}
+.home-recent-row .home-tile {
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home-recent-row:hover .home-tile {
+  transform: translateY(-1px) scale(1.05);
+}
+.home-setup-row svg:last-child {
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home-setup-row:hover svg:last-child {
+  transform: translateX(2px);
+}
+.home-live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: home-live-pulse 1.6s ease-out infinite;
+}
+[data-live='paused'] .home-live-dot::after {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-reveal,
+  .home-activity-bar,
+  .home-live-dot::after {
+    animation: none;
+  }
+  .home-recent-row:hover .home-tile,
+  .home-setup-row:hover svg:last-child {
+    transform: none;
+  }
+}

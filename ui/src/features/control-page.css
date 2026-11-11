@@ -1,0 +1,92 @@
+.control-page {
+  display: grid;
+  gap: 24px;
+  max-width: 1160px;
+}
+.control-page-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.control-page-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+.control-page > :first-child {
+  grid-column: 1/-1;
+  margin-bottom: 4px;
+}
+.workspace-content .control-page [data-slot='card'] {
+  margin: 0;
+  --card-spacing: 24px;
+  gap: 18px;
+}
+.workspace-content .control-page [data-slot='card-title'] {
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+.control-page [data-slot='card-header'] {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2b303b;
+  margin: 0 24px;
+  padding-inline: 0;
+  border-radius: 0;
+}
+.control-page [data-slot='card-content'] {
+  line-height: 1.65;
+}
+.workspace-content .control-page .text-muted-foreground {
+  color: #aeb7c7;
+}
+.workspace-content .control-page .text-xs {
+  font-size: 13px;
+  line-height: 1.65;
+}
+.workspace-content .control-page [data-slot='button'] {
+  font-size: 13px;
+  min-height: 36px;
+  line-height: 1.4;
+}
+.control-page [data-slot='card-content'] > .border-b:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.control-page [data-slot='card-content'] > .border-b {
+  gap: 16px;
+  padding-block: 16px;
+}
+.control-page [data-slot='card-content'] > .border-b:first-child {
+  padding-top: 0;
+}
+.control-page [data-slot='card-content'] > .border-b > :first-child {
+  max-width: 60ch;
+  min-width: 0;
+}
+.control-page label > [data-slot='checkbox'] {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+@media (max-width: 1100px) {
+  .control-page {
+    gap: 20px;
+  }
+  .control-page-columns,
+  .control-page-column {
+    display: contents;
+  }
+}
+@media (max-width: 640px) {
+  .workspace-content .control-page [data-slot='card'] {
+    --card-spacing: 20px;
+  }
+  .control-page [data-slot='card-header'] {
+    margin-inline: 20px;
+  }
+  .control-page [data-slot='card-content'] > .border-b > :first-child {
+    max-width: none;
+  }
+}

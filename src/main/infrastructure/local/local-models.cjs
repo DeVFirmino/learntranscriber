@@ -1,0 +1,125 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const os = require('node:os');
+const { spawn } = require('node:child_process');
+const { setTimeout: delay } = require('node:timers/promises');
+const { modelKind } = require('../../domain/providers/local-server.cjs');
+const { openCatalog, saveCatalog } = require('./model-catalog-file.cjs');
+const { freePort } = require('./server-process.cjs');
+const { modelFiles } = require('./model-files.cjs');
+const { modelImports } = require('./model-imports.cjs');
+const { modelSettings } = require('./model-settings.cjs');
+const { modelServers } = require('./model-servers.cjs');
+const { modelLeases } = require('./model-leases.cjs');
+
+const RUNTIME_DEFAULTS = {
+  status: 'stopped',
+  modelId: null,
+  cacheMode: 'off',
+  contextSize: null,
+  requestedContextSize: null,
+  fallbackNotice: '',
+  launchConfig: null,
+  tuning: null,
+  error: '',
+};
+
+/**
+ * The managed local models: a catalog of verified model files in `directory` and one llama-server and one
+ * whisper-server on loopback. Each kind runs one operation at a time (`operations`); `onChange` receives the public
+ * state after every change. Its methods come from the model files, imports, settings, servers and leases modules.
+ * `fetch`, `spawn` and `persist` stay replaceable properties.
+ */
+class LocalModels {
+  constructor(directory, onChange = () => {}, options = {}) {
+    this.directory = directory;
+    this.onChange = onChange;
+    this.fetch = options.fetch || fetch;
+    this.spawn = options.spawn || spawn;
+    this.freePort = options.freePort || freePort;
+    this.startTimeoutMs = options.startTimeoutMs ?? 60000;
+    this.idleMs = options.idleMs ?? 10 * 60000;
+    this.runtimes = {};
+    this.operations = {};
+    this.starts = {};
+    this.closed = false;
+    ({ file: this.file, catalog: this.catalog } = openCatalog(directory));
+  }
+  persist() {
+    saveCatalog(this.file, this.catalog);
+  }
+  state() {
+    return {
+      system: {
+        platform: process.platform,
+        arch: process.arch,
+        totalMemoryBytes: os.totalmem(),
+        freeMemoryBytes: os.freemem(),
+        cpuCount: os.cpus().length,
+      },
+      models: this.catalog.models.map((m) => {
+        const projectorAvailable = Boolean(m.projector && fs.existsSync(this.projectorPath(m)));
+        return {
+          ...m,
+          available: fs.existsSync(this.modelPath(m)) && (!m.vision || projectorAvailable),
+          projectorAvailable,
+        };
+      }),
+      binaries: { ...this.catalog.binaries },
+      operations: Object.entries(this.operations).map(([kind, o]) => ({
+        kind,
+        phase: o.phase,
+        bytes: o.bytes,
+        total: o.total,
+      })),
+      runtimes: Object.fromEntries(
+        ['llm', 'whisper'].map((k) => [
+          k,
+          Object.fromEntries(
+            Object.entries(RUNTIME_DEFAULTS).map(([key, fallback]) => [key, this.runtimes[k]?.[key] || fallback]),
+          ),
+        ]),
+      ),
+    };
+  }
+  emit() {
+    if (!this.closed) this.onChange(this.state());
+  }
+  modelPath(model) {
+    if (!/^[a-f0-9-]{36}$/.test(model.id)) throw new Error('Invalid model identity.');
+    return path.join(this.directory, model.id + '.model');
+  }
+  projectorPath(model) {
+    const digest = model.projector?.sha256;
+    if (digest && !/^[a-f0-9]{64}$/.test(digest)) throw new Error('Invalid projector digest.');
+    return path.join(this.directory, model.id + (digest ? '-' + digest : '') + '.mmproj');
+  }
+  begin(type, phase) {
+    modelKind(type);
+    if (this.closed) throw new Error('Local models manager is closing.');
+    if (this.operations[type]) throw new Error('Wait for the current operation or cancel it.');
+    const operation = { controller: new AbortController(), phase, bytes: 0, total: 0 };
+    this.operations[type] = operation;
+    this.emit();
+    return operation;
+  }
+  cancel(type) {
+    modelKind(type);
+    this.operations[type]?.controller.abort();
+  }
+  // Close aborts every operation and waits for them to finish, up to closeTimeoutMs; past that it reports
+  // which operations it gave up on instead of returning as if they had stopped.
+  async close() {
+    this.closed = true;
+    for (const op of Object.values(this.operations)) op.controller.abort();
+    await Promise.all(['llm', 'whisper'].map((type) => this.stop(type)));
+    const deadline = Date.now() + (this.closeTimeoutMs ?? 30000);
+    while (Object.keys(this.operations).length && Date.now() < deadline) await delay(50);
+    const left = Object.entries(this.operations).map(([type, op]) => `${type} ${op.phase}`);
+    if (left.length) (this.log || console.error)(`Local model operations still running at quit: ${left.join(', ')}.`);
+    return { pending: left };
+  }
+}
+Object.assign(LocalModels.prototype, modelFiles, modelImports, modelSettings, modelServers, modelLeases);
+
+module.exports = { LocalModels };

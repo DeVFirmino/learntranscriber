@@ -1,0 +1,32 @@
+.settings-scope {
+  font-family:
+    'Geist Variable',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+.settings-scope .settings-container-standalone {
+  background: light-dark(#fafbfc, #111216);
+  backdrop-filter: none;
+}
+.settings-scope .settings-container-standalone::before {
+  box-shadow: none;
+}
+.settings-scope :is(h1, h2, h3) {
+  letter-spacing: -0.025em;
+}
+.settings-scope :is(.glass-panel, .glass-card) {
+  box-shadow: none;
+  border-color: light-dark(#e2e6ed, #2b2e39);
+}
+.settings-scope :is(input, select, textarea) {
+  font-family: inherit;
+}
+.settings-scope .meeting-audio-guide { margin-top: 16px; border: 1px solid var(--border); border-radius: 12px; color: var(--foreground); background: var(--card); }
+.settings-scope .meeting-audio-guide summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; font-size: 13px; cursor: pointer; list-style: none; }
+.settings-scope .meeting-audio-guide summary::-webkit-details-marker { display: none; }
+.settings-scope .meeting-audio-guide[open] summary svg { transform: rotate(180deg); }
+.settings-scope .meeting-audio-guide summary:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 12px; }
+.settings-scope .meeting-audio-guide ol { margin: 0; padding: 0 28px 16px 36px; color: var(--muted-foreground); font-size: 13px; line-height: 1.65; list-style: decimal; }
+.settings-scope .meeting-audio-guide li + li { margin-top: 8px; }
+.settings-scope .meeting-audio-guide a { color: var(--primary); text-decoration: underline; }

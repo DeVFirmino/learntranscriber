@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>LearnTranscriber · Personal workspace preview</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="preview-notice">INTERACTIVE PREVIEW <span>Sample data · No recording or AI requests</span></div>
+  <header class="app-header">
+    <a class="brand" href="#home" aria-label="LearnTranscriber home"><span class="brand-mark" aria-hidden="true">≋</span><span>LearnTranscriber</span></a>
+    <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search your sessions" aria-label="Search your sessions"><kbd>↵</kbd></label>
+    <div class="header-actions"><span class="pill">Personal</span><a class="icon-button" href="#settings" aria-label="Open settings">⚙</a></div>
+  </header>
+  <nav class="navigation" aria-label="Main navigation">
+    <a href="#home">Home</a><a href="#sessions">Sessions</a><a href="#assistants">Assistants</a><a href="#settings">Settings</a>
+    <span class="local-status"><i></i> Personal workspace</span>
+  </nav>
+  <main id="main"></main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialog"><form method="dialog"><button class="dialog-close icon-button" aria-label="Close dialog">×</button></form><div id="dialog-content"></div></dialog>
+</body>
+</html>

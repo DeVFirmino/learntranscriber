@@ -1,0 +1,34 @@
+.settings-scope .provider-key-input input {
+  padding-right: 80px;
+  z-index: 0;
+}
+.settings-scope .provider-key-input .key-visibility {
+  position: absolute;
+  z-index: 1;
+  right: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.settings-scope .key-visibility svg {
+  width: 16px;
+  height: 16px;
+}
+.settings-scope .key-visibility:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.settings-scope .key-visibility:focus-visible {
+  outline: 2px solid var(--ring);
+}
+.settings-scope .key-visibility:enabled:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}

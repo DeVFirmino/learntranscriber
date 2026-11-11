@@ -1,0 +1,149 @@
+.assistant-library-filters {
+  display: grid;
+  gap: var(--ui-space-3);
+  margin-bottom: var(--ui-space-6);
+}
+.assistant-category-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ui-space-2);
+}
+.assistant-category-options > button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-height: 34px;
+  padding: 6px 10px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  cursor: pointer;
+  transition: color var(--ui-motion-fast) var(--ui-ease-out);
+}
+.assistant-category-options > button:is(:hover, [data-state='on']) {
+  color: var(--foreground);
+}
+.assistant-category-options > button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+.assistant-category-count {
+  min-width: 20px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--foreground) 8%, transparent);
+  font-size: var(--ui-text-caption);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.assistant-category-options > button[data-state='on'] .assistant-category-count {
+  color: color-mix(in srgb, var(--brand-icon-accent) 65%, var(--foreground));
+}
+[data-assistant-card] {
+  border: 1px solid var(--border);
+  gap: var(--ui-space-4);
+}
+[data-assistant-card][data-active='true'] {
+  border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
+}
+.assistant-card-title {
+  border-radius: 6px;
+  text-align: left;
+  text-decoration-color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+  text-underline-offset: 4px;
+}
+.assistant-card-title:hover {
+  text-decoration-line: underline;
+}
+.assistant-card-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 9%, var(--card));
+  transition: transform var(--ui-motion-fast) var(--ui-ease-out);
+}
+[data-assistant-card] > [data-slot='card-content'] {
+  flex: 1;
+}
+[data-assistant-card] > [data-slot='card-footer'] {
+  padding: var(--ui-space-3) var(--ui-space-4);
+  margin-top: auto;
+  background: transparent;
+}
+.assistant-prompt-preview,
+.assistant-prompt-content > p {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.assistant-prompt-preview {
+  display: -webkit-box;
+  min-height: 86px;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+.assistant-prompt-preview[hidden] {
+  display: none;
+}
+.assistant-prompt-content > p {
+  max-height: 240px;
+  overflow: auto;
+}
+.assistant-prompt-content[data-state='open'] {
+  animation: assistant-instructions-in var(--ui-motion-standard) var(--ui-ease-out);
+}
+.assistant-prompt-toggle {
+  margin-top: var(--ui-space-2);
+  padding-inline: 0;
+  color: var(--muted-foreground);
+  gap: var(--ui-space-2);
+}
+.assistant-prompt-toggle > svg {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--ui-motion-fast) var(--ui-ease-out);
+}
+.assistant-prompt-toggle[data-state='open'] > svg {
+  transform: rotate(180deg);
+}
+.assistant-use-button {
+  width: 100%;
+  justify-content: start;
+  gap: var(--ui-space-2);
+}
+.assistant-use-button > svg:first-child {
+  color: var(--brand-icon-accent);
+}
+.assistant-use-button:disabled {
+  opacity: 1;
+  color: var(--brand-icon-accent);
+  background: var(--ui-selected-surface);
+}
+.assistant-use-arrow {
+  margin-left: auto;
+  transition: transform var(--ui-motion-fast) var(--ui-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-assistant-card]:hover .assistant-card-avatar {
+    transform: translateY(-1px) scale(1.04);
+  }
+  .assistant-use-button:enabled:hover .assistant-use-arrow {
+    transform: translate(2px, -2px);
+  }
+}
+@keyframes assistant-instructions-in {
+  from { opacity: 0.5; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .assistant-prompt-content[data-state='open'] { animation: none; }
+  .assistant-card-avatar,
+  .assistant-prompt-toggle > svg,
+  .assistant-use-arrow { transition: none; transform: none !important; }
+}

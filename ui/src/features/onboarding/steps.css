@@ -1,0 +1,81 @@
+.onboarding-step {
+  padding: 22px 28px 24px;
+}
+.onboarding-surface .onboarding-step h1 {
+  font-size: 24px;
+}
+.onboarding-surface .onboarding-step > p {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.onboarding-choice-text {
+  display: grid;
+  min-width: 0;
+}
+.onboarding-choice-text strong {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.onboarding-choice-text small {
+  color: var(--float-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.onboarding-surface .onboarding-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  max-width: none;
+  color: var(--float-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.onboarding-step .onboarding-actions {
+  margin-top: 20px;
+}
+@media (max-width: 460px) {
+  .onboarding-step {
+    padding: 20px 22px;
+  }
+}
+.onboarding-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.onboarding-chips label {
+  position: relative;
+  padding: 5px 11px;
+  border: 1px solid var(--float-line);
+  border-radius: 999px;
+  color: var(--float-muted);
+  font-size: 12px;
+}
+.onboarding-chips input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.onboarding-chips label[data-selected='true'] {
+  border-color: var(--brand-blue);
+  background: color-mix(in srgb, var(--brand-blue) 14%, transparent);
+  color: var(--float-active-text);
+}
+.onboarding-chips label:has(input:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.onboarding-chips:disabled label {
+  opacity: 0.6;
+}

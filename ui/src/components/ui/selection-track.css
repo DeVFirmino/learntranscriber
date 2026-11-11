@@ -1,0 +1,42 @@
+.selection-track {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--ui-radius-control);
+  width: fit-content;
+  max-width: 100%;
+}
+.selection-track::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 auto auto 0;
+  width: var(--selection-width, 0px);
+  height: var(--selection-height, 0px);
+  transform: translate(var(--selection-x, 0px), var(--selection-y, 0px));
+  background: var(--ui-selected-surface);
+  border-radius: 7px;
+  pointer-events: none;
+  transition: transform var(--ui-motion-standard) var(--ui-ease-out), width var(--ui-motion-standard) var(--ui-ease-out), height var(--ui-motion-standard) var(--ui-ease-out);
+}
+.selection-track > :is(a, button) {
+  position: relative;
+  border-radius: 7px;
+}
+.selection-track > a {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.selection-track > a[data-selected='true'] {
+  color: var(--foreground);
+}
+.settings-scope .selection-track > button.active {
+  background: transparent;
+  box-shadow: none;
+  border-color: transparent;
+}

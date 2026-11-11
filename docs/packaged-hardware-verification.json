@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-22",
+  "status": "Local automatic checks passed; human speech and meeting attendee validation pending",
+  "application": "dist/logo-review/mac-arm64/LearnTranscriber.app",
+  "asarSha256": "9fdd608aed3601e3af32bc68bab5e70fe30b8ec9e12c7d03001bd4630c143167",
+  "isolatedProfile": true,
+  "existingRunningApplicationPreserved": true,
+  "credentialsConfigured": false,
+  "cloudAudioSent": false,
+  "paidApiUsed": false,
+  "microphoneCaptureAttempted": false,
+  "permissions": {
+    "microphone": "granted",
+    "screen": "granted"
+  },
+  "airPodsDetected": false,
+  "availableInputTypes": [
+    "MacBook built-in microphone",
+    "iPhone microphone",
+    "Third-party virtual input"
+  ],
+  "nativeIcon": {
+    "newMarkObservedInRunningApplication": true,
+    "regularActivationPolicy": true,
+    "actualDockClickTested": false
+  },
+  "incomingAudio": {
+    "realSystemAudioCapture": true,
+    "realMeetingUsed": false,
+    "source": "Locally generated speech played through the actual system output with afplay",
+    "firstSegmentedProbe": {
+      "pcmSeconds": 51.32,
+      "errors": [],
+      "followupOwnerCorrect": false,
+      "limitation": "Independent two-second transcription requests fragmented context; this was not the progressive meeting path."
+    },
+    "progressivePipeline": {
+      "packets": 2,
+      "pcmSeconds": 3.5,
+      "peak": 24459,
+      "rms": 2594.921424195731,
+      "drafts": 1,
+      "finals": 1,
+      "errors": [],
+      "transcriptCharacters": 48,
+      "controlledPhrase": {
+        "friday": true,
+        "alex": true,
+        "launch": true
+      },
+      "stopped": true
+    },
+    "exactControlledPhraseMatched": true,
+    "realQwenFollowup": {
+      "usedRealLocalModel": true,
+      "mentionsFriday": true,
+      "mentionsAlex": true,
+      "answerCharacters": 103
+    }
+  },
+  "captureProtection": {
+    "api": "ScreenCaptureKit SCScreenshotManager with desktop-independent single-window filters",
+    "checks": [
+      {
+        "role": "notch",
+        "onScreenDuringProbe": true,
+        "protectedNonTransparentPixels": 0,
+        "unprotectedNonTransparentPixels": 3942,
+        "passed": true
+      },
+      {
+        "role": "workspace",
+        "onScreenDuringProbe": true,
+        "protectedNonTransparentPixels": 0,
+        "unprotectedNonTransparentPixels": 1002872,
+        "passed": true
+      },
+      {
+        "role": "overlay",
+        "onScreenDuringProbe": false,
+        "protectedNonTransparentPixels": 0,
+        "unprotectedNonTransparentPixels": 199672,
+        "passed": true
+      }
+    ],
+    "protectionRestored": true,
+    "wholeDisplaySharingTested": false,
+    "teamsAttendeeViewTested": false
+  },
+  "cleanup": {
+    "systemAudioStopped": true,
+    "localModelServersStopped": true,
+    "diagnosticApplicationStopped": true,
+    "activeDiagnosticSessionEnded": true
+  },
+  "remaining": [
+    "Connect AirPods and record a deliberate human speech sample through Electron.",
+    "Validate microphone and incoming audio together in an actual meeting.",
+    "Observe workspace, overlay and Notch sharing from a second Teams participant.",
+    "Optional cloud Realtime and dedicated email have not been implemented or exercised by this local pass."
+  ],
+  "privacy": "Raw diagnostic transcripts, profile data and window captures remain ignored local files; only metrics and controlled-phrase matching are retained here."
+}

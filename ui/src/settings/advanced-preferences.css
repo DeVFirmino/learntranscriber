@@ -1,0 +1,28 @@
+.settings-scope .advanced-preferences {
+  margin-top: var(--ui-space-4);
+  padding: var(--ui-space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--ui-radius-control);
+}
+.settings-scope .advanced-preferences .local-llm-tuning-actions-row {
+  margin: 0;
+}
+.advanced-chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--ui-motion-standard) var(--ui-ease-out);
+}
+[data-state='open'] > .advanced-chevron {
+  transform: rotate(180deg);
+}
+.advanced-preferences-content {
+  overflow: hidden;
+  animation: advanced-expand var(--ui-motion-standard) var(--ui-ease-out);
+}
+@keyframes advanced-expand {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-collapsible-content-height); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .advanced-preferences-content { animation: none; }
+}

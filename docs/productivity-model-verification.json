@@ -1,0 +1,34 @@
+{
+  "initialAggressiveQ4KeyValueValidation": "Failed: gibberish on Qwen3 0.6B; replaced with Q8 keys and Q4 values",
+  "passed": true,
+  "paidApiUsed": false,
+  "realMicrophoneUsed": false,
+  "source": "System-generated spoken fixture and synthetic conversation",
+  "models": [
+    {
+      "kind": "llm",
+      "sha256": "9465e63a22add5354d9bb4b99e90117043c7124007664907259bd16d043bb031",
+      "bytes": 639446688
+    },
+    {
+      "kind": "whisper",
+      "sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+      "bytes": 77691713
+    }
+  ],
+  "draftCaptionObserved": true,
+  "finalTranscripts": [
+    "What did we decide about the launch?\n Please explain when the team will ship and who will let the release."
+  ],
+  "realWhisperQuestionRecognized": true,
+  "summary": "We decided to launch on Friday.\nThe release owner is Alex.",
+  "compactionMethod": "exact-deduplication",
+  "compactionRetainedDecision": true,
+  "originalEntriesPreserved": true,
+  "moderateKVAnswer": "READY.",
+  "moderateKVInference": true,
+  "aggressiveKVAnswer": "READY.",
+  "aggressiveKVInference": true,
+  "savedKeysRead": false,
+  "serversStopped": true
+}

@@ -1,0 +1,23 @@
+.model-setup-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--float-line, var(--border));
+  border-radius: 10px;
+  background: var(--float-raised, var(--surface-raised));
+  color: var(--float-muted, var(--muted-foreground));
+  font-size: 14px;
+  line-height: 1.5;
+}
+.model-setup-notice > span { flex: 1 1 180px; min-width: 0; }
+.model-setup-notice > button[data-action-button][data-slot='button'] {
+  position: relative;
+  inset: auto;
+  flex: 0 0 auto;
+  align-self: center;
+  min-height: 36px;
+  margin: 0;
+}

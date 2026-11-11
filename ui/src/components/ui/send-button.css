@@ -1,0 +1,27 @@
+.send-button[data-send-button] {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--send-button-border);
+  box-shadow: var(--send-button-shadow);
+  transition: background-color 160ms, box-shadow 160ms, transform 160ms;
+}
+@media (prefers-reduced-motion: no-preference) {
+.send-button[data-send-button]:enabled:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--send-button-hover-shadow);
+}
+.send-button[data-send-button]:enabled:active {
+  transform: scale(0.94);
+}
+}
+.send-button[data-send-button] > .lucide-loader-circle {
+  animation: spin 1s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .send-button[data-send-button], .send-button[data-send-button] > svg {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}

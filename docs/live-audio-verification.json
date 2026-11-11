@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-21",
+  "status": "partial: AirPods input signal and local transcription confirmed; accuracy and Electron/Realtime remain unverified",
+  "captureScope": "FFmpeg AVFoundation hardware diagnostic, outside Electron and WebRTC",
+  "cameraUsed": false,
+  "cloudAudioSent": false,
+  "openaiKeyConfigured": false,
+  "hostMicrophoneAuthorization": "authorized (AVCaptureDevice query in diagnostic process; not packaged-app permission proof)",
+  "input": {
+    "builtIn": {
+      "pcmSeconds": 10.667,
+      "allSamplesZero": true
+    },
+    "systemDefaultAirPods": {
+      "pcmSeconds": 9.98,
+      "gain": 0.27450981736183167,
+      "mute": false,
+      "peakDbfs": -47.02,
+      "rmsDbfs": -73.19
+    },
+    "temporaryGainTest": {
+      "pcmSeconds": 15,
+      "gain": 0.8,
+      "peakDbfs": -37.09,
+      "rmsDbfs": -67.04,
+      "originalGainRestored": true
+    },
+    "speechRecognitionValidated": false,
+    "localWhisperResult": "Initial quiet samples returned [BLANK_AUDIO]; the repeated capture with speech returned non-silence text.",
+    "earlierQuietCaptureExplainedByUser": true,
+    "repeatWithSpeech": {
+      "pcmSeconds": 15,
+      "gain": 0.27450981736183167,
+      "peakDbfs": 0,
+      "rmsDbfs": -18.17,
+      "clippedSamplePercent": 0.005,
+      "transcriptCharacters": 157,
+      "transcriptionProducedNonSilenceText": true,
+      "scriptedTestPhraseMatched": false,
+      "accuracyConfirmedByUser": false
+    }
+  },
+  "output": {
+    "source": "Local system speech synthesis, not OpenAI Realtime",
+    "playbackCommandSucceeded": true,
+    "audibleThroughAirPodsConfirmedByUser": true
+  },
+  "cleanup": {
+    "recordersStopped": true,
+    "ownedWhisperServerStopped": true,
+    "inputGainRestored": 0.27450981736183167
+  },
+  "limitations": [
+    "The user said they were quiet during the earlier near-silent captures; these do not establish a hardware fault.",
+    "No successful speech-recognition or Electron getUserMedia result is claimed.",
+    "Realtime requires an OpenAI API key; none is configured in the app profile.",
+    "The running older packaged app has no accessible window; it was left running.",
+    "Audio files and transcripts remain in ignored local storage and are not committed."
+  ],
+  "regression": {
+    "nativeChecks": 100,
+    "passed": true,
+    "blankMarkerSuppressedBeforeSessionPersistence": true,
+    "blankMarkerSuppressedInDictation": true,
+    "consoleErrors": []
+  }
+}

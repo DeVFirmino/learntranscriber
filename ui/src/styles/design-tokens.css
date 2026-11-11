@@ -1,0 +1,35 @@
+:root {
+  --message-user-background: #194f99;
+  --message-user-foreground: #fff;
+  --message-user-muted: #e1ecff;
+  --message-user-border: rgb(255 255 255 / 0.14);
+  --send-button-border: rgb(255 255 255 / 0.12);
+  --send-button-shadow: 0 2px 6px #0002;
+  --send-button-hover-shadow: 0 3px 12px rgb(37 129 255 / 0.3);
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-space-6: 24px;
+  --ui-radius-control: 10px;
+  --ui-radius-panel: 16px;
+  --ui-control-height: 40px;
+  --ui-text-label: 14px;
+  --ui-text-caption: 12px;
+  --ui-motion-fast: 160ms;
+  --ui-motion-standard: 220ms;
+  --ui-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ui-hover-lift: -2px;
+  --ui-press-scale: 0.97;
+  --ui-setting-surface: var(--card);
+  --ui-setting-border: var(--border);
+  --ui-selected-surface: color-mix(in srgb, var(--primary) 8%, var(--card));
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ui-motion-fast: 0ms;
+    --ui-motion-standard: 0ms;
+    --ui-hover-lift: 0px;
+    --ui-press-scale: 1;
+  }
+}

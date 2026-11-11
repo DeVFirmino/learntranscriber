@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "binary": "/opt/homebrew/bin/llama-server",
+  "model": "Qwen3 0.6B · Q8 · 640 MB",
+  "url": "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf",
+  "sha256": "9465e63a22add5354d9bb4b99e90117043c7124007664907259bd16d043bb031",
+  "limitations": [
+    "Synthetic prompt, not user conversation content.",
+    "Manager/runtime/provider transport only; the replacement UI is not integrated."
+  ],
+  "bytes": 639446688,
+  "streamedDeltas": 2,
+  "expectedMarkerReceived": true,
+  "savedKeysRead": false,
+  "serverStopped": true
+}
