@@ -1,0 +1,42 @@
+# Version update pull requests: weekly for the two npm trees, where Electron and its security releases live, monthly
+# for the Swift package, the site image and the workflow actions. Minor and patch updates of one tree arrive together;
+# a major update comes alone, so it can be tested on its own.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /ui
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: swift
+    directory: /native
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: docker
+    directory: /site
+    schedule:
+      interval: monthly
+    ignore:
+      # Odd minor versions are nginx's mainline; moving to the next stable line is done by hand.
+      - dependency-name: nginx
+        update-types: [version-update:semver-minor, version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
