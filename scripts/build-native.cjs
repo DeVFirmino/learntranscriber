@@ -7,12 +7,21 @@ if (process.platform !== 'darwin') throw new Error('The native helpers require m
 const packageDirectory = path.resolve('native'),
   output = path.resolve('.local/native');
 const HELPERS = ['apple-speech', 'system-audio', 'context-helper'];
-const build = spawnSync('swift', ['build', '-c', 'release', '--package-path', packageDirectory], { stdio: 'inherit' });
+// The helpers ship to other Macs, so they carry no trace of the machine that built them: source paths are rewritten
+// relative to the package and the linker leaves out its debug symbol table, which records the build folder.
+const RELEASE_FLAGS = ['-Xswiftc', '-file-prefix-map', '-Xswiftc', `${packageDirectory}=native`, '-Xlinker', '-S'];
+const build = spawnSync('swift', ['build', '-c', 'release', '--package-path', packageDirectory, ...RELEASE_FLAGS], {
+  stdio: 'inherit',
+});
 if (build.error) throw build.error;
 if (build.status !== 0) process.exit(build.status || 1);
-const binaries = spawnSync('swift', ['build', '-c', 'release', '--package-path', packageDirectory, '--show-bin-path'], {
-  encoding: 'utf8',
-});
+const binaries = spawnSync(
+  'swift',
+  ['build', '-c', 'release', '--package-path', packageDirectory, ...RELEASE_FLAGS, '--show-bin-path'],
+  {
+    encoding: 'utf8',
+  },
+);
 if (binaries.status !== 0) process.exit(binaries.status || 1);
 mkdirSync(output, { recursive: true });
 for (const name of HELPERS) {
