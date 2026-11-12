@@ -68,6 +68,9 @@ Copied here for a self-contained record:
 - **`assistants.svg`, sixth figure** — the dashed "Your own" outline with the plus sign is plain
   SVG geometry drawn by hand in the same file; no image was generated for it.
 
+- **`homebrew.svg`** — the site's Terminal window (`site/styles.css`, `.terminal`) redrawn as hand-written SVG: the
+  same traffic lights, title bar and editor colours, with the three Homebrew commands as text.
+
 ## Not generated
 
 No Higgsfield image was created for this README. `assistants.svg`'s busts reuse the site's existing WebP files; `maker.svg` is flat, hand-drawn SVG
