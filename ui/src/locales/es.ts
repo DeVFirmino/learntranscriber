@@ -1469,6 +1469,12 @@ export const es: Messages = {
     'El procesador de audio dejó de responder. La escucha terminó.',
   'error.liveAudioDeliveryFailed': 'Falló el envío del audio en directo.',
   'error.transcriptionFailed': 'La transcripción falló.',
+  'error.couldNotReachTheAiService':
+    'No se pudo conectar con el servicio de IA. Comprueba tu conexión a internet y vuelve a intentarlo.',
+  'error.theLocalServerOnThisMacIsNotAnswering':
+    'El servidor local de este Mac no responde. Vuelve a iniciarlo o revisa su dirección en Fuentes de IA.',
+  'error.theConnectionDroppedDuringTheAnswer':
+    'La conexión se cortó durante la respuesta. Comprueba tu conexión a internet y vuelve a intentarlo.',
   'error.microphoneAccessIsOff':
     'El acceso al micrófono está desactivado. Permite LearnTranscriber en Ajustes del Sistema → Privacidad y seguridad → Micrófono.',
   'error.theSelectedMicrophoneIsNotConnected': 'El micrófono elegido no está conectado. Elige otro en Ajustes → Audio.',

@@ -1457,6 +1457,12 @@ export const ptBR: Messages = {
     'O processador de áudio parou de responder. A escuta terminou.',
   'error.liveAudioDeliveryFailed': 'Falha ao enviar o áudio ao vivo.',
   'error.transcriptionFailed': 'A transcrição falhou.',
+  'error.couldNotReachTheAiService':
+    'Não foi possível falar com o serviço de IA. Confira sua conexão com a internet e tente de novo.',
+  'error.theLocalServerOnThisMacIsNotAnswering':
+    'O servidor local deste Mac não está respondendo. Inicie-o de novo ou confira o endereço em Fontes de IA.',
+  'error.theConnectionDroppedDuringTheAnswer':
+    'A conexão caiu durante a resposta. Confira sua conexão com a internet e tente de novo.',
   'error.microphoneAccessIsOff':
     'O acesso ao microfone está desligado. Permita o LearnTranscriber em Ajustes do Sistema → Privacidade e Segurança → Microfone.',
   'error.theSelectedMicrophoneIsNotConnected':
