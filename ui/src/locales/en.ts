@@ -1056,6 +1056,7 @@ export const en = {
   'response.image': '[Image]',
   'response.table': 'Response table',
   'app.unavailable': 'Workspace unavailable',
+  'app.reloadWindow': 'Reload window',
   'app.bridgeError': 'The native bridge reported an error. This preview did not switch to sample data.',
   'app.loading': 'Loading workspace…',
   'app.previewBanner': 'Browser preview. Sample workspace only. No providers, accounts, or files are contacted.',

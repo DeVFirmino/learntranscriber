@@ -1064,6 +1064,7 @@ export const ptBR: Messages = {
   'response.image': '[Imagem]',
   'response.table': 'Tabela da resposta',
   'app.unavailable': 'Workspace indisponível',
+  'app.reloadWindow': 'Recarregar janela',
   'app.bridgeError': 'A ponte nativa informou um erro. Este preview não trocou para dados de exemplo.',
   'app.loading': 'Carregando workspace…',
   'app.previewBanner':

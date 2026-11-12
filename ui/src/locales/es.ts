@@ -1071,6 +1071,7 @@ export const es: Messages = {
   'response.image': '[Imagen]',
   'response.table': 'Tabla de la respuesta',
   'app.unavailable': 'Espacio de trabajo no disponible',
+  'app.reloadWindow': 'Recargar ventana',
   'app.bridgeError': 'El puente nativo informó de un error. Esta vista previa no cambió a datos de ejemplo.',
   'app.loading': 'Cargando espacio de trabajo…',
   'app.previewBanner':
