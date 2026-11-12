@@ -10,6 +10,7 @@ import { PICKER_PAGE_SIZE, assistantPickerOptions, pickerPageOf } from '@/featur
 import { useCategoryLabel } from '@/features/assistants/use-category-label'
 import { useWorkspace } from '@/workspace'
 import { useT } from '@/use-t'
+import { afterNativeResize } from './native-resize'
 
 const MANAGE = '__manage_assistants__',
   PREVIOUS = '__previous_assistants__',
@@ -38,10 +39,15 @@ export function AssistantPicker() {
     const version = ++change.current
     if (!value) setOpen(false)
     void ws.act(async () => {
-      if (value) await ws.api.setBarPopoverOpen(true)
-      // Radix Select dismisses on resize. Settle native bounds before mounting its popup.
-      await nextFrame()
-      await nextFrame()
+      if (value) {
+        // Radix Select dismisses on resize, so its popup mounts only after the grown window reaches this page.
+        const heightBefore = window.innerHeight
+        await ws.api.setBarPopoverOpen(true)
+        await afterNativeResize(heightBefore)
+      } else {
+        await nextFrame()
+        await nextFrame()
+      }
       if (version !== change.current) return
       if (value) setOpen(true)
       else await ws.api.setBarPopoverOpen(false)
