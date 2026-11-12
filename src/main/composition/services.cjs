@@ -39,7 +39,7 @@ async function composeServices({ electron, smoke, platform, core, started }) {
       report,
     }),
   );
-  ({ models: started.localModels, installer: started.runtimeInstaller } = composeLocalModels({
+  ({ models: started.localModels, installer: started.runtimeInstaller } = await composeLocalModels({
     handle,
     directory: userData('local-models'),
     settings: core.readSettings,
