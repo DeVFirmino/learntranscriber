@@ -45,9 +45,11 @@ function spawnServer({ spawn, binary, args, runtime, onExit }) {
 
 /**
  * Polls the server's health until it answers, then, for a language model, reads the context each slot really has.
- * Returns that capacity, or null for Whisper.
+ * Returns that capacity, or null for Whisper. `/health` stays public once llama-server has an API key, but `/props`
+ * does not, so both requests carry the bearer header whenever this server was launched with one.
  */
-async function waitForServer({ fetch, runtime, type, config, signal }) {
+async function waitForServer({ fetch, runtime, type, config, signal, apiKey }) {
+  const headers = apiKey ? { Authorization: `Bearer ${apiKey}` } : undefined;
   for (;;) {
     signal.throwIfAborted();
     if (!runtime.child)
@@ -55,6 +57,7 @@ async function waitForServer({ fetch, runtime, type, config, signal }) {
     let ready = false;
     try {
       const response = await fetch(runtime.base + (type === 'llm' ? '/health' : '/'), {
+        headers,
         signal: AbortSignal.any([signal, AbortSignal.timeout(1000)]),
         redirect: 'error',
       });
@@ -67,6 +70,7 @@ async function waitForServer({ fetch, runtime, type, config, signal }) {
       if (type !== 'llm') return null;
       const props = await jsonReply(
         await fetch(runtime.base + '/props', {
+          headers,
           signal: AbortSignal.any([signal, AbortSignal.timeout(5000)]),
           redirect: 'error',
         }),

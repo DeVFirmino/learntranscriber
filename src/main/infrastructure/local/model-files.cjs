@@ -4,6 +4,7 @@ const path = require('node:path');
 const { modelKind, downloadUrl, catalogOrigin } = require('../../domain/providers/local-server.cjs');
 const { fileSha256 } = require('./hashed-copy.cjs');
 const { fetchArtifact } = require('./model-download.cjs');
+const { captureVersion } = require('./runtime-version.cjs');
 
 const DIGEST = /^[a-f\d]{64}$/i;
 
@@ -21,6 +22,7 @@ const modelFiles = {
       await fsp.access(real, fs.constants.X_OK);
       op.controller.signal.throwIfAborted();
       this.catalog.binaries[type] = real;
+      this.binaryVersions[type] = await captureVersion({ execFile: this.execFile, binary: real });
       this.persist();
     } finally {
       delete this.operations[type];

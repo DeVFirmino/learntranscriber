@@ -17,3 +17,8 @@ export function createWorkspace(): Bridge {
   }
   throw new Error('The native workspace bridge is unavailable. Open the Mac app, or use the local browser preview.')
 }
+
+// Logs an error raised outside the workspace, such as a window that failed to render. The browser preview has no log.
+export function reportUnhandled(message: string) {
+  void window.workspace?.reportError({ message, forward: false }).catch(() => undefined)
+}

@@ -1,16 +1,22 @@
+import { microphoneFailure } from './microphone-failure'
+
 // The streams this window records. A stream that arrives after its recording was stopped or replaced is stopped by
 // ensureCurrent, which also ends that startup.
 type EnsureCurrent = (stream?: MediaStream) => void
 
 export async function openMicrophone(microphoneId: string, ensureCurrent: EnsureCurrent) {
-  const mic = await navigator.mediaDevices.getUserMedia({
-    audio: {
-      deviceId: microphoneId === 'default' ? undefined : { exact: microphoneId },
-      echoCancellation: true,
-      noiseSuppression: true,
-    },
-    video: false,
-  })
+  const mic = await navigator.mediaDevices
+    .getUserMedia({
+      audio: {
+        deviceId: microphoneId === 'default' ? undefined : { exact: microphoneId },
+        echoCancellation: true,
+        noiseSuppression: true,
+      },
+      video: false,
+    })
+    .catch((error: unknown) => {
+      throw microphoneFailure(error)
+    })
   ensureCurrent(mic)
   return mic
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { microphoneFailure } from '@/audio/microphone-failure'
 import { createMicrophoneProbe } from '@/audio/microphone-probe'
 import { useT } from '@/use-t'
 import { errorMessage } from '@/format'
@@ -68,7 +69,7 @@ export function MicrophoneTest({
             void probe
               .start(deviceId)
               .then((active) => setTesting(active))
-              .catch((reason) => setError(errorMessage(reason)))
+              .catch((reason) => setError(errorMessage(microphoneFailure(reason))))
               .finally(() => setStarting(false))
           }}
         >

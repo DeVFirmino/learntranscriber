@@ -254,7 +254,9 @@ manter suas sessões e configurações.
   nem chave.
 - Baixar um modelo local do Hugging Face, um servidor pelo Homebrew ou um idioma do Apple Speech usa a rede.
 - Os processos `whisper-server` e `llama-server` gerenciados pelo app ficam ligados a `127.0.0.1` e param depois de 10
-  minutos sem uso. Downloads de modelos que falham na verificação SHA-256 são descartados.
+  minutos sem uso. O `llama-server` exige uma chave de API nova a cada vez que abre; o `whisper-server` não tem opção
+  de autenticação, então depende de ficar só no loopback. Downloads de modelos que falham na verificação SHA-256 são
+  descartados.
 - A proteção contra captura vem ligada. Apps que usam o ScreenCaptureKit ainda conseguem capturar uma janela protegida
   ([o Electron documenta isso](https://www.electronjs.org/docs/latest/api/browser-window#winsetcontentprotectionenable-macos-windows)).
   Compartilhe uma janela em vez da tela inteira e confira o que os participantes estão vendo.

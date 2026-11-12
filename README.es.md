@@ -258,7 +258,9 @@ conservar tus sesiones y ajustes.
   ajustes ni claves.
 - Descargar un modelo local de Hugging Face, un servidor con Homebrew o un idioma de Apple Speech usa la red.
 - Los procesos `whisper-server` y `llama-server` que gestiona la app se vinculan a `127.0.0.1` y se detienen tras 10
-  minutos sin uso. Las descargas de modelos que no superan la verificación SHA-256 se descartan.
+  minutos sin uso. `llama-server` exige una clave de API nueva en cada arranque; `whisper-server` no tiene opción de
+  autenticación, así que depende de escuchar solo en loopback. Las descargas de modelos que no superan la verificación
+  SHA-256 se descartan.
 - La protección contra capturas viene activada. Las apps que usan ScreenCaptureKit aún pueden capturar una ventana
   protegida
   ([Electron lo documenta](https://www.electronjs.org/docs/latest/api/browser-window#winsetcontentprotectionenable-macos-windows)).

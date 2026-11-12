@@ -31,6 +31,8 @@ const modelLeases = {
       base: runtime.base,
       model: runtime.modelId,
       contextSize: runtime.contextSize,
+      // Only a leased llama-server carries a key; whisper-server has no authentication option.
+      apiKey: runtime.apiKey || null,
       vision: Boolean(model?.projector && fs.existsSync(this.projectorPath(model))),
       release: () => {
         if (released) return;
