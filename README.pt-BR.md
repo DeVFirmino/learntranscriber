@@ -97,6 +97,17 @@ Privacidade e Segurança**, role até Segurança, escolha **Abrir Mesmo Assim** 
 com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/mac-help/mchleab3a043/mac)). Instale uma
 versão nova do mesmo jeito, por cima da anterior; suas sessões e configurações continuam.
 
+Ou instale pelo [Homebrew](https://github.com/DeVFirmino/homebrew-learntranscriber), que também cuida das atualizações:
+
+```sh
+brew tap devfirmino/learntranscriber
+brew trust devfirmino/learntranscriber
+brew install --cask learntranscriber
+```
+
+`brew trust` é a autorização que o Homebrew pede uma vez para um tap que não é dele. A primeira abertura ainda pede
+**Abrir Mesmo Assim**; as versões seguintes chegam com `brew upgrade --cask learntranscriber`.
+
 Você também pode [compilar a partir do código](#compilar-a-partir-do-código) ou deixar
 [o seu agente de programação](#instalar-com-o-seu-agente) instalar o app.
 
