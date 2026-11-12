@@ -517,6 +517,13 @@ export const ptBR: Messages = {
   'home.updateDownload': 'Baixar',
   'home.updateLater': 'Mais tarde',
   'home.updateSkip': 'Ignorar esta versão',
+  'home.updateNotes': 'Novidades',
+  'home.updateDownloading': 'Baixando a versão {{version}}…',
+  'home.updateDownloadingPercent': 'Baixando a versão {{version}}… {{percent}}%',
+  'home.updateReady':
+    'A versão {{version}} foi baixada e confere com o checksum publicado. Abra e arraste o LearnTranscriber para Aplicativos.',
+  'home.updateInstall': 'Abrir instalador',
+  'home.updateRetry': 'Tentar de novo',
   'assistants.description': 'Encontre e personalize as instruções de cada sessão.',
   'assistants.build': 'Criar com IA',
   'assistants.import': 'Importar prompt',
@@ -1459,6 +1466,19 @@ export const ptBR: Messages = {
   'error.theAudioProcessorStoppedRespondingListeningHas':
     'O processador de áudio parou de responder. A escuta terminou.',
   'error.liveAudioDeliveryFailed': 'Falha ao enviar o áudio ao vivo.',
+  'error.theUpdateDownloadFailed': 'O download da atualização falhou. Tente de novo ou baixe pela página da versão.',
+  'error.couldNotReachGithubToDownloadTheUpdate':
+    'Não foi possível falar com o GitHub para baixar a atualização. Confira sua conexão com a internet e tente de novo.',
+  'error.theUpdateDownloadTookTooLong': 'O download da atualização demorou demais. Tente de novo.',
+  'error.theUpdateDownloadRedirectedToAnUnsupportedAddress':
+    'O download da atualização foi redirecionado para um endereço não aceito.',
+  'error.theUpdateDownloadRedirectedTooManyTimes': 'O download da atualização foi redirecionado vezes demais.',
+  'error.theReleaseHasNoChecksumForItsDmg': 'A versão não publicou o checksum do DMG.',
+  'error.theUpdateIsLargerThanAnyRelease': 'A atualização é maior do que qualquer versão do LearnTranscriber.',
+  'error.theDownloadedUpdateDoesNotMatchItsChecksum':
+    'A atualização baixada não confere com o checksum publicado, então foi apagada.',
+  'error.couldNotOpenTheDownloadedUpdate': 'Não foi possível abrir a atualização baixada.',
+  'error.thisUpdateCannotBeDownloadedHere': 'Esta atualização não pode ser baixada aqui.',
   'error.transcriptionFailed': 'A transcrição falhou.',
   'error.couldNotReachTheAiService':
     'Não foi possível falar com o serviço de IA. Confira sua conexão com a internet e tente de novo.',

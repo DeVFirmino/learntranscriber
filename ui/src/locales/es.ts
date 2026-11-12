@@ -522,6 +522,13 @@ export const es: Messages = {
   'home.updateDownload': 'Descargar',
   'home.updateLater': 'Más tarde',
   'home.updateSkip': 'Omitir esta versión',
+  'home.updateNotes': 'Novedades',
+  'home.updateDownloading': 'Descargando la versión {{version}}…',
+  'home.updateDownloadingPercent': 'Descargando la versión {{version}}… {{percent}}%',
+  'home.updateReady':
+    'La versión {{version}} se descargó y coincide con su checksum publicado. Ábrela y arrastra LearnTranscriber a Aplicaciones.',
+  'home.updateInstall': 'Abrir instalador',
+  'home.updateRetry': 'Reintentar',
   'assistants.description': 'Encuentra y personaliza las instrucciones de cada sesión.',
   'assistants.build': 'Crear con IA',
   'assistants.import': 'Importar prompt',
@@ -1471,6 +1478,20 @@ export const es: Messages = {
   'error.theAudioProcessorStoppedRespondingListeningHas':
     'El procesador de audio dejó de responder. La escucha terminó.',
   'error.liveAudioDeliveryFailed': 'Falló el envío del audio en directo.',
+  'error.theUpdateDownloadFailed':
+    'La descarga de la actualización falló. Vuelve a intentarlo o descárgala desde la página de la versión.',
+  'error.couldNotReachGithubToDownloadTheUpdate':
+    'No se pudo conectar con GitHub para descargar la actualización. Comprueba tu conexión a internet y vuelve a intentarlo.',
+  'error.theUpdateDownloadTookTooLong': 'La descarga de la actualización tardó demasiado. Vuelve a intentarlo.',
+  'error.theUpdateDownloadRedirectedToAnUnsupportedAddress':
+    'La descarga de la actualización se redirigió a una dirección no admitida.',
+  'error.theUpdateDownloadRedirectedTooManyTimes': 'La descarga de la actualización se redirigió demasiadas veces.',
+  'error.theReleaseHasNoChecksumForItsDmg': 'La versión no publicó el checksum de su DMG.',
+  'error.theUpdateIsLargerThanAnyRelease': 'La actualización es más grande que cualquier versión de LearnTranscriber.',
+  'error.theDownloadedUpdateDoesNotMatchItsChecksum':
+    'La actualización descargada no coincide con su checksum publicado, así que se eliminó.',
+  'error.couldNotOpenTheDownloadedUpdate': 'No se pudo abrir la actualización descargada.',
+  'error.thisUpdateCannotBeDownloadedHere': 'Esta actualización no se puede descargar aquí.',
   'error.transcriptionFailed': 'La transcripción falló.',
   'error.couldNotReachTheAiService':
     'No se pudo conectar con el servicio de IA. Comprueba tu conexión a internet y vuelve a intentarlo.',
