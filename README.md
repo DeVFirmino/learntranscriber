@@ -94,6 +94,17 @@ scroll to Security and choose **Open Anyway** next to LearnTranscriber, then con
 When a new version is out, the Home banner downloads it and keeps it only if its SHA-256 matches the one the release
 publishes; choose **Open installer** and drag LearnTranscriber over the previous copy. Your sessions and settings stay.
 
+Or install it with [Homebrew](https://github.com/learntranscriber/homebrew-tap), which handles updates too:
+
+```sh
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
+brew install --cask learntranscriber
+```
+
+`brew trust` is Homebrew's one-time consent for a tap it does not maintain. The first launch still needs
+**Open Anyway**; later versions come with `brew upgrade --cask learntranscriber`.
+
 You can also [build it from source](#build-from-source) or let [your coding agent](#install-with-your-agent) install
 it.
 

@@ -60,3 +60,9 @@
   }
   [data-floating] .message-bubble[data-message-role='context'] { border-radius: 16px; }
 }
+/* A long session keeps hundreds of saved bubbles. Those off screen skip layout and paint, and each keeps the height it
+   last rendered at, so the scrollbar and follow-to-end stay steady. */
+.saved-bubble {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 96px;
+}

@@ -162,6 +162,9 @@ async function run(context, { output, check, ready, wait, eventually, checks, er
     'Closing the assistant picker restores the compact native bar',
     await eventually(() => bar.getBounds().height === pickerBounds.height),
   );
+  // Only the focused bar sees Command, and a blur while it is held resets the hold, so the bar gets focus back first.
+  bar.focus();
+  await eventually(() => js(bar, 'document.hasFocus()'));
   await js(bar, `window.dispatchEvent(new KeyboardEvent('keydown',{key:'Meta',metaKey:true}))`);
   check(
     'Holding Command shows the shortcut sheet with the real keys in a grown bar window',

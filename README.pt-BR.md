@@ -98,6 +98,17 @@ com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/m
 versão nova, o banner do Início baixa e só guarda o arquivo se o SHA-256 bater com o que a versão publica; escolha
 **Abrir instalador** e arraste o LearnTranscriber por cima da cópia anterior. Suas sessões e configurações continuam.
 
+Ou instale pelo [Homebrew](https://github.com/learntranscriber/homebrew-tap), que também cuida das atualizações:
+
+```sh
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
+brew install --cask learntranscriber
+```
+
+`brew trust` é a autorização que o Homebrew pede uma vez para um tap que não é dele. A primeira abertura ainda pede
+**Abrir Mesmo Assim**; as versões seguintes chegam com `brew upgrade --cask learntranscriber`.
+
 Você também pode [compilar a partir do código](#compilar-a-partir-do-código) ou deixar
 [o seu agente de programação](#instalar-com-o-seu-agente) instalar o app.
 
