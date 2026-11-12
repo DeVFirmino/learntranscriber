@@ -9,6 +9,7 @@ const {
 } = require('../../domain/providers/local-launch.cjs');
 const { spawnServer, waitForServer, terminateServer } = require('./server-process.cjs');
 const { writeApiKeyFile, removeApiKeyFile } = require('./server-auth.cjs');
+const { captureVersion } = require('./runtime-version.cjs');
 
 const RUNTIME_NAME = { llm: 'llama-server', whisper: 'whisper-server' };
 
@@ -103,6 +104,8 @@ const modelServers = {
       runtime.error = '';
       if (fallbackAttempt)
         runtime.fallbackNotice = `Memory allocation failed; started with adjusted settings (${runtime.contextSize.toLocaleString()} tokens per slot, ${config.gpuLayers} GPU layers, attempt ${fallbackAttempt + 1}).`;
+      this.binaryVersions[type] = await captureVersion({ execFile: this.execFile, binary });
+      (this.trace || console.info)(`Started ${RUNTIME_NAME[type]}, version ${this.binaryVersions[type]}.`);
       this.touch(type);
       return this.state();
     } catch (failure) {
