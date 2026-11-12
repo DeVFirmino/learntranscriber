@@ -97,11 +97,11 @@ Privacidade e Segurança**, role até Segurança, escolha **Abrir Mesmo Assim** 
 com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/mac-help/mchleab3a043/mac)). Instale uma
 versão nova do mesmo jeito, por cima da anterior; suas sessões e configurações continuam.
 
-Ou instale pelo [Homebrew](https://github.com/DeVFirmino/homebrew-learntranscriber), que também cuida das atualizações:
+Ou instale pelo [Homebrew](https://github.com/learntranscriber/homebrew-tap), que também cuida das atualizações:
 
 ```sh
-brew tap devfirmino/learntranscriber
-brew trust devfirmino/learntranscriber
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
 brew install --cask learntranscriber
 ```
 

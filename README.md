@@ -93,11 +93,11 @@ scroll to Security and choose **Open Anyway** next to LearnTranscriber, then con
 ([Apple's instructions](https://support.apple.com/guide/mac-help/apple-cant-check-app-for-malicious-software-mchleab3a043/mac)).
 Install a new version the same way, over the previous one; your sessions and settings stay.
 
-Or install it with [Homebrew](https://github.com/DeVFirmino/homebrew-learntranscriber), which handles updates too:
+Or install it with [Homebrew](https://github.com/learntranscriber/homebrew-tap), which handles updates too:
 
 ```sh
-brew tap devfirmino/learntranscriber
-brew trust devfirmino/learntranscriber
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
 brew install --cask learntranscriber
 ```
 
