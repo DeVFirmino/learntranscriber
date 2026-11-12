@@ -1428,6 +1428,12 @@ export const en = {
     'The audio processor stopped responding. Listening has ended.',
   'error.liveAudioDeliveryFailed': 'Live audio delivery failed.',
   'error.transcriptionFailed': 'Transcription failed.',
+  'error.microphoneAccessIsOff':
+    'Microphone access is off. Allow LearnTranscriber in System Settings → Privacy & Security → Microphone.',
+  'error.theSelectedMicrophoneIsNotConnected':
+    'The selected microphone is not connected. Choose another one in Settings → Audio.',
+  'error.theMicrophoneIsInUseOrUnavailable':
+    'The microphone is in use or unavailable. Close other apps that use it and try again.',
   'error.audioFlushFailed': 'Audio flush failed.',
   'error.historyLookupFailed': 'History lookup failed.',
   'error.allowHistoryAccessFirst': 'Allow history access first.',

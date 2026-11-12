@@ -1457,6 +1457,12 @@ export const ptBR: Messages = {
     'O processador de áudio parou de responder. A escuta terminou.',
   'error.liveAudioDeliveryFailed': 'Falha ao enviar o áudio ao vivo.',
   'error.transcriptionFailed': 'A transcrição falhou.',
+  'error.microphoneAccessIsOff':
+    'O acesso ao microfone está desligado. Permita o LearnTranscriber em Ajustes do Sistema → Privacidade e Segurança → Microfone.',
+  'error.theSelectedMicrophoneIsNotConnected':
+    'O microfone escolhido não está conectado. Escolha outro em Configurações → Áudio.',
+  'error.theMicrophoneIsInUseOrUnavailable':
+    'O microfone está em uso ou indisponível. Feche os outros apps que o usam e tente de novo.',
   'error.audioFlushFailed': 'Falha ao finalizar o áudio pendente.',
   'error.historyLookupFailed': 'A busca no histórico falhou.',
   'error.allowHistoryAccessFirst': 'Permita primeiro o acesso ao histórico.',

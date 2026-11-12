@@ -1469,6 +1469,11 @@ export const es: Messages = {
     'El procesador de audio dejó de responder. La escucha terminó.',
   'error.liveAudioDeliveryFailed': 'Falló el envío del audio en directo.',
   'error.transcriptionFailed': 'La transcripción falló.',
+  'error.microphoneAccessIsOff':
+    'El acceso al micrófono está desactivado. Permite LearnTranscriber en Ajustes del Sistema → Privacidad y seguridad → Micrófono.',
+  'error.theSelectedMicrophoneIsNotConnected': 'El micrófono elegido no está conectado. Elige otro en Ajustes → Audio.',
+  'error.theMicrophoneIsInUseOrUnavailable':
+    'El micrófono está en uso o no está disponible. Cierra las otras apps que lo usan y vuelve a intentarlo.',
   'error.audioFlushFailed': 'Falló el vaciado del audio pendiente.',
   'error.historyLookupFailed': 'Falló la búsqueda en el historial.',
   'error.allowHistoryAccessFirst': 'Permite primero el acceso al historial.',
