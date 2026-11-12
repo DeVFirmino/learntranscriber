@@ -1,0 +1,8 @@
+# Code that never runs for someone using the app or the site, so its alerts are not product findings: the tests,
+# the development preview, and the smoke harness, which builds scripts from fixed fixtures and only runs when the app
+# is started with --smoke-test.
+paths-ignore:
+  - test/**
+  - ui/test/**
+  - preview/**
+  - src/main/smoke*.cjs

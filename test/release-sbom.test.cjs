@@ -14,26 +14,24 @@ const RESOLVED = {
   version: 3,
 };
 
-// The shape `npm sbom --sbom-format cyclonedx` writes for ui/, cut to one package.
+// The renderer package and the inventory lockfile-inventory.cjs reads from its lockfile, cut to one package.
 const RENDERER = {
-  metadata: {
-    tools: [{ vendor: 'npm', name: 'cli', version: '11.16.0' }],
-    component: { 'bom-ref': 'learntranscriber-ui@0.0.0', type: 'application', name: 'ui', version: '0.0.0' },
+  name: 'learntranscriber-ui',
+  version: '0.0.0',
+  inventory: {
+    dependsOn: ['react@19.2.0'],
+    components: [
+      { 'bom-ref': 'react@19.2.0', type: 'library', name: 'react', version: '19.2.0', purl: 'pkg:npm/react@19.2.0' },
+    ],
+    dependencies: [{ ref: 'react@19.2.0', dependsOn: [] }],
   },
-  components: [
-    { 'bom-ref': 'react@19.2.0', type: 'library', name: 'react', version: '19.2.0', purl: 'pkg:npm/react@19.2.0' },
-  ],
-  dependencies: [
-    { ref: 'learntranscriber-ui@0.0.0', dependsOn: ['react@19.2.0'] },
-    { ref: 'react@19.2.0', dependsOn: [] },
-  ],
 };
 
 const sbom = () =>
   releaseSbom({
     version: '0.1.1',
     electronVersion: '45.3.0',
-    rendererSbom: RENDERER,
+    renderer: RENDERER,
     resolved: RESOLVED,
     serialNumber: '00000000-0000-4000-8000-000000000000',
     timestamp: '2026-11-11T12:00:00.000Z',
