@@ -47,8 +47,8 @@
 > **Resumo** — Um app gratuito e de código aberto para Mac que escreve, ao vivo, o que você ouve numa aula, num vídeo
 > ou numa reunião, e responde às suas perguntas sobre isso num painel flutuante. A fala pode ser transcrita
 > inteiramente no seu Mac com o Apple Speech; as respostas vêm da IA que você escolher: o login do ChatGPT, uma chave
-> de API ou um modelo local. Para Macs com Apple Silicon no macOS 14 ou mais recente. Baixe o app, compile a partir do
-> código ou deixe o seu agente de programação instalar para você.
+> de API ou um modelo local. Para Macs com Apple Silicon no macOS 14 ou mais recente. Baixe o app, instale pelo
+> Homebrew, compile a partir do código ou deixe o seu agente de programação instalar para você.
 
 <p align="center">
   <img src="docs/readme/hero.webp" alt="O LearnTranscriber num MacBook: uma aula de inglês online à esquerda e o assistente flutuante respondendo a uma pergunta sobre ela à direita." width="900">
@@ -77,7 +77,8 @@
 
 - **Transcrição ao vivo.** Enquanto uma aula, uma reunião ou um vídeo acontece, as palavras aparecem conforme as
   pessoas falam. Elas vêm do Apple Speech no Mac, de um servidor Whisper local ou de um serviço de transcrição na
-  nuvem, o que você configurar.
+  nuvem, o que você configurar. Os nomes e termos que você coloca em **Vocabulário** ajudam o Whisper local e a
+  transcrição na nuvem a escrevê-los certo.
 - **Pergunte sobre o que foi dito.** Um painel flutuante fica sobre qualquer app. Faça uma pergunta e a resposta chega
   aos poucos, com base na transcrição. Uma captura de tela ou o texto que você selecionou pode ir junto com a pergunta.
 - **Um assistente para cada momento.** Inglês, Matemática, Programação, um anotador para reuniões e um assistente
@@ -94,8 +95,27 @@ macOS 14 ou mais recente, e arraste o LearnTranscriber para Aplicativos.
 
 O app não é notarizado pela Apple, então o macOS bloqueia a primeira abertura: abra **Ajustes do Sistema →
 Privacidade e Segurança**, role até Segurança, escolha **Abrir Mesmo Assim** ao lado do LearnTranscriber e confirme
-com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/mac-help/mchleab3a043/mac)). Instale uma
-versão nova do mesmo jeito, por cima da anterior; suas sessões e configurações continuam.
+com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/mac-help/mchleab3a043/mac)). Quando sai uma
+versão nova, o banner do Início baixa e só guarda o arquivo se o SHA-256 bater com o que a versão publica; escolha
+**Abrir instalador** e arraste o LearnTranscriber por cima da cópia anterior. Suas sessões e configurações continuam.
+
+Ou instale pelo [Homebrew](https://github.com/learntranscriber/homebrew-tap), que também cuida das atualizações:
+
+<a href="https://github.com/learntranscriber/homebrew-tap"><img src="docs/readme/homebrew.svg" alt="Install with Homebrew: brew tap learntranscriber/tap, brew trust learntranscriber/tap, brew install --cask learntranscriber" width="640"></a>
+
+<details>
+<summary>Copiar os comandos</summary>
+
+```sh
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
+brew install --cask learntranscriber
+```
+
+</details>
+
+`brew trust` é a autorização que o Homebrew pede uma vez para um tap que não é dele. A primeira abertura ainda pede
+**Abrir Mesmo Assim**; as versões seguintes chegam com `brew upgrade --cask learntranscriber`.
 
 Você também pode [compilar a partir do código](#compilar-a-partir-do-código) ou deixar
 [o seu agente de programação](#instalar-com-o-seu-agente) instalar o app.
@@ -190,8 +210,9 @@ prompt, e aparecem na barra flutuante ao lado dos que vêm com o app.
 - Um provedor de respostas configurado para perguntas e resumos.
 - [Homebrew](https://brew.sh), só se você quiser que o app instale o `llama-server` ou o `whisper-server` para você.
 
-O app verifica no GitHub se há versões novas. Instale as atualizações manualmente, por cima do build anterior, para
-manter suas sessões e configurações.
+O app verifica no GitHub se há versões novas. O banner do Início baixa a versão para a pasta Downloads e só a guarda
+se o SHA-256 bater com o checksum da versão; depois você a instala por cima do build anterior, e suas sessões e
+configurações continuam. Quem instalou pelo Homebrew atualiza com `brew upgrade --cask learntranscriber`.
 
 ## Compilar a partir do código
 
@@ -252,6 +273,8 @@ manter suas sessões e configurações.
 - O app pergunta ao GitHub se existe uma versão nova no máximo uma vez por dia, começando uns 15 segundos depois de
   abrir. O pedido leva a versão do app e, como qualquer pedido, o seu endereço IP; não envia transcrição, configuração
   nem chave.
+- Uma atualização só é baixada quando você escolhe **Baixar** nesse banner: o DMG e o checksum vêm da versão deste
+  repositório, vão para a pasta Downloads, e um DMG que falha na verificação do SHA-256 é apagado.
 - Baixar um modelo local do Hugging Face, um servidor pelo Homebrew ou um idioma do Apple Speech usa a rede.
 - Os processos `whisper-server` e `llama-server` gerenciados pelo app ficam ligados a `127.0.0.1` e param depois de 10
   minutos sem uso. O `llama-server` exige uma chave de API nova a cada vez que abre; o `whisper-server` não tem opção

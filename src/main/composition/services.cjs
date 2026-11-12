@@ -122,6 +122,8 @@ async function composeServices({ electron, smoke, platform, core, started }) {
     settings: repositories.settings,
     version: core.desktop.version(),
     openExternal,
+    openPath: (file) => shell.openPath(file),
+    downloads: () => app.getPath('downloads'),
     broadcast,
     schedule: !smoke,
   });

@@ -1,16 +1,10 @@
-const { barRows, barRowsHeight } = require('../../domain/overlay/bar-rows.cjs');
-const {
-  COLLAPSED_HEIGHT,
-  BAR_POPOVER_HEIGHT,
-  windowFrame,
-  resizedPanel,
-  nudged,
-  insideArea,
-} = require('../../domain/windows/layout.cjs');
+const { resizedPanel, nudged, insideArea } = require('../../domain/windows/layout.cjs');
+const { createBarSize } = require('./bar-size.cjs');
 const { createRendererRecovery } = require('./renderer-recovery.cjs');
 const { createSettingsRoute } = require('./settings-route.cjs');
-const { guardWindow } = require('./window-guards.cjs');
-const { createNotchWindow, initialNotchBounds } = require('./notch-lifecycle.cjs');
+const { createNotchWindow } = require('./notch-lifecycle.cjs');
+const { createWindowFactory } = require('./window-factory.cjs');
+const { createOnboardingPresentation } = require('./onboarding-presentation.cjs');
 
 // The workspace, independent session panel, fixed recording bar and optional Notch. Windows hide instead of
 // closing until quit.
@@ -34,98 +28,69 @@ function createWindows({
     overlay = null,
     bar = null,
     overlayExpanded = false,
-    onboarding = false,
-    onboardingPanelBounds = null,
     // The expanded floating assistant keeps the height the user resized it to; the collapsed bar stays compact.
     expandedHeight = 428,
     // Whether the workspace is listening, and since when; the floating bar shows it as a timer.
-    listening = { active: false, starting: false, since: null },
-    // The prompt and transcript preview rows the bar shows above its controls while the panel is collapsed.
-    rows = { prompt: false, preview: false, guide: false },
-    barPopoverOpen = false;
+    listening = { active: false, starting: false, since: null };
   const settingsRoute = createSettingsRoute({ renderer, onChange: onSettingsOpen });
   const open = (window) => Boolean(window && !window.isDestroyed());
-  const barHeight = () => COLLAPSED_HEIGHT + barRowsHeight(rows) + (barPopoverOpen ? BAR_POPOVER_HEIGHT : 0);
+  const barSize = createBarSize({ privacy, settings, active });
   const surfaceColor = (role) =>
     (role === 'overlay' || role === 'notch') && settings().surfaceTheme === 'light' ? '#ffffff' : '#121212';
 
-  function create(role, { show = true, surface = 'panel' } = {}) {
-    const display = screen.getPrimaryDisplay().workArea;
-    const isBar = role === 'overlay' && surface === 'bar';
-    const isNotch = role === 'notch',
-      floating = role === 'overlay' || isNotch;
-    const initialNotch = isNotch ? initialNotchBounds(screen, settings(), display) : null;
-    const window = new BrowserWindow({
-      ...windowFrame({ role, surface, display, notch: initialNotch, expandedHeight, barHeight: barHeight() }),
-      show: false,
-      frame: !floating,
-      backgroundColor: role === 'overlay' ? '#00000000' : surfaceColor(role),
-      ...(isNotch ? { transparent: true, hasShadow: false, roundedCorners: true } : {}),
-      ...(role === 'overlay' ? { transparent: true, hasShadow: false } : {}),
-      // On macOS the floating assistant is a non-activating panel: focusing it to type a question must not activate
-      // the app, which would bring the workspace window forward with it.
-      ...(role === 'overlay' && platform === 'darwin' ? { type: 'panel' } : {}),
-      title: 'LearnTranscriber',
-      // Frameless floating windows use the default style: 'hidden' would bring back the macOS window buttons,
-      // which float alone over the transparent floating assistant.
-      titleBarStyle: 'default',
-      webPreferences: {
-        preload,
-        contextIsolation: true,
-        nodeIntegration: false,
-        sandbox: true,
-        backgroundThrottling: false,
-        webSecurity: true,
+  const create = createWindowFactory({
+    BrowserWindow,
+    screen,
+    privacy,
+    settings,
+    renderer,
+    preload,
+    platform,
+    isQuitting,
+    onOwnerDestroyed,
+    settingsRoute,
+    recovery,
+    surfaceColor,
+    sizes: () => ({ expandedHeight, barHeight: barSize.height() }),
+    notchShowsAtStart: () => !onboarding.active() && settings().notchEnabled && active.id() && notchState.expanded(),
+    events: {
+      rendererGone(role) {
+        if (role === 'main' && (listening.active || listening.starting)) {
+          listening = { active: false, starting: false, since: null };
+          changed();
+        }
       },
-    });
-    privacy().register(window, role);
-    guardWindow(window, { renderer, isQuitting });
-    const ownerId = window.webContents.id;
-    if (role === 'main') settingsRoute.watch(window);
-    window.webContents.on('destroyed', () => {
-      if (role === 'main') settingsRoute.close();
-      onOwnerDestroyed(ownerId);
-    });
-    // What a crashed renderer owned ended with it: its requests, voice and live captions, and, for the workspace,
-    // the recording. The window then reloads when the failure is recoverable.
-    window.webContents.on('render-process-gone', (_event, details) => {
-      if (role === 'main') settingsRoute.close();
-      onOwnerDestroyed(ownerId);
-      if (role === 'main' && (listening.active || listening.starting)) {
-        listening = { active: false, starting: false, since: null };
-        changed();
-      }
-      recovery.rendererGone(window, role, details);
-    });
-    window.on('close', (event) => {
-      if (!isQuitting()) {
-        event.preventDefault();
-        privacy().hide(window);
-        // A closed panel is a collapsed panel, so the bar offers to expand it again and shows its session rows.
+      // A closed panel is a collapsed panel, so the bar offers to expand it again and shows its session rows.
+      closed(window) {
         if (window === overlay && overlayExpanded) {
           overlayExpanded = false;
           changed();
         }
         if (window === bar) changed();
-      }
-    });
-    if (role === 'overlay' && !isBar)
-      window.on('resized', () => {
-        if (overlayExpanded && !window.isDestroyed()) expandedHeight = window.getBounds().height;
-      });
-    window.once('ready-to-show', () => {
-      if (
-        (!floating && show) ||
-        (isNotch && !onboarding && settings().notchEnabled && active.id() && notchState.expanded())
-      )
-        privacy().show(window, false);
-    });
-    const query = new URLSearchParams({ window: role, ...(role === 'overlay' ? { surface } : {}) });
-    window.loadURL(`${renderer.url}?${query}`);
-    return window;
-  }
+      },
+      panelResized(height) {
+        if (overlayExpanded) expandedHeight = height;
+      },
+    },
+  });
 
   const notchWindow = createNotchWindow({ create, open, screen, settings, active, notchState, privacy, changed });
+  // Resizes only the independent session panel, preserving its current bottom edge.
+  function resizePanel(width, height) {
+    if (!open(overlay)) return;
+    const area = screen.getDisplayMatching(overlay.getBounds()).workArea;
+    const next = resizedPanel(overlay.getBounds(), area, width, height);
+    overlay.setBounds(next);
+    if (overlayExpanded) expandedHeight = next.height;
+  }
+  const onboarding = createOnboardingPresentation({
+    privacy,
+    open,
+    notch: () => notchWindow.window(),
+    windows: () => ({ main, overlay, bar }),
+    resizePanel,
+    changed,
+  });
 
   return {
     // GPU process exits are only logged; nothing else recovers from them.
@@ -142,27 +107,17 @@ function createWindows({
     surfaceColor,
     overlayExpanded: () => overlayExpanded,
     listening: () => ({ ...listening }),
-    barRows: () => ({ ...rows }),
-    // Shows the bar's session rows while a session runs with the panel collapsed. The bar window grows or shrinks
-    // upward, so its controls, bottom edge, position and width stay where they are. Nothing changes while every
-    // window is concealed, so restoring does not flash the rows.
+    barRows: () => barSize.rows(),
+    // Shows the bar's session rows while a session runs with the panel collapsed, and room for an open popover.
     setBarPopoverOpen(open) {
-      barPopoverOpen = open;
+      barSize.setPopoverOpen(open);
       this.syncBar();
     },
     syncBar() {
-      if (privacy().concealed) return;
-      rows = barRows({
-        hasActiveSession: Boolean(active.id()),
-        sessionSurfaceVisible: overlayExpanded,
+      barSize.sync(open(bar) ? bar : null, {
+        panelExpanded: overlayExpanded,
         capturing: listening.active || listening.starting,
-        guiding: Boolean(settings().onboardingGuide),
       });
-      if (!open(bar)) return;
-      const current = bar.getBounds(),
-        height = barHeight();
-      if (current.height !== height)
-        bar.setBounds({ x: current.x, y: current.y + current.height - height, width: current.width, height });
     },
     // Starting to listen opens the floating panel on its transcript.
     setListening(active, starting = false, paused = false) {
@@ -184,7 +139,7 @@ function createWindows({
       return main;
     },
     showOverlay() {
-      if (privacy().concealed || onboarding) return;
+      if (privacy().concealed || onboarding.active()) return;
       if (!open(overlay)) overlay = create('overlay');
       if (!open(bar)) bar = create('overlay', { surface: 'bar' });
       privacy().show(bar, false);
@@ -198,7 +153,7 @@ function createWindows({
       changed();
     },
     toggleOverlay() {
-      if (onboarding) return;
+      if (onboarding.active()) return;
       // While everything is hidden the toggle only changes whether the floating assistant returns on restore;
       // nothing is revealed.
       if (privacy().concealed) {
@@ -222,15 +177,7 @@ function createWindows({
       } else this.showOverlay();
       changed();
     },
-    // Resizes only the independent session panel, preserving its current bottom edge.
-    resizeOverlay(_caller, width, height) {
-      const window = overlay;
-      if (!open(window)) return;
-      const area = screen.getDisplayMatching(window.getBounds()).workArea;
-      const next = resizedPanel(window.getBounds(), area, width, height);
-      window.setBounds(next);
-      if (overlayExpanded) expandedHeight = next.height;
-    },
+    resizeOverlay: (_caller, width, height) => resizePanel(width, height),
     setOverlayExpanded(_caller, expanded) {
       overlayExpanded = expanded;
       if (!open(overlay)) overlay = create('overlay');
@@ -239,41 +186,17 @@ function createWindows({
       changed();
     },
     setNotchExpanded: (expanded) => {
-      if (!onboarding) notchWindow.setExpanded(expanded);
+      if (!onboarding.active()) notchWindow.setExpanded(expanded);
     },
     syncNotch: () => {
-      if (onboarding) {
+      if (onboarding.active()) {
         const notch = notchWindow.window();
         if (open(notch)) privacy().hide(notch);
         return;
       }
       notchWindow.sync();
     },
-    presentOnboarding(caller, active) {
-      if (active && !onboarding && open(overlay)) onboardingPanelBounds = overlay.getBounds();
-      onboarding = active;
-      if (active) {
-        if (open(bar)) privacy().hide(bar);
-        const notch = notchWindow.window();
-        if (open(notch)) privacy().hide(notch);
-        if (open(overlay)) {
-          // The workspace also asks while it starts hidden behind the floating bar; only a workspace the person can see
-          // takes the onboarding from the panel.
-          if (caller === main) {
-            if (main.isVisible()) privacy().hide(overlay);
-          } else {
-            // On a first launch the panel exists but has never been shown, and the bar just went away: show it, or
-            // nothing of the app is on screen.
-            this.resizeOverlay(overlay, 640, 680);
-            privacy().show(overlay, false);
-          }
-        }
-      } else if (onboardingPanelBounds && open(overlay)) {
-        overlay.setBounds(onboardingPanelBounds);
-        onboardingPanelBounds = null;
-      }
-      changed();
-    },
+    presentOnboarding: (caller, next) => onboarding.present(caller, next),
     // The session panel is shown: expanded, visible and not concealed.
     panelVisible: () => overlayExpanded && open(overlay) && overlay.isVisible() && !privacy().concealed,
     // Slides only the session panel by a step, keeping it inside its display; the recording bar stays fixed.

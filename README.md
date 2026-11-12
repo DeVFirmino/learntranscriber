@@ -47,7 +47,8 @@
 > **TL;DR** — A free, open-source Mac app that writes down what you hear in a class, a video or a meeting, live, and
 > answers your questions about it in a floating panel. Speech can be transcribed entirely on your Mac with Apple
 > Speech; answers come from the AI you choose: a ChatGPT sign-in, an API key, or a local model. For Apple Silicon Macs
-> on macOS 14 or newer. Download it, build it from source, or let your coding agent install it for you.
+> on macOS 14 or newer. Download it, install it with Homebrew, build it from source, or let your coding agent install
+> it for you.
 
 <p align="center">
   <img src="docs/readme/hero.webp" alt="LearnTranscriber on a MacBook: an online English class on the left, the floating assistant answering a question about it on the right." width="900">
@@ -73,7 +74,8 @@
 ## What it does
 
 - **Live transcript.** While a class, a meeting or a video plays, the words appear as people talk. They come from Apple
-  Speech on the Mac, a local Whisper server, or a cloud transcription service, whichever you configure.
+  Speech on the Mac, a local Whisper server, or a cloud transcription service, whichever you configure. Names and
+  terms you add under **Vocabulary** help local Whisper and cloud transcription spell them right.
 - **Ask about what was said.** A floating panel sits over any app. Ask a question and the answer streams back, grounded
   in the transcript. A screenshot or the text you have selected can go with the question.
 - **Assistants for the moment.** English, Math, Programming, a Note Taker for meetings and a General assistant come
@@ -91,7 +93,26 @@ macOS 14 or newer, and drag LearnTranscriber to Applications.
 The app is not notarized by Apple, so macOS blocks its first launch: open **System Settings → Privacy & Security**,
 scroll to Security and choose **Open Anyway** next to LearnTranscriber, then confirm with your password
 ([Apple's instructions](https://support.apple.com/guide/mac-help/apple-cant-check-app-for-malicious-software-mchleab3a043/mac)).
-Install a new version the same way, over the previous one; your sessions and settings stay.
+When a new version is out, the Home banner downloads it and keeps it only if its SHA-256 matches the one the release
+publishes; choose **Open installer** and drag LearnTranscriber over the previous copy. Your sessions and settings stay.
+
+Or install it with [Homebrew](https://github.com/learntranscriber/homebrew-tap), which handles updates too:
+
+<a href="https://github.com/learntranscriber/homebrew-tap"><img src="docs/readme/homebrew.svg" alt="Install with Homebrew: brew tap learntranscriber/tap, brew trust learntranscriber/tap, brew install --cask learntranscriber" width="640"></a>
+
+<details>
+<summary>Copy the commands</summary>
+
+```sh
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
+brew install --cask learntranscriber
+```
+
+</details>
+
+`brew trust` is Homebrew's one-time consent for a tap it does not maintain. The first launch still needs
+**Open Anyway**; later versions come with `brew upgrade --cask learntranscriber`.
 
 You can also [build it from source](#build-from-source) or let [your coding agent](#install-with-your-agent) install
 it.
@@ -184,8 +205,9 @@ prompt, and they appear in the floating bar next to the built-in ones.
 - A configured answer provider for questions and summaries.
 - [Homebrew](https://brew.sh), only if you want the app to install `llama-server` or `whisper-server` for you.
 
-The app checks GitHub for new releases. Install updates manually over the previous build to keep your sessions and
-settings.
+The app checks GitHub for new releases. The Home banner downloads one to your Downloads folder and keeps it only if
+its SHA-256 matches the release's checksum; you then install it over the previous build, and your sessions and settings
+stay. A Homebrew install updates with `brew upgrade --cask learntranscriber`.
 
 ## Build from source
 
@@ -243,6 +265,8 @@ settings.
   files. Common key and token formats are redacted, but read a log before you share it.
 - The app asks GitHub whether a newer release exists at most once a day, starting about 15 seconds after launch. The
   request carries the app version and, like any request, your IP address; it sends no transcript, setting or key.
+- An update downloads only when you choose **Download** in that banner: the DMG and its checksum come from this
+  repository's release, go to your Downloads folder, and a DMG that fails SHA-256 verification is deleted.
 - Downloading a local model from Hugging Face, a server runtime through Homebrew or an Apple Speech language uses the
   network.
 - Managed `whisper-server` and `llama-server` processes bind to `127.0.0.1` and stop after 10 idle minutes.

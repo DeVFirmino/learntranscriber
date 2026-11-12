@@ -515,6 +515,13 @@ export const en = {
   'home.updateDownload': 'Download',
   'home.updateLater': 'Later',
   'home.updateSkip': 'Skip this version',
+  'home.updateNotes': 'What’s new',
+  'home.updateDownloading': 'Downloading version {{version}}…',
+  'home.updateDownloadingPercent': 'Downloading version {{version}}… {{percent}}%',
+  'home.updateReady':
+    'Version {{version}} is downloaded and matches its published checksum. Open it and drag LearnTranscriber to Applications.',
+  'home.updateInstall': 'Open installer',
+  'home.updateRetry': 'Try again',
   'assistants.description': 'Find and customize instructions for each session.',
   'assistants.build': 'Build with AI',
   'assistants.import': 'Import prompt',
@@ -1430,6 +1437,19 @@ export const en = {
   'error.theAudioProcessorStoppedRespondingListeningHas':
     'The audio processor stopped responding. Listening has ended.',
   'error.liveAudioDeliveryFailed': 'Live audio delivery failed.',
+  'error.theUpdateDownloadFailed': 'The update download failed. Try again, or download it from the release page.',
+  'error.couldNotReachGithubToDownloadTheUpdate':
+    'Could not reach GitHub to download the update. Check your internet connection and try again.',
+  'error.theUpdateDownloadTookTooLong': 'The update download took too long. Try again.',
+  'error.theUpdateDownloadRedirectedToAnUnsupportedAddress':
+    'The update download redirected to an unsupported address.',
+  'error.theUpdateDownloadRedirectedTooManyTimes': 'The update download redirected too many times.',
+  'error.theReleaseHasNoChecksumForItsDmg': 'The release has no checksum for its DMG.',
+  'error.theUpdateIsLargerThanAnyRelease': 'The update is larger than any LearnTranscriber release.',
+  'error.theDownloadedUpdateDoesNotMatchItsChecksum':
+    'The downloaded update does not match its published checksum, so it was deleted.',
+  'error.couldNotOpenTheDownloadedUpdate': 'Could not open the downloaded update.',
+  'error.thisUpdateCannotBeDownloadedHere': 'This update cannot be downloaded here.',
   'error.transcriptionFailed': 'Transcription failed.',
   'error.couldNotReachTheAiService': 'Could not reach the AI service. Check your internet connection and try again.',
   'error.theLocalServerOnThisMacIsNotAnswering':

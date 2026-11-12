@@ -149,6 +149,8 @@ contextBridge.exposeInMainWorld(
     onOverlayFinished: (listener) => subscribe('overlay:finished', listener),
     updatesState: () => invoke('updates:state'),
     openUpdate: () => invoke('updates:open'),
+    downloadUpdate: () => invoke('updates:download'),
+    installUpdate: () => invoke('updates:install'),
     laterUpdate: () => invoke('updates:later'),
     skipUpdate: (tag) => invoke('updates:skip', tag),
     onUpdatesChange: (listener) => subscribe('updates:changed', listener),

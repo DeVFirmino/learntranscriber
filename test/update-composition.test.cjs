@@ -80,7 +80,14 @@ test('schedule: false registers the IPC channels but starts no timer', () => {
     timers,
     now: () => 0,
   });
-  assert.deepEqual(channels.sort(), ['updates:later', 'updates:open', 'updates:skip', 'updates:state']);
+  assert.deepEqual(channels.sort(), [
+    'updates:download',
+    'updates:install',
+    'updates:later',
+    'updates:open',
+    'updates:skip',
+    'updates:state',
+  ]);
   updates.close();
 });
 
@@ -141,4 +148,49 @@ test('a newer tag that cannot name a release page opens nothing', async () => {
   });
   assert.equal(await open(), false);
   assert.deepEqual(opened, []);
+});
+
+test('download saves the checked release DMG once it matches its checksum, and install opens that file', async () => {
+  const fs = require('node:fs');
+  const os = require('node:os');
+  const path = require('node:path');
+  const { createHash } = require('node:crypto');
+  const dmg = Buffer.from('release image');
+  const digest = createHash('sha256').update(dmg).digest('hex');
+  const base = `https://github.com/${REPO_SLUG}/releases/download/v2.0.0/LearnTranscriber-arm64.dmg`;
+  const requested = [];
+  const fetchImpl = async (url) => {
+    requested.push(String(url));
+    if (String(url) === `${base}.sha256`) return new Response(`${digest}  LearnTranscriber-arm64.dmg`);
+    if (String(url) === base) return new Response(dmg, { headers: { 'content-length': String(dmg.length) } });
+    return new Response('', { status: 404 });
+  };
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'update-composition-'));
+  const handlers = {};
+  const opened = [];
+  const broadcasts = [];
+  composeUpdates({
+    handle: (channel, handler) => (handlers[channel] = handler),
+    settings: fakeSettings({ updatesLastRelease: JSON.stringify({ tagName: 'v2.0.0' }) }),
+    version: '1.0.0',
+    openExternal: async () => {},
+    openPath: async (file) => {
+      opened.push(file);
+      return '';
+    },
+    downloads: () => directory,
+    fetchImpl,
+    broadcast: (channel, value) => broadcasts.push(value),
+    schedule: false,
+    now: () => 0,
+  });
+  assert.equal((await handlers['updates:state']()).download.phase, 'idle');
+  assert.equal(await handlers['updates:install'](), false);
+  await handlers['updates:download'](null, 'v9.9.9');
+  for (let i = 0; i < 50 && broadcasts.at(-1)?.download?.phase !== 'ready'; i++)
+    await new Promise((resolve) => setTimeout(resolve, 5));
+  assert.equal(broadcasts.at(-1).download.phase, 'ready');
+  assert.ok(requested.every((url) => url.includes('/v2.0.0/')));
+  assert.equal(await handlers['updates:install'](), true);
+  assert.deepEqual(opened, [path.join(directory, 'LearnTranscriber-2.0.0-arm64.dmg')]);
 });
