@@ -99,6 +99,18 @@ Privacidad y seguridad**, desplázate hasta Seguridad, elige **Abrir igualmente*
 con tu contraseña ([instrucciones de Apple](https://support.apple.com/es-es/guide/mac-help/mchleab3a043/mac)).
 Instala una versión nueva de la misma forma, encima de la anterior; tus sesiones y ajustes se conservan.
 
+O instálala con [Homebrew](https://github.com/learntranscriber/homebrew-tap), que también se ocupa de las
+actualizaciones:
+
+```sh
+brew tap learntranscriber/tap
+brew trust learntranscriber/tap
+brew install --cask learntranscriber
+```
+
+`brew trust` es la autorización que Homebrew pide una sola vez para un tap que no mantiene. La primera apertura aún
+pide **Abrir igualmente**; las versiones siguientes llegan con `brew upgrade --cask learntranscriber`.
+
 También puedes [compilarla desde el código fuente](#compilar-desde-el-código-fuente) o dejar que
 [tu agente de programación](#instalar-con-tu-agente) la instale.
 
