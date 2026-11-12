@@ -3,6 +3,10 @@
 # summary goes in its walkthrough comment, and this repository keeps AI attribution out of titles and descriptions.
 language: en-US
 reviews:
+  # One review when a pull request opens. Re-reviewing every push also re-reviewed each update from master, which the
+  # up-to-date rule on master makes routine.
+  auto_review:
+    auto_incremental_review: false
   high_level_summary: false
   high_level_summary_in_walkthrough: true
   poem: false
