@@ -8,6 +8,9 @@ const {
   isAllocationFailure,
 } = require('../../domain/providers/local-launch.cjs');
 const { spawnServer, waitForServer, terminateServer } = require('./server-process.cjs');
+const { writeApiKeyFile, removeApiKeyFile } = require('./server-auth.cjs');
+
+const RUNTIME_NAME = { llm: 'llama-server', whisper: 'whisper-server' };
 
 // The language model's launch plan: its saved preferences over the settings, tuned down step by step if allowed.
 function llmPlan(model, settings) {
@@ -45,7 +48,7 @@ const modelServers = {
     if (this.runtimes[type]?.child || this.operations[type])
       throw new Error('Stop the current server or wait for the current operation.');
     const binary = this.catalog.binaries[type];
-    if (!binary) throw new Error(`Choose a ${type === 'llm' ? 'llama-server' : 'whisper-server'} executable first.`);
+    if (!binary) throw new Error(`Choose a ${RUNTIME_NAME[type]} executable first.`);
     if (type === 'llm') plan ||= llmPlan(model, settings);
     const config = plan?.[fallbackAttempt];
     await this.verify(id);
@@ -65,21 +68,34 @@ const modelServers = {
         : null,
     };
     this.runtimes[type] = runtime;
+    // Only llama-server takes an API key; whisper-server has no authentication option.
+    const apiKey = type === 'llm' ? this.newApiKey() : null;
     try {
       const port = await this.freePort();
       op.controller.signal.throwIfAborted();
       runtime.base = `http://127.0.0.1:${port}`;
+      const apiKeyFile = apiKey ? this.apiKeyFilePath(type) : null;
+      if (apiKeyFile) await writeApiKeyFile(apiKeyFile, apiKey);
+      runtime.apiKey = apiKey;
       const args = serverArgs({
         type,
         model,
         modelFile: this.modelPath(model),
         projectorFile: model.projector ? this.projectorPath(model) : null,
+        apiKeyFile,
         port,
         config,
         settings,
       });
       spawnServer({ spawn: this.spawn, binary, args, runtime, onExit: () => this.emit() });
-      const capacity = await waitForServer({ fetch: this.fetch, runtime, type, config, signal: startupSignal });
+      const capacity = await waitForServer({
+        fetch: this.fetch,
+        runtime,
+        type,
+        config,
+        signal: startupSignal,
+        apiKey,
+      });
       if (capacity !== null) runtime.contextSize = capacity;
       startupSignal.throwIfAborted();
       if (!runtime.child) throw new Error('The local server exited before becoming ready.');
@@ -131,6 +147,8 @@ const modelServers = {
       await terminateServer(runtime);
     }
     runtime.status = 'stopped';
+    // Covers both a clean stop and a failed start: startAttempt's catch calls this too, on the same runtime.
+    if (type === 'llm') await removeApiKeyFile(this.apiKeyFilePath(type));
     this.emit();
   },
 };
