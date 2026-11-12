@@ -766,14 +766,21 @@ if (!reduced) {
   });
 }
 
-// The Homebrew commands copy in one click; the button says so for a moment.
-const brewCopy = $('[data-copy-brew]');
-brewCopy?.addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText($('.brew__code').textContent);
-    brewCopy.textContent = 'Copied';
-  } catch {
-    brewCopy.textContent = 'Select and copy';
-  }
-  setTimeout(() => (brewCopy.textContent = 'Copy'), 1600);
-});
+// Each terminal copies its commands in one click, without the prompts; the button says so for a moment.
+for (const button of $$('[data-copy-terminal]')) {
+  button.addEventListener('click', async () => {
+    const terminal = button.closest('.terminal');
+    const commands = $$('.terminal__line', terminal).map((line) => line.textContent).join('\n');
+    try {
+      await navigator.clipboard.writeText(commands);
+      button.textContent = 'Copied';
+      button.toggleAttribute('data-copied', true);
+    } catch {
+      button.textContent = 'Select and copy';
+    }
+    setTimeout(() => {
+      button.textContent = 'Copy';
+      button.removeAttribute('data-copied');
+    }, 1600);
+  });
+}
