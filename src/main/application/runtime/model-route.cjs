@@ -17,6 +17,7 @@ function createModelRoute({ acquireLocal }) {
                 contextSize: lease.contextSize,
                 customBaseUrl: lease.base + '/v1',
                 model: lease.model,
+                localApiKey: lease.apiKey || null,
               }
             : settings,
         );

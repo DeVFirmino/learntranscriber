@@ -39,6 +39,7 @@ test('server arguments bind loopback and add vision and cache options only to la
   assert.deepEqual(llm.slice(0, 8), ['-m', '/m.model', '--host', '127.0.0.1', '--port', '9', '--alias', 'm']);
   assert.ok(llm.includes('--mmproj') && llm.includes('--cache-type-k'));
   assert.equal(llm[llm.indexOf('--image-max-tokens') + 1], '4096');
+  assert.ok(!llm.includes('--api-key-file'), 'no api key file was given, so none is launched with');
   const whisper = serverArgs({
     type: 'whisper',
     model: { id: 'w' },
@@ -47,6 +48,30 @@ test('server arguments bind loopback and add vision and cache options only to la
     settings: { localWhisperGpu: false },
   });
   assert.deepEqual(whisper.slice(-3), ['--language', 'auto', '--no-gpu']);
+});
+
+test('an api key file reaches llama-server by path only, and whisper-server never takes one', () => {
+  const secret = 'f'.repeat(64);
+  const llm = serverArgs({
+    type: 'llm',
+    model: { id: 'm' },
+    modelFile: '/m.model',
+    port: 9,
+    config,
+    settings: {},
+    apiKeyFile: '/private/keys/llm.key',
+  });
+  assert.deepEqual(llm.slice(-2), ['--api-key-file', '/private/keys/llm.key']);
+  assert.ok(!llm.some((arg) => arg.includes(secret)), 'the key itself never reaches the argument list');
+  const whisper = serverArgs({
+    type: 'whisper',
+    model: { id: 'w' },
+    modelFile: '/w',
+    port: 9,
+    settings: {},
+    apiKeyFile: '/private/keys/whisper.key',
+  });
+  assert.ok(!whisper.includes('--api-key-file'), 'whisper-server launch stays unaffected by an api key file');
 });
 
 test('the slot capacity is the reported context bounded per slot', () => {

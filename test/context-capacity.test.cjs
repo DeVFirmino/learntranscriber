@@ -180,6 +180,17 @@ test('managed completion reserves output and accepts the exact tokenizer boundar
   assert.equal(budget.inputTokens, 256);
 });
 
+test('a leased per-launch key reaches template, tokenizer and completion requests as a bearer header', async () => {
+  const h = harness({ count: 4 }),
+    leased = { ...settings, localApiKey: 'a'.repeat(64) };
+  await h.providers.stream(leased, [{ role: 'user', content: 'Hi' }], () => {}, signal());
+  assert.ok(h.requests.length >= 3);
+  assert.ok(
+    h.requests.every((request) => request.input.headers.Authorization === `Bearer ${'a'.repeat(64)}`),
+    'template, tokenizer and completion requests all carried the bearer header',
+  );
+});
+
 test('managed completion rejects tokenizer overflow before generation', async () => {
   const h = harness({ count: 1409 });
   await assert.rejects(
