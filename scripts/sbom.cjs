@@ -1,10 +1,10 @@
 // Writes the CycloneDX SBOM of a release: what ships inside LearnTranscriber.app. The main process has no runtime npm
-// packages; the renderer's production packages come from `npm sbom` over ui/package-lock.json. To those it adds the
-// Electron runtime and the native helpers with the Swift packages pinned in native/Package.resolved.
-const { execFileSync } = require('node:child_process');
+// packages; the renderer's production packages come from ui/package-lock.json (lockfile-inventory.cjs). To those it
+// adds the Electron runtime and the native helpers with the Swift packages pinned in native/Package.resolved.
 const { randomUUID } = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
+const { productionInventory } = require('./lockfile-inventory.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const REPOSITORY = 'DeVFirmino/learntranscriber';
@@ -31,9 +31,15 @@ function swiftComponents(resolved) {
 
 // The release document: the app as its subject, and the renderer with its npm packages, Electron and the helpers as
 // the parts it is built from.
-function releaseSbom({ version, electronVersion, rendererSbom, resolved, serialNumber, timestamp }) {
+function releaseSbom({ version, electronVersion, renderer, resolved, serialNumber, timestamp }) {
   const app = `learntranscriber@${version}`;
-  const renderer = rendererSbom.metadata.component;
+  const ui = {
+    'bom-ref': `${renderer.name}@${renderer.version}`,
+    type: 'application',
+    name: renderer.name,
+    version: renderer.version,
+    purl: `pkg:npm/${renderer.name}@${renderer.version}`,
+  };
   const electron = {
     'bom-ref': `electron@${electronVersion}`,
     type: 'framework',
@@ -59,7 +65,6 @@ function releaseSbom({ version, electronVersion, rendererSbom, resolved, serialN
     metadata: {
       timestamp,
       lifecycles: [{ phase: 'build' }],
-      tools: rendererSbom.metadata.tools,
       component: {
         'bom-ref': app,
         type: 'application',
@@ -69,37 +74,30 @@ function releaseSbom({ version, electronVersion, rendererSbom, resolved, serialN
         licenses: MIT,
       },
     },
-    components: [renderer, electron, ...helpers, ...swift, ...rendererSbom.components],
+    components: [ui, electron, ...helpers, ...swift, ...renderer.inventory.components],
     dependencies: [
-      {
-        ref: app,
-        dependsOn: [renderer['bom-ref'], electron['bom-ref'], ...helpers.map((helper) => helper['bom-ref'])],
-      },
+      { ref: app, dependsOn: [ui['bom-ref'], electron['bom-ref'], ...helpers.map((helper) => helper['bom-ref'])] },
       { ref: electron['bom-ref'], dependsOn: [] },
       ...helpers.map((helper) => ({ ref: helper['bom-ref'], dependsOn: swift.map((library) => library['bom-ref']) })),
       ...swift.map((library) => ({ ref: library['bom-ref'], dependsOn: [] })),
-      ...rendererSbom.dependencies,
+      { ref: ui['bom-ref'], dependsOn: renderer.inventory.dependsOn },
+      ...renderer.inventory.dependencies,
     ],
   };
 }
 
 function run() {
   const { version } = require('../package.json');
+  const ui = require('../ui/package.json');
   // The installed Electron is the one electron-builder packages.
   const electronVersion = require('electron/package.json').version;
-  const rendererSbom = JSON.parse(
-    execFileSync(
-      'npm',
-      ['sbom', '--omit', 'dev', '--omit', 'optional', '--package-lock-only', '--sbom-format', 'cyclonedx'],
-      { cwd: path.join(ROOT, 'ui'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
-    ),
-  );
+  const lock = JSON.parse(fs.readFileSync(path.join(ROOT, 'ui/package-lock.json'), 'utf8'));
   const resolved = JSON.parse(fs.readFileSync(path.join(ROOT, 'native/Package.resolved'), 'utf8'));
   const output = path.resolve(process.argv[2] || path.join(ROOT, 'dist', `LearnTranscriber-${version}-sbom.cdx.json`));
   const sbom = releaseSbom({
     version,
     electronVersion,
-    rendererSbom,
+    renderer: { name: ui.name, version: ui.version, inventory: productionInventory(lock) },
     resolved,
     serialNumber: randomUUID(),
     timestamp: new Date().toISOString(),
