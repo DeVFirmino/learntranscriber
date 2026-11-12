@@ -59,60 +59,59 @@ export function AudioTab() {
   ]
   const shown = pane === 'display' && displays.length <= 1 ? 'your' : pane
   return (
-    <>
-      <Tabs className="audio-tab-container gap-5" value={shown} onValueChange={(next) => setPane(next as Pane)}>
-        <SegmentedTabsList
-          value={shown}
-          label={st('settings.audio.sources')}
-          segments={tabs.map((tab) => ({
-            value: tab.id,
-            label: (
-              <span className="inline-flex items-center gap-2">
-                <SettingsIcon name={tab.icon} />
-                {tab.name}
-              </span>
-            ),
-          }))}
+    <Tabs className="audio-tab-container gap-5" value={shown} onValueChange={(next) => setPane(next as Pane)}>
+      <SegmentedTabsList
+        value={shown}
+        label={st('settings.audio.sources')}
+        segments={tabs.map((tab) => ({
+          value: tab.id,
+          label: (
+            <span className="inline-flex items-center gap-2">
+              <SettingsIcon name={tab.icon} />
+              {tab.name}
+            </span>
+          ),
+        }))}
+      />
+      <TabsContent value="your">
+        <YourAudioPane
+          settings={settings}
+          recording={ws.audio.recording}
+          level={levels.me}
+          failure={ws.audio.failure}
+          inputs={inputs}
+          loading={loading}
+          inputName={inputName}
+          onChoose={(microphoneId) => save({ microphoneId })}
         />
-        <TabsContent value="your">
-          <YourAudioPane
-            settings={settings}
-            recording={ws.audio.recording}
-            level={levels.me}
-            failure={ws.audio.failure}
-            inputs={inputs}
-            loading={loading}
-            inputName={inputName}
-            onChoose={(microphoneId) => save({ microphoneId })}
-          />
-        </TabsContent>
-        <TabsContent value="incoming">
-          <IncomingAudioPane
-            choice={incomingChoice(settings)}
-            level={levels.they}
-            error={ws.audio.incomingError}
-            supported={ws.state?.privacy.platform === 'darwin'}
-            inputs={inputs}
-            loading={loading}
-            recording={ws.audio.recording}
-            tapSupported={tapSupported}
-            inputName={inputName}
-            onChoose={chooseIncoming}
-          />
-        </TabsContent>
-        <TabsContent value="display">
-          <DisplayPane
-            displays={displays}
-            displayId={settings.displayId}
-            onRefresh={refreshDisplays}
-            onChoose={(displayId) => save({ displayId })}
-          />
-        </TabsContent>
-      </Tabs>
+      </TabsContent>
+      <TabsContent value="incoming">
+        <IncomingAudioPane
+          choice={incomingChoice(settings)}
+          level={levels.they}
+          error={ws.audio.incomingError}
+          supported={ws.state?.privacy.platform === 'darwin'}
+          inputs={inputs}
+          loading={loading}
+          recording={ws.audio.recording}
+          tapSupported={tapSupported}
+          inputName={inputName}
+          onChoose={chooseIncoming}
+        />
+      </TabsContent>
+      <TabsContent value="display">
+        <DisplayPane
+          displays={displays}
+          displayId={settings.displayId}
+          onRefresh={refreshDisplays}
+          onChoose={(displayId) => save({ displayId })}
+        />
+      </TabsContent>
+      {/* Inside the tab container so it shares the panes' width, below whichever source is shown. */}
       <VocabularyPane
         value={settings.transcriptionPrompt}
         onSave={(transcriptionPrompt) => save({ transcriptionPrompt })}
       />
-    </>
+    </Tabs>
   )
 }
