@@ -108,3 +108,6 @@
     candid-webcam guidance; motion: "She explains her code to the camera in a calm, natural way: talking with clear lip
     movement, a small hand gesture, glancing briefly at her screen and back, natural blinking. Static webcam framing, no
     camera movement, no cuts, no text, no subtitles."
+- `og.png`: the link-preview (Open Graph / Twitter Card) image, not AI-generated. Composed from the site's own assets
+  (`logo-3d.webp`, `macbook.webp`, `call/teacher.jpg`, `call/student.jpg`) and `styles.css`'s real classes, laid out in a
+  standalone 1200 × 630 HTML page and captured with headless Chrome.
