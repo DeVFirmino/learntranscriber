@@ -1,13 +1,14 @@
 import { floatingFontSize } from './reading-size'
-import type { ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
 import { Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AssistantResponse } from '@/components/assistant-response'
 import { FollowUpSuggestions } from '@/components/follow-up-suggestions'
-import type { SessionDetail } from '@/bridge/types/sessions'
+import type { Entry, SessionDetail } from '@/bridge/types/sessions'
 import { useWorkspace, useWorkspaceLive } from '@/workspace'
 import { useT } from '@/use-t'
 import { answerPresentation } from './answer-presentation'
+import { conversationEntries } from './conversation-entries'
 import { MessageBubble } from '@/components/ui/message-bubble'
 import './conversation.css'
 
@@ -47,28 +48,16 @@ export function AnswersView({ session }: { session: SessionDetail | null }) {
       startedAt: overlayStartedAt,
     },
   })
-  const { conversation, latestAnswer, streaming, completion } = presentation
+  const { latestAnswer, streaming, completion } = presentation
   return (
     <div
       className="floating-conversation"
       aria-label={t('overlay.session')}
       style={{ fontSize: floatingFontSize(fontScale) }}
     >
-      {conversation.map(({ entry, role }) => (
-        <AnswerCard key={entry.id} role={role} time={formatTime(entry.created_at)} text={entry.content}>
-          {role === 'user' ? (
-            <p className="whitespace-pre-wrap">{entry.content}</p>
-          ) : (
-            <AssistantResponse
-              responseId={entry.id}
-              content={entry.content}
-              streaming={false}
-              actions={ws.api}
-              fontScale={messageScale}
-            />
-          )}
-        </AnswerCard>
-      ))}
+      {session ? (
+        <SavedConversation entries={session.entries} sessionId={session.id} messageScale={messageScale} />
+      ) : null}
       {presentation.showPendingQuestion ? (
         <AnswerCard role="user" time="" text={pendingQuestion}>
           <p className="whitespace-pre-wrap">{pendingQuestion}</p>
@@ -125,22 +114,57 @@ export function AnswersView({ session }: { session: SessionDetail | null }) {
   )
 }
 
+// The saved turns. The streaming answer changes on every token; this list re-renders only when the session's entries
+// or the reading size change, so a long session does not re-render every saved answer's Markdown while one streams.
+const SavedConversation = memo(function SavedConversation({
+  entries,
+  sessionId,
+  messageScale,
+}: {
+  entries: Entry[]
+  sessionId: string
+  messageScale: number
+}) {
+  const ws = useWorkspace()
+  return conversationEntries(entries, sessionId).map(({ entry, role }) => (
+    <AnswerCard key={entry.id} role={role} time={formatTime(entry.created_at)} text={entry.content} saved>
+      {role === 'user' ? (
+        <p className="whitespace-pre-wrap">{entry.content}</p>
+      ) : (
+        <AssistantResponse
+          responseId={entry.id}
+          content={entry.content}
+          streaming={false}
+          actions={ws.api}
+          fontScale={messageScale}
+        />
+      )}
+    </AnswerCard>
+  ))
+})
+
 function AnswerCard({
   time,
   text,
   children,
   role,
+  saved = false,
 }: {
   time: string
   text: string
   children: ReactNode
   role: 'user' | 'assistant' | 'context'
+  saved?: boolean
 }) {
   const ws = useWorkspace()
   const { t } = useT()
   const label = { user: 'overlay.you', context: 'overlay.contextInsight', assistant: 'session.assistant' } as const
   return (
-    <MessageBubble role={role} data-answer-card={role !== 'user' ? '' : undefined}>
+    <MessageBubble
+      role={role}
+      data-answer-card={role !== 'user' ? '' : undefined}
+      className={saved ? 'saved-bubble' : undefined}
+    >
       <header className="text-muted-foreground">
         <span>{t(label[role])}</span>
         <time>{time}</time>
