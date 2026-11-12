@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit reviews pull requests in comments only. It never writes into a pull request's title or description: the
+# summary goes in its walkthrough comment, and this repository keeps AI attribution out of titles and descriptions.
+language: en-US
+reviews:
+  high_level_summary: false
+  high_level_summary_in_walkthrough: true
+  poem: false
+  path_filters:
+    # Generated files: lockfiles, the Swift pins and the README's rendered images.
+    - '!**/package-lock.json'
+    - '!native/Package.resolved'
+    - '!docs/readme/**'
+  path_instructions:
+    - path: 'src/main/**'
+      instructions: >-
+        Follow AGENTS.md: dependencies point interface → application → domain, domain has no I/O, modules receive
+        their dependencies, and every new module ships with a focused test. Flag IPC handlers that skip the trusted
+        sender check and any renderer-controlled value that reaches shell, files or the network.
+    - path: 'ui/src/locales/**'
+      instructions: The en, pt-BR and es catalogs must keep identical keys.
