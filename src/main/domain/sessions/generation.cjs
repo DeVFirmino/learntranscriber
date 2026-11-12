@@ -81,7 +81,9 @@ function generationSettings(mode, settings, session, input = {}) {
   return forFeature(settings, MODE_FEATURES[mode]);
 }
 
-// A leased local model is reached as a custom OpenAI-compatible route on its own base URL.
+// A leased local model is reached as a custom OpenAI-compatible route on its own base URL. `localApiKey` is the
+// managed llama-server's per-launch key (null for whisper leases, which carry none); providers send it as a
+// bearer token instead of any saved provider credential.
 function localRoute(chosen, lease) {
   return lease
     ? {
@@ -92,6 +94,7 @@ function localRoute(chosen, lease) {
         contextSize: lease.contextSize,
         customBaseUrl: lease.base + '/v1',
         model: lease.model,
+        localApiKey: lease.apiKey || null,
       }
     : chosen;
 }

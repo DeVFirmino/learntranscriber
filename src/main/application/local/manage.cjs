@@ -22,6 +22,7 @@ function createLocalModelManagement({ models, installer, catalog, settings, pick
           provider: 'custom',
           managedLocal: true,
           customBaseUrl: lease.base + '/v1',
+          localApiKey: lease.apiKey || null,
         });
       } finally {
         lease.release();

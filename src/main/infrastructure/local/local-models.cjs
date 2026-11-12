@@ -1,7 +1,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
-const { spawn } = require('node:child_process');
+const { spawn, execFile } = require('node:child_process');
+const { promisify } = require('node:util');
+const { randomBytes } = require('node:crypto');
 const { setTimeout: delay } = require('node:timers/promises');
 const { modelKind } = require('../../domain/providers/local-server.cjs');
 const { openCatalog, saveCatalog } = require('./model-catalog-file.cjs');
@@ -28,7 +30,7 @@ const RUNTIME_DEFAULTS = {
  * The managed local models: a catalog of verified model files in `directory` and one llama-server and one
  * whisper-server on loopback. Each kind runs one operation at a time (`operations`); `onChange` receives the public
  * state after every change. Its methods come from the model files, imports, settings, servers and leases modules.
- * `fetch`, `spawn` and `persist` stay replaceable properties.
+ * `fetch`, `spawn`, `execFile`, `newApiKey` and `persist` stay replaceable properties.
  */
 class LocalModels {
   constructor(directory, onChange = () => {}, options = {}) {
@@ -37,11 +39,15 @@ class LocalModels {
     this.fetch = options.fetch || fetch;
     this.spawn = options.spawn || spawn;
     this.freePort = options.freePort || freePort;
+    this.execFile = options.execFile || promisify(execFile);
+    // A fresh 32-byte key per llama-server launch, hex-encoded; never read inside domain or application.
+    this.newApiKey = options.newApiKey || (() => randomBytes(32).toString('hex'));
     this.startTimeoutMs = options.startTimeoutMs ?? 60000;
     this.idleMs = options.idleMs ?? 10 * 60000;
     this.runtimes = {};
     this.operations = {};
     this.starts = {};
+    this.binaryVersions = {};
     this.closed = false;
     ({ file: this.file, catalog: this.catalog } = openCatalog(directory));
   }
@@ -66,6 +72,7 @@ class LocalModels {
         };
       }),
       binaries: { ...this.catalog.binaries },
+      binaryVersions: Object.fromEntries(['llm', 'whisper'].map((k) => [k, this.binaryVersions[k] || null])),
       operations: Object.entries(this.operations).map(([kind, o]) => ({
         kind,
         phase: o.phase,
@@ -93,6 +100,25 @@ class LocalModels {
     const digest = model.projector?.sha256;
     if (digest && !/^[a-f0-9]{64}$/.test(digest)) throw new Error('Invalid projector digest.');
     return path.join(this.directory, model.id + (digest ? '-' + digest : '') + '.mmproj');
+  }
+  // A private location for a server's per-launch API key file, under its own 0700 subdirectory.
+  apiKeyFilePath(type) {
+    modelKind(type);
+    return path.join(this.directory, 'keys', `${type}.key`);
+  }
+  // The crash-recovery registry of managed servers actually running right now, beside the key files.
+  runningServersFile() {
+    return path.join(this.directory, 'keys', 'running.json');
+  }
+  runningSnapshot() {
+    return Object.fromEntries(
+      ['llm', 'whisper']
+        .filter((type) => this.runtimes[type]?.child)
+        .map((type) => {
+          const runtime = this.runtimes[type];
+          return [type, { pid: runtime.pid, executable: runtime.executable, port: runtime.port }];
+        }),
+    );
   }
   begin(type, phase) {
     modelKind(type);

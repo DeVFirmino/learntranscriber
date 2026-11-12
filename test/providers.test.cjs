@@ -229,3 +229,27 @@ test('readiness reports a missing model or key without any request', async () =>
   await p.ready({ provider: 'custom', model: 'm' });
   await p.ready({ provider: 'custom', managedLocal: true, model: 'local' });
 });
+
+test('managed local model listing sends the leased key, never a saved credential', async () => {
+  let request;
+  const key = 'b'.repeat(64);
+  const p = new Providers(
+    () => {
+      throw new Error('Saved credential was accessed');
+    },
+    async (url, options) => {
+      request = { url, options };
+      return Response.json({ data: [{ id: 'local-model' }] });
+    },
+  );
+  const models = await p.models({
+    ...DEFAULTS,
+    provider: 'custom',
+    managedLocal: true,
+    customBaseUrl: 'http://127.0.0.1:12345/v1',
+    localApiKey: key,
+  });
+  assert.deepEqual(models, ['local-model']);
+  assert.equal(request.url, 'http://127.0.0.1:12345/v1/models');
+  assert.equal(request.options.headers.Authorization, `Bearer ${key}`);
+});

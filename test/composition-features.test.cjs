@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs/promises');
 const { tmpdir } = require('node:os');
 const { join } = require('node:path');
 const { openDatabase } = require('../src/main/infrastructure/sqlite/database.cjs');
@@ -121,9 +122,9 @@ test('the ChatGPT wiring reads the sealed session and registers the account chan
   ]);
 });
 
-test('the local model wiring builds the runtimes and their installer and registers management', (t) => {
+test('the local model wiring builds the runtimes and their installer and registers management', async (t) => {
   const { handle, handlers } = recordingHandle();
-  const { models, installer } = composeLocalModels({
+  const { models, installer } = await composeLocalModels({
     handle,
     directory: join(tmpdir(), 'learntranscriber-composition-test'),
     settings: () => ({}),
@@ -138,6 +139,34 @@ test('the local model wiring builds the runtimes and their installer and registe
   assert.equal(handlers.size, 16);
   for (const channel of ['models:list', 'runtimes:install', 'local:start', 'local:stop'])
     assert.ok(handlers.has(channel), channel);
+});
+
+test('composing local models reaps a registry left by a crash before any start channel is registered', async (t) => {
+  const directory = await fs.mkdtemp(join(tmpdir(), 'learntranscriber-reap-'));
+  t.after(() => fs.rm(directory, { recursive: true, force: true }));
+  const registryFile = join(directory, 'models', 'keys', 'running.json');
+  await fs.mkdir(join(directory, 'models', 'keys'), { recursive: true });
+  // No real pid is ever this large, so this entry is already "dead" for the real ps lookup composeLocalModels uses.
+  await fs.writeFile(registryFile, JSON.stringify({ llm: { pid: 999999999, executable: '/no/such/binary', port: 1 } }));
+  const { handle, handlers } = recordingHandle();
+  const { models, installer } = await composeLocalModels({
+    handle,
+    directory: join(directory, 'models'),
+    settings: () => ({}),
+    providers: stub(),
+    picker: stub(),
+    broadcast: () => {},
+  });
+  t.after(() => {
+    installer.close();
+    return models.close();
+  });
+  await assert.rejects(
+    fs.access(registryFile),
+    { code: 'ENOENT' },
+    'the stale registry is cleared before handlers exist',
+  );
+  assert.ok(handlers.has('local:start'));
 });
 
 test('the assistant wiring registers the library and builder channels', (t) => {
