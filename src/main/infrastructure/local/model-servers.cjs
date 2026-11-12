@@ -10,6 +10,7 @@ const {
 const { spawnServer, waitForServer, terminateServer } = require('./server-process.cjs');
 const { writeApiKeyFile, removeApiKeyFile } = require('./server-auth.cjs');
 const { captureVersion } = require('./runtime-version.cjs');
+const { saveRunningServers } = require('./server-registry.cjs');
 
 const RUNTIME_NAME = { llm: 'llama-server', whisper: 'whisper-server' };
 
@@ -89,6 +90,11 @@ const modelServers = {
         settings,
       });
       spawnServer({ spawn: this.spawn, binary, args, runtime, onExit: () => this.emit() });
+      // Recorded as soon as the pid exists, not only once healthy: a crash in between must still be reapable.
+      runtime.pid = runtime.child.pid;
+      runtime.executable = binary;
+      runtime.port = port;
+      saveRunningServers(this.runningServersFile(), this.runningSnapshot());
       const capacity = await waitForServer({
         fetch: this.fetch,
         runtime,
@@ -152,6 +158,8 @@ const modelServers = {
     runtime.status = 'stopped';
     // Covers both a clean stop and a failed start: startAttempt's catch calls this too, on the same runtime.
     if (type === 'llm') await removeApiKeyFile(this.apiKeyFilePath(type));
+    // The snapshot already excludes this type: runningSnapshot only lists a runtime that still has a child.
+    saveRunningServers(this.runningServersFile(), this.runningSnapshot());
     this.emit();
   },
 };

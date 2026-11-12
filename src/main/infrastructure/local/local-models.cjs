@@ -106,6 +106,20 @@ class LocalModels {
     modelKind(type);
     return path.join(this.directory, 'keys', `${type}.key`);
   }
+  // The crash-recovery registry of managed servers actually running right now, beside the key files.
+  runningServersFile() {
+    return path.join(this.directory, 'keys', 'running.json');
+  }
+  runningSnapshot() {
+    return Object.fromEntries(
+      ['llm', 'whisper']
+        .filter((type) => this.runtimes[type]?.child)
+        .map((type) => {
+          const runtime = this.runtimes[type];
+          return [type, { pid: runtime.pid, executable: runtime.executable, port: runtime.port }];
+        }),
+    );
+  }
   begin(type, phase) {
     modelKind(type);
     if (this.closed) throw new Error('Local models manager is closing.');
