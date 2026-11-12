@@ -91,7 +91,8 @@ macOS 14 or newer, and drag LearnTranscriber to Applications.
 The app is not notarized by Apple, so macOS blocks its first launch: open **System Settings → Privacy & Security**,
 scroll to Security and choose **Open Anyway** next to LearnTranscriber, then confirm with your password
 ([Apple's instructions](https://support.apple.com/guide/mac-help/apple-cant-check-app-for-malicious-software-mchleab3a043/mac)).
-Install a new version the same way, over the previous one; your sessions and settings stay.
+When a new version is out, the Home banner downloads it and keeps it only if its SHA-256 matches the one the release
+publishes; choose **Open installer** and drag LearnTranscriber over the previous copy. Your sessions and settings stay.
 
 You can also [build it from source](#build-from-source) or let [your coding agent](#install-with-your-agent) install
 it.

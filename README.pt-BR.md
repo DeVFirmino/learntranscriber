@@ -94,8 +94,9 @@ macOS 14 ou mais recente, e arraste o LearnTranscriber para Aplicativos.
 
 O app não é notarizado pela Apple, então o macOS bloqueia a primeira abertura: abra **Ajustes do Sistema →
 Privacidade e Segurança**, role até Segurança, escolha **Abrir Mesmo Assim** ao lado do LearnTranscriber e confirme
-com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/mac-help/mchleab3a043/mac)). Instale uma
-versão nova do mesmo jeito, por cima da anterior; suas sessões e configurações continuam.
+com a sua senha ([instruções da Apple](https://support.apple.com/pt-br/guide/mac-help/mchleab3a043/mac)). Quando sai uma
+versão nova, o banner do Início baixa e só guarda o arquivo se o SHA-256 bater com o que a versão publica; escolha
+**Abrir instalador** e arraste o LearnTranscriber por cima da cópia anterior. Suas sessões e configurações continuam.
 
 Você também pode [compilar a partir do código](#compilar-a-partir-do-código) ou deixar
 [o seu agente de programação](#instalar-com-o-seu-agente) instalar o app.
