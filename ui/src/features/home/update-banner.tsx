@@ -5,12 +5,16 @@ import { Actions } from '@/components/chrome'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item'
+import { Progress } from '@/components/ui/progress'
+import { localizeMessage } from '@/format'
 import { useT } from '@/use-t'
 import { useWorkspace } from '@/workspace'
 import { updateBannerView } from './update-banner-state'
 
-// A newer build on GitHub Releases, read once on mount and then kept current from the main process. Download opens
-// the release page, Later hides it for at least a day, Skip never shows that exact tag again.
+// A newer build on GitHub Releases, read once on mount and then kept current from the main process. Download saves
+// the DMG to Downloads and keeps it only when its SHA-256 matches the release's checksum; Open installer then shows
+// the DMG, where the person drags the app to Applications. What's new opens the release page, Later hides the banner
+// for at least a day, and Skip never shows that exact tag again.
 export function UpdateBanner() {
   const ws = useWorkspace()
   const { t } = useT()
@@ -30,6 +34,22 @@ export function UpdateBanner() {
   }, [ws.api])
   const view = updateBannerView(status)
   if (!view.visible || !status) return null
+  const description =
+    view.phase === 'downloading'
+      ? view.percent === null
+        ? t('home.updateDownloading', { version: view.version })
+        : t('home.updateDownloadingPercent', { version: view.version, percent: String(view.percent) })
+      : view.phase === 'ready'
+        ? t('home.updateReady', { version: view.version })
+        : view.phase === 'failed' && view.error
+          ? localizeMessage(view.error)
+          : t('home.updateDescription', { version: view.version })
+  const download = () => void ws.act(() => ws.api.downloadUpdate().then(setStatus))
+  const notes = (
+    <Button variant="ghost" onClick={() => void ws.act(() => ws.api.openUpdate().then(() => undefined))}>
+      {t('home.updateNotes')}
+    </Button>
+  )
   return (
     <Card className="home-reveal">
       <CardContent className="grid gap-4">
@@ -39,23 +59,36 @@ export function UpdateBanner() {
           </ItemMedia>
           <ItemContent>
             <ItemTitle>{t('home.updateTitle')}</ItemTitle>
-            <ItemDescription>{t('home.updateDescription', { version: view.version })}</ItemDescription>
+            <ItemDescription role={view.phase === 'failed' ? 'alert' : 'status'}>{description}</ItemDescription>
           </ItemContent>
         </Item>
-        <Actions>
-          <Button onClick={() => void ws.act(() => ws.api.openUpdate().then(() => undefined))}>
-            {t('home.updateDownload')}
-          </Button>
-          <Button variant="outline" onClick={() => void ws.act(() => ws.api.laterUpdate().then(setStatus))}>
-            {t('home.updateLater')}
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={() => void ws.act(() => ws.api.skipUpdate(status.tagName ?? '').then(setStatus))}
-          >
-            {t('home.updateSkip')}
-          </Button>
-        </Actions>
+        {view.phase === 'downloading' ? (
+          <Progress value={view.percent ?? 0} aria-label={description} />
+        ) : (
+          <Actions>
+            {view.phase === 'ready' ? (
+              <Button onClick={() => void ws.act(() => ws.api.installUpdate().then(() => undefined))}>
+                {t('home.updateInstall')}
+              </Button>
+            ) : (
+              <Button onClick={download}>
+                {t(view.phase === 'failed' ? 'home.updateRetry' : 'home.updateDownload')}
+              </Button>
+            )}
+            {notes}
+            <Button variant="outline" onClick={() => void ws.act(() => ws.api.laterUpdate().then(setStatus))}>
+              {t('home.updateLater')}
+            </Button>
+            {view.phase === 'ready' ? null : (
+              <Button
+                variant="ghost"
+                onClick={() => void ws.act(() => ws.api.skipUpdate(status.tagName ?? '').then(setStatus))}
+              >
+                {t('home.updateSkip')}
+              </Button>
+            )}
+          </Actions>
+        )}
       </CardContent>
     </Card>
   )
