@@ -119,3 +119,11 @@ test('echo reduction starts off and accepts only a boolean', (t) => {
   repos.settings.update({ echoReductionEnabled: true });
   assert.equal(repos.settings.read().echoReductionEnabled, true);
 });
+
+test('the vocabulary hint accepts up to 2000 characters, as sent to local Whisper and cloud transcription', (t) => {
+  const repos = createRepositories(openDatabase(':memory:'));
+  t.after(() => repos.db.close());
+  repos.settings.update({ transcriptionPrompt: 'x'.repeat(2000) });
+  assert.equal(repos.settings.read().transcriptionPrompt.length, 2000);
+  assert.throws(() => repos.settings.update({ transcriptionPrompt: 'x'.repeat(2001) }), /too long/);
+});
