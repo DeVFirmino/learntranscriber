@@ -47,8 +47,8 @@
 > **En resumen** — Una app gratis y de código abierto para Mac que escribe, en vivo, lo que oyes en una clase, un vídeo
 > o una reunión, y responde a tus preguntas sobre eso en un panel flotante. La voz se puede transcribir por completo en
 > tu Mac con Apple Speech; las respuestas vienen de la IA que elijas: el inicio de sesión de ChatGPT, una clave de API o
-> un modelo local. Para Macs con Apple Silicon y macOS 14 o posterior. Descárgala, compílala desde el código fuente o
-> deja que tu agente de programación la instale por ti.
+> un modelo local. Para Macs con Apple Silicon y macOS 14 o posterior. Descárgala, instálala con Homebrew, compílala
+> desde el código fuente o deja que tu agente de programación la instale por ti.
 
 <p align="center">
   <img src="docs/readme/hero.webp" alt="LearnTranscriber en un MacBook: una clase de inglés en línea a la izquierda y el asistente flotante respondiendo una pregunta sobre ella a la derecha." width="900">
@@ -77,7 +77,8 @@
 
 - **Transcripción en vivo.** Mientras transcurre una clase, una reunión o un vídeo, las palabras aparecen a medida que
   la gente habla. Vienen de Apple Speech en el Mac, de un servidor Whisper local o de un servicio de transcripción en
-  la nube, el que configures.
+  la nube, el que configures. Los nombres y términos que añades en **Vocabulario** ayudan a Whisper local y a la
+  transcripción en la nube a escribirlos bien.
 - **Pregunta sobre lo que se dijo.** Un panel flotante queda sobre cualquier app. Haz una pregunta y la respuesta llega
   poco a poco, basada en la transcripción. Una captura de pantalla o el texto que seleccionaste puede ir con la
   pregunta.
@@ -104,11 +105,18 @@ ajustes se conservan.
 O instálala con [Homebrew](https://github.com/learntranscriber/homebrew-tap), que también se ocupa de las
 actualizaciones:
 
+<a href="https://github.com/learntranscriber/homebrew-tap"><img src="docs/readme/homebrew.svg" alt="Install with Homebrew: brew tap learntranscriber/tap, brew trust learntranscriber/tap, brew install --cask learntranscriber" width="640"></a>
+
+<details>
+<summary>Copiar los comandos</summary>
+
 ```sh
 brew tap learntranscriber/tap
 brew trust learntranscriber/tap
 brew install --cask learntranscriber
 ```
+
+</details>
 
 `brew trust` es la autorización que Homebrew pide una sola vez para un tap que no mantiene. La primera apertura aún
 pide **Abrir igualmente**; las versiones siguientes llegan con `brew upgrade --cask learntranscriber`.
@@ -208,8 +216,9 @@ prompt, y aparecen en la barra flotante junto a los que vienen con la app.
 - Un proveedor de respuestas configurado para preguntas y resúmenes.
 - [Homebrew](https://brew.sh), solo si quieres que la app instale `llama-server` o `whisper-server` por ti.
 
-La app busca versiones nuevas en GitHub. Instala las actualizaciones a mano, encima de la compilación anterior, para
-conservar tus sesiones y ajustes.
+La app busca versiones nuevas en GitHub. El banner de Inicio descarga la versión a la carpeta Descargas y solo la
+conserva si su SHA-256 coincide con el checksum de la versión; luego la instalas encima de la compilación anterior, y tus
+sesiones y ajustes se conservan. Si la instalaste con Homebrew, se actualiza con `brew upgrade --cask learntranscriber`.
 
 ## Compilar desde el código fuente
 
@@ -270,6 +279,8 @@ conservar tus sesiones y ajustes.
 - La app pregunta a GitHub si hay una versión nueva como mucho una vez al día, a partir de unos 15 segundos después de
   abrirse. La petición lleva la versión de la app y, como cualquier petición, tu dirección IP; no envía transcripción,
   ajustes ni claves.
+- Una actualización solo se descarga cuando eliges **Descargar** en ese banner: el DMG y su checksum vienen de la versión
+  de este repositorio, van a la carpeta Descargas, y un DMG que no pasa la verificación SHA-256 se elimina.
 - Descargar un modelo local de Hugging Face, un servidor con Homebrew o un idioma de Apple Speech usa la red.
 - Los procesos `whisper-server` y `llama-server` que gestiona la app se vinculan a `127.0.0.1` y se detienen tras 10
   minutos sin uso. `llama-server` exige una clave de API nueva en cada arranque; `whisper-server` no tiene opción de
