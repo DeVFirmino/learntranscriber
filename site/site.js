@@ -662,10 +662,13 @@ setInterval(() => {
 // from app to app while the section is on screen, until someone clicks an app to send it there.
 const reach = $('.reach');
 const reachTitle = $('[data-words]', reach);
-reachTitle.innerHTML = reachTitle.textContent
-  .split(' ')
-  .map((word) => `<span>${word}</span>`)
-  .join(' ');
+reachTitle.replaceChildren(
+  ...reachTitle.textContent.split(' ').flatMap((text, index) => {
+    const word = document.createElement('span');
+    word.textContent = text;
+    return index ? [' ', word] : [word];
+  }),
+);
 const reachWords = $$('span', reachTitle);
 const reachApps = $$('[data-app]', reach);
 const reachFloat = $('[data-reach-float]', reach);
