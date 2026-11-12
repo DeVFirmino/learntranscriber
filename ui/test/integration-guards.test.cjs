@@ -266,6 +266,7 @@ test('cancelling microphone startup releases a stream that arrives after cancell
   const imports = { './pcm': pcm };
   for (const name of [
     'capture-settings',
+    'microphone-failure',
     'incoming-streams',
     'live-captions',
     'native-system-audio',

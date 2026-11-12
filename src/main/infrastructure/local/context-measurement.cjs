@@ -42,11 +42,16 @@ async function measureContext(fetchImpl, settings, body, signal) {
   if (base.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(base.hostname))
     throw new Error('Managed context measurement requires the owned loopback server.');
   const requestSignal = signal ? AbortSignal.any([signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000);
+  // Neither endpoint is public once llama-server has an API key, so the request carries it when the lease has one.
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(settings.localApiKey ? { Authorization: `Bearer ${settings.localApiKey}` } : {}),
+  };
   const post = async (endpoint, value) =>
     jsonReply(
       await fetchImpl(new URL(endpoint, base.origin), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(value),
         signal: requestSignal,
         redirect: 'error',

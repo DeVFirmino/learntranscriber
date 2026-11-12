@@ -81,3 +81,20 @@ test('a stream for a recording that is no longer current is handed to the guard'
   );
   assert.deepEqual(guarded, ['input']);
 });
+
+test('a microphone that macOS refuses fails with the setting to change, before any stream is guarded', async () => {
+  const navigator = {
+    mediaDevices: {
+      getUserMedia: async () => {
+        throw Object.assign(new Error('Permission denied by system'), { name: 'NotAllowedError' });
+      },
+    },
+  };
+  const streams = loadTs('src/audio/incoming-streams.ts', { navigator, MediaStream: class {}, Error });
+  const guarded = [];
+  await assert.rejects(
+    streams.openMicrophone('default', (stream) => guarded.push(stream)),
+    /Privacy & Security → Microphone/,
+  );
+  assert.deepEqual(guarded, []);
+});

@@ -75,7 +75,8 @@ class Providers {
     settings = forFeature(settings, settings.generationFeature);
     if (!settings.model.trim()) throw new Error('Choose an assistant model in AI sources.');
     const provider = settings.provider,
-      key = settings.managedLocal ? '' : await this.getKey(provider);
+      // A managed local request never touches a saved provider credential; it carries its own per-launch key.
+      key = settings.managedLocal ? settings.localApiKey || '' : await this.getKey(provider);
     if (provider !== 'custom' && !key) throw new Error('Add a provider key in AI sources.');
     const base = provider === 'custom' ? validateEndpoint(settings.customBaseUrl) : BASES[provider];
     const protocol = protocolFor(provider);
@@ -110,7 +111,7 @@ class Providers {
     return { answer, calls, message: reader.message(answer, calls) };
   }
   async models(settings) {
-    const key = settings.managedLocal ? '' : await this.getKey(settings.provider);
+    const key = settings.managedLocal ? settings.localApiKey || '' : await this.getKey(settings.provider);
     if (settings.provider !== 'custom' && !key) throw new Error('Add a provider key first.');
     const base = settings.provider === 'custom' ? validateEndpoint(settings.customBaseUrl) : BASES[settings.provider];
     const auth = settings.provider === 'gemini' ? { 'x-goog-api-key': key } : { Authorization: `Bearer ${key}` };

@@ -1,4 +1,15 @@
 const { providerFailure } = require('./provider-failure.cjs');
+const { isConnectionFailure, DROPPED_MESSAGE } = require('../../domain/shared/connection-failure.cjs');
+
+// A connection that drops while the answer streams in is reported as such, not as Node's "terminated".
+async function readChunk(reader) {
+  try {
+    return await reader.read();
+  } catch (error) {
+    if (isConnectionFailure(error)) throw new Error(DROPPED_MESSAGE, { cause: error });
+    throw error;
+  }
+}
 
 // Server-sent events from a provider response, bounded to 4 MB per frame, and HTTP status checks.
 async function* sse(response) {
@@ -8,7 +19,7 @@ async function* sse(response) {
   let buffer = '';
   try {
     while (true) {
-      const { done, value } = await reader.read();
+      const { done, value } = await readChunk(reader);
       buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
       let match;
       while ((match = /\r?\n\r?\n/.exec(buffer))) {

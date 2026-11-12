@@ -42,8 +42,9 @@ function cacheArgs(mode = 'off') {
   return ['--cache-type-k', type, '--cache-type-v', type, '--flash-attn', 'on'];
 }
 
-// The llama-server or whisper-server arguments for one model on a loopback port.
-function serverArgs({ type, model, modelFile, projectorFile, port, config, settings }) {
+// The llama-server or whisper-server arguments for one model on a loopback port. `apiKeyFile` (llama-server only)
+// names a file the composition already wrote; the key itself never passes through here or onto a command line.
+function serverArgs({ type, model, modelFile, projectorFile, port, config, settings, apiKeyFile }) {
   const common = ['-m', modelFile, '--host', '127.0.0.1', '--port', String(port)];
   if (type !== 'llm')
     return [...common, '--language', 'auto', ...(settings.localWhisperGpu === false ? ['--no-gpu'] : [])];
@@ -55,7 +56,15 @@ function serverArgs({ type, model, modelFile, projectorFile, port, config, setti
         String(Math.max(256, Math.floor(Math.max(512, config.contextSize) * 0.5))),
       ]
     : [];
-  return [...common, '--alias', model.id, ...launchArgs(config), ...vision, ...cacheArgs(settings.kvCacheMode)];
+  return [
+    ...common,
+    '--alias',
+    model.id,
+    ...launchArgs(config),
+    ...vision,
+    ...cacheArgs(settings.kvCacheMode),
+    ...(apiKeyFile ? ['--api-key-file', apiKeyFile] : []),
+  ];
 }
 
 // The context each slot really has: the server's reported n_ctx, bounded by the configured size per slot.

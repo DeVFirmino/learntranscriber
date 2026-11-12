@@ -245,8 +245,9 @@ settings.
   request carries the app version and, like any request, your IP address; it sends no transcript, setting or key.
 - Downloading a local model from Hugging Face, a server runtime through Homebrew or an Apple Speech language uses the
   network.
-- Managed `whisper-server` and `llama-server` processes bind to `127.0.0.1` and stop after 10 idle minutes. Model
-  downloads that fail SHA-256 verification are discarded.
+- Managed `whisper-server` and `llama-server` processes bind to `127.0.0.1` and stop after 10 idle minutes.
+  `llama-server` requires a per-launch API key; `whisper-server` has no authentication option, so it depends on
+  staying on loopback only. Model downloads that fail SHA-256 verification are discarded.
 - Capture protection is enabled by default. Apps using ScreenCaptureKit can still capture a protected window
   ([Electron documents this](https://www.electronjs.org/docs/latest/api/browser-window#winsetcontentprotectionenable-macos-windows)).
   Share one window rather than the whole display, and check what attendees see.
