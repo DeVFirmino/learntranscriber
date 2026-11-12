@@ -824,7 +824,9 @@ export const ptBR: Messages = {
   'audio.languageCode': 'Código do idioma',
   'audio.languagePlaceholder': 'Automático, ou en / pt / nl',
   'audio.vocabulary': 'Vocabulário',
-  'audio.vocabularyHint': 'Nomes e termos técnicos opcionais para o Whisper local.',
+  'audio.vocabularyHint':
+    'Nomes e termos que você espera ouvir, usados como dicas pelo Whisper local e pela transcrição em nuvem, não pelo Apple Speech.',
+  'audio.vocabularyPlaceholder': 'Kubernetes, PostgreSQL, Dr. Okafor',
   'audio.stopBeforeChangingInput': 'Pare a escuta antes de trocar o microfone.',
   'audio.microphoneSelected': 'Microfone selecionado. Inicie a escuta para transcrever.',
   'audio.microphoneUnavailable': 'O microfone selecionado não está disponível. Escolha outra entrada.',
