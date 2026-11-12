@@ -42,8 +42,13 @@ Copied here for a self-contained record:
 - **`badges/*.svg`** (the pills at the top of the README) — drawn locally in the website's pill style (white fill,
   `#dde3ec` border, soft shadow, brand blue `#2581ff` icons, `#3d4655` text; Website filled in brand blue). The labels
   are Geist at weight 600 converted to outlines with fontTools, so the files need no font; the icons are
-  [Lucide](https://lucide.dev) (scale, laptop, cpu, git-pull-request, globe, download, bot, users, coffee), ISC license,
-  Copyright (c) Lucide Contributors, read from the renderer's `lucide-react` package. No image was generated for them.
+  [Lucide](https://lucide.dev) (scale, laptop, cpu, git-pull-request, globe, download, bot, users, coffee, atom,
+  circle-check, shield-check, rabbit), ISC license, Copyright (c) Lucide Contributors, read from the renderer's
+  `lucide-react` package. No image was generated for them.
+
+- **`wordmark.svg`, `wordmark-dark.svg`** (the name at the top of the README) — "Learn" in Geist 600 and "Transcriber"
+  in Geist 400, as the app's header writes it, converted to outlines with fontTools; ink `#14171d` for light mode and
+  `#f0f3f6` for dark mode. No image was generated for them.
 
 ## Captured or drawn locally
 

@@ -1,19 +1,38 @@
 <p align="center">
-  <img src="docs/readme/logo.webp" alt="" width="112">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/readme/wordmark-dark.svg">
+    <img src="docs/readme/wordmark.svg" alt="LearnTranscriber" width="260">
+  </picture>
 </p>
 
-<h1 align="center">LearnTranscriber</h1>
+<p align="center">
+  <img src="docs/readme/logo.webp" alt="" width="140">
+</p>
+
+<h1 align="center">Read what you hear. Ask as you listen.</h1>
 
 <p align="center">
-  <strong>Read what you hear. Ask as you listen.</strong><br>
-  Live transcripts for lectures, videos and meetings on your Mac, with a floating assistant you can ask about what was
-  said.
+  <b>English</b> · <a href="README.pt-BR.md">Português</a> · <a href="README.es.md">Español</a>
+</p>
+
+<p align="center">
+  <strong>Live transcripts for lectures, videos and meetings on your Mac,<br>
+  with a floating assistant you can ask about what was said.</strong><br>
+  Free and open source. Speech can stay on your Mac with Apple Speech, answers come from the AI you choose, and every
+  session is saved on your Mac.
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="docs/readme/badges/license.svg" alt="MIT license" height="46"></a>
   <a href="#requirements"><img src="docs/readme/badges/macos.svg" alt="macOS 14 or newer" height="46"></a>
   <a href="#requirements"><img src="docs/readme/badges/apple-silicon.svg" alt="Apple Silicon" height="46"></a>
+  <a href="#how-it-works"><img src="docs/readme/badges/stack.svg" alt="Electron · Swift" height="46"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/DeVFirmino/learntranscriber/actions/workflows/ci.yml"><img src="docs/readme/badges/tested.svg" alt="Tested on every PR" height="46"></a>
+  <a href="https://github.com/DeVFirmino/learntranscriber/actions/workflows/codeql.yml"><img src="docs/readme/badges/codeql.svg" alt="Scanned by CodeQL" height="46"></a>
+  <a href="https://www.coderabbit.ai"><img src="docs/readme/badges/coderabbit.svg" alt="Reviewed by CodeRabbit" height="46"></a>
   <a href="CONTRIBUTING.md"><img src="docs/readme/badges/prs-welcome.svg" alt="PRs welcome" height="46"></a>
 </p>
 
@@ -263,7 +282,8 @@ privately through [SECURITY.md](SECURITY.md), never into a public issue.
   The catalogs keep the same keys, which [`ui/test/i18n.test.cjs`](ui/test/i18n.test.cjs) checks; a new language is a
   new catalog with every key.
 - **Improve an assistant.** The [built-in assistants](src/main/domain/assistants/built-ins) live in one file each.
-- **Make the docs clearer.** This README, [CONTRIBUTING.md](CONTRIBUTING.md), the
+- **Make the docs clearer.** This README and its [Portuguese](README.pt-BR.md) and [Spanish](README.es.md) versions,
+  [CONTRIBUTING.md](CONTRIBUTING.md), the
   [feature inventory](docs/features.md), the [design system](docs/design-system.md) and the
   [UI integration notes](docs/UI_INTEGRATION.md).
 
