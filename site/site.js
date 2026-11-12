@@ -765,3 +765,15 @@ if (!reduced) {
     }
   });
 }
+
+// The Homebrew commands copy in one click; the button says so for a moment.
+const brewCopy = $('[data-copy-brew]');
+brewCopy?.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText($('.brew__code').textContent);
+    brewCopy.textContent = 'Copied';
+  } catch {
+    brewCopy.textContent = 'Select and copy';
+  }
+  setTimeout(() => (brewCopy.textContent = 'Copy'), 1600);
+});
