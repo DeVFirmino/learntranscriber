@@ -11,6 +11,7 @@ import { microphoneInputs } from './audio/audio-sources'
 import { DisplayPane } from './audio/display-pane'
 import { IncomingAudioPane } from './audio/incoming-audio-pane'
 import { useAudioDevices } from './audio/use-audio-devices'
+import { VocabularyPane } from './audio/vocabulary-pane'
 import { YourAudioPane } from './audio/your-audio-pane'
 
 type Pane = 'your' | 'incoming' | 'display'
@@ -106,6 +107,11 @@ export function AudioTab() {
           onChoose={(displayId) => save({ displayId })}
         />
       </TabsContent>
+      {/* Inside the tab container so it shares the panes' width, below whichever source is shown. */}
+      <VocabularyPane
+        value={settings.transcriptionPrompt}
+        onSave={(transcriptionPrompt) => save({ transcriptionPrompt })}
+      />
     </Tabs>
   )
 }

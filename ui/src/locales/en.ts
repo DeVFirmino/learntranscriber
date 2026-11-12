@@ -817,8 +817,10 @@ export const en = {
   'audio.baseUrl': 'Custom transcription base URL',
   'audio.languageCode': 'Language code',
   'audio.languagePlaceholder': 'Automatic, or en / pt / nl',
-  'audio.vocabulary': 'Vocabulary prompt',
-  'audio.vocabularyHint': 'Optional names and technical terms for local Whisper.',
+  'audio.vocabulary': 'Vocabulary',
+  'audio.vocabularyHint':
+    'Names and terms you expect to hear, used as hints by local Whisper and cloud transcription, not by Apple Speech.',
+  'audio.vocabularyPlaceholder': 'Kubernetes, PostgreSQL, Dr. Okafor',
   'audio.stopBeforeChangingInput': 'Stop listening before changing the microphone.',
   'audio.microphoneSelected': 'Microphone selected. Start listening to transcribe.',
   'audio.microphoneUnavailable': 'The selected microphone is unavailable. Choose another input.',
