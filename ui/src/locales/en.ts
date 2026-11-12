@@ -1058,6 +1058,7 @@ export const en = {
   'response.image': '[Image]',
   'response.table': 'Response table',
   'app.unavailable': 'Workspace unavailable',
+  'app.reloadWindow': 'Reload window',
   'app.bridgeError': 'The native bridge reported an error. This preview did not switch to sample data.',
   'app.loading': 'Loading workspace…',
   'app.previewBanner': 'Browser preview. Sample workspace only. No providers, accounts, or files are contacted.',
@@ -1430,6 +1431,17 @@ export const en = {
     'The audio processor stopped responding. Listening has ended.',
   'error.liveAudioDeliveryFailed': 'Live audio delivery failed.',
   'error.transcriptionFailed': 'Transcription failed.',
+  'error.couldNotReachTheAiService': 'Could not reach the AI service. Check your internet connection and try again.',
+  'error.theLocalServerOnThisMacIsNotAnswering':
+    'The local server on this Mac is not answering. Start it again or check its address in AI sources.',
+  'error.theConnectionDroppedDuringTheAnswer':
+    'The connection dropped during the answer. Check your internet connection and try again.',
+  'error.microphoneAccessIsOff':
+    'Microphone access is off. Allow LearnTranscriber in System Settings → Privacy & Security → Microphone.',
+  'error.theSelectedMicrophoneIsNotConnected':
+    'The selected microphone is not connected. Choose another one in Settings → Audio.',
+  'error.theMicrophoneIsInUseOrUnavailable':
+    'The microphone is in use or unavailable. Close other apps that use it and try again.',
   'error.audioFlushFailed': 'Audio flush failed.',
   'error.historyLookupFailed': 'History lookup failed.',
   'error.allowHistoryAccessFirst': 'Allow history access first.',

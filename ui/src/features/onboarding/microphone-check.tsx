@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { microphoneFailure } from '@/audio/microphone-failure'
 import { createMicrophoneProbe } from '@/audio/microphone-probe'
 import { errorMessage } from '@/format'
 import { useT } from '@/use-t'
@@ -34,7 +35,7 @@ export function MicrophoneCheck({ deviceId, granted }: { deviceId: string; grant
         setError('')
         setTesting(active)
       })
-      .catch((reason: unknown) => setError(errorMessage(reason)))
+      .catch((reason: unknown) => setError(errorMessage(microphoneFailure(reason))))
   }, [probe, deviceId])
   useEffect(() => {
     if (granted) start()

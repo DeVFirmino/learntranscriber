@@ -1073,6 +1073,7 @@ export const es: Messages = {
   'response.image': '[Imagen]',
   'response.table': 'Tabla de la respuesta',
   'app.unavailable': 'Espacio de trabajo no disponible',
+  'app.reloadWindow': 'Recargar ventana',
   'app.bridgeError': 'El puente nativo informó de un error. Esta vista previa no cambió a datos de ejemplo.',
   'app.loading': 'Cargando espacio de trabajo…',
   'app.previewBanner':
@@ -1471,6 +1472,17 @@ export const es: Messages = {
     'El procesador de audio dejó de responder. La escucha terminó.',
   'error.liveAudioDeliveryFailed': 'Falló el envío del audio en directo.',
   'error.transcriptionFailed': 'La transcripción falló.',
+  'error.couldNotReachTheAiService':
+    'No se pudo conectar con el servicio de IA. Comprueba tu conexión a internet y vuelve a intentarlo.',
+  'error.theLocalServerOnThisMacIsNotAnswering':
+    'El servidor local de este Mac no responde. Vuelve a iniciarlo o revisa su dirección en Fuentes de IA.',
+  'error.theConnectionDroppedDuringTheAnswer':
+    'La conexión se cortó durante la respuesta. Comprueba tu conexión a internet y vuelve a intentarlo.',
+  'error.microphoneAccessIsOff':
+    'El acceso al micrófono está desactivado. Permite LearnTranscriber en Ajustes del Sistema → Privacidad y seguridad → Micrófono.',
+  'error.theSelectedMicrophoneIsNotConnected': 'El micrófono elegido no está conectado. Elige otro en Ajustes → Audio.',
+  'error.theMicrophoneIsInUseOrUnavailable':
+    'El micrófono está en uso o no está disponible. Cierra las otras apps que lo usan y vuelve a intentarlo.',
   'error.audioFlushFailed': 'Falló el vaciado del audio pendiente.',
   'error.historyLookupFailed': 'Falló la búsqueda en el historial.',
   'error.allowHistoryAccessFirst': 'Permite primero el acceso al historial.',

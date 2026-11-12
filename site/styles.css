@@ -2406,6 +2406,16 @@ kbd {
   width: 17px;
   height: 17px;
 }
+.download__version {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 550;
+  text-decoration: none;
+  transition: color 200ms var(--ease-out);
+}
+.download__version:hover {
+  color: var(--blue-ink);
+}
 
 .install {
   display: grid;
