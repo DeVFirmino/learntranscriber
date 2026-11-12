@@ -1,9 +1,9 @@
-# CodeQL over the JavaScript and TypeScript and these workflows, on every pull request, on master and weekly, so new
-# queries also reach code that has not changed. The Swift helpers have their own workflow, codeql-swift.yml.
+# CodeQL over the JavaScript and TypeScript and these workflows, on master and weekly, so new queries also reach code
+# that has not changed. Pull requests are left to CI and CodeRabbit, to keep them quick. The Swift helpers have their
+# own workflow, codeql-swift.yml.
 name: CodeQL
 
 on:
-  pull_request:
   push:
     branches: [master]
   schedule:
@@ -11,10 +11,6 @@ on:
 
 permissions:
   contents: read
-
-concurrency:
-  group: codeql-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   analyze:
