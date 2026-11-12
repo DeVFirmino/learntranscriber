@@ -2,15 +2,14 @@ const { barRows, barRowsHeight } = require('../../domain/overlay/bar-rows.cjs');
 const {
   COLLAPSED_HEIGHT,
   BAR_POPOVER_HEIGHT,
-  windowFrame,
   resizedPanel,
   nudged,
   insideArea,
 } = require('../../domain/windows/layout.cjs');
 const { createRendererRecovery } = require('./renderer-recovery.cjs');
 const { createSettingsRoute } = require('./settings-route.cjs');
-const { guardWindow } = require('./window-guards.cjs');
-const { createNotchWindow, initialNotchBounds } = require('./notch-lifecycle.cjs');
+const { createNotchWindow } = require('./notch-lifecycle.cjs');
+const { createWindowFactory } = require('./window-factory.cjs');
 
 // The workspace, independent session panel, fixed recording bar and optional Notch. Windows hide instead of
 // closing until quit.
@@ -49,81 +48,41 @@ function createWindows({
   const surfaceColor = (role) =>
     (role === 'overlay' || role === 'notch') && settings().surfaceTheme === 'light' ? '#ffffff' : '#121212';
 
-  function create(role, { show = true, surface = 'panel' } = {}) {
-    const display = screen.getPrimaryDisplay().workArea;
-    const isBar = role === 'overlay' && surface === 'bar';
-    const isNotch = role === 'notch',
-      floating = role === 'overlay' || isNotch;
-    const initialNotch = isNotch ? initialNotchBounds(screen, settings(), display) : null;
-    const window = new BrowserWindow({
-      ...windowFrame({ role, surface, display, notch: initialNotch, expandedHeight, barHeight: barHeight() }),
-      show: false,
-      frame: !floating,
-      backgroundColor: role === 'overlay' ? '#00000000' : surfaceColor(role),
-      ...(isNotch ? { transparent: true, hasShadow: false, roundedCorners: true } : {}),
-      ...(role === 'overlay' ? { transparent: true, hasShadow: false } : {}),
-      // On macOS the floating assistant is a non-activating panel: focusing it to type a question must not activate
-      // the app, which would bring the workspace window forward with it.
-      ...(role === 'overlay' && platform === 'darwin' ? { type: 'panel' } : {}),
-      title: 'LearnTranscriber',
-      // Frameless floating windows use the default style: 'hidden' would bring back the macOS window buttons,
-      // which float alone over the transparent floating assistant.
-      titleBarStyle: 'default',
-      webPreferences: {
-        preload,
-        contextIsolation: true,
-        nodeIntegration: false,
-        sandbox: true,
-        backgroundThrottling: false,
-        webSecurity: true,
+  const create = createWindowFactory({
+    BrowserWindow,
+    screen,
+    privacy,
+    settings,
+    renderer,
+    preload,
+    platform,
+    isQuitting,
+    onOwnerDestroyed,
+    settingsRoute,
+    recovery,
+    surfaceColor,
+    sizes: () => ({ expandedHeight, barHeight: barHeight() }),
+    notchShowsAtStart: () => !onboarding && settings().notchEnabled && active.id() && notchState.expanded(),
+    events: {
+      rendererGone(role) {
+        if (role === 'main' && (listening.active || listening.starting)) {
+          listening = { active: false, starting: false, since: null };
+          changed();
+        }
       },
-    });
-    privacy().register(window, role);
-    guardWindow(window, { renderer, isQuitting });
-    const ownerId = window.webContents.id;
-    if (role === 'main') settingsRoute.watch(window);
-    window.webContents.on('destroyed', () => {
-      if (role === 'main') settingsRoute.close();
-      onOwnerDestroyed(ownerId);
-    });
-    // What a crashed renderer owned ended with it: its requests, voice and live captions, and, for the workspace,
-    // the recording. The window then reloads when the failure is recoverable.
-    window.webContents.on('render-process-gone', (_event, details) => {
-      if (role === 'main') settingsRoute.close();
-      onOwnerDestroyed(ownerId);
-      if (role === 'main' && (listening.active || listening.starting)) {
-        listening = { active: false, starting: false, since: null };
-        changed();
-      }
-      recovery.rendererGone(window, role, details);
-    });
-    window.on('close', (event) => {
-      if (!isQuitting()) {
-        event.preventDefault();
-        privacy().hide(window);
-        // A closed panel is a collapsed panel, so the bar offers to expand it again and shows its session rows.
+      // A closed panel is a collapsed panel, so the bar offers to expand it again and shows its session rows.
+      closed(window) {
         if (window === overlay && overlayExpanded) {
           overlayExpanded = false;
           changed();
         }
         if (window === bar) changed();
-      }
-    });
-    if (role === 'overlay' && !isBar)
-      window.on('resized', () => {
-        if (overlayExpanded && !window.isDestroyed()) expandedHeight = window.getBounds().height;
-      });
-    window.once('ready-to-show', () => {
-      if (
-        (!floating && show) ||
-        (isNotch && !onboarding && settings().notchEnabled && active.id() && notchState.expanded())
-      )
-        privacy().show(window, false);
-    });
-    const query = new URLSearchParams({ window: role, ...(role === 'overlay' ? { surface } : {}) });
-    window.loadURL(`${renderer.url}?${query}`);
-    return window;
-  }
+      },
+      panelResized(height) {
+        if (overlayExpanded) expandedHeight = height;
+      },
+    },
+  });
 
   const notchWindow = createNotchWindow({ create, open, screen, settings, active, notchState, privacy, changed });
 
