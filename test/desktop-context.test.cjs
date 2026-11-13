@@ -108,9 +108,13 @@ test('the Permissions tab opens only the known privacy panes and asks only for t
   });
   await desktop.openPrivacyPane('microphone');
   await desktop.openPrivacyPane('speech');
+  await desktop.openPrivacyPane('screen');
+  await desktop.openPrivacyPane('accessibility');
   assert.deepEqual(opened, [
     'x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone',
     'x-apple.systempreferences:com.apple.preference.security?Privacy_SpeechRecognition',
+    'x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture',
+    'x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility',
   ]);
   assert.throws(() => desktop.openPrivacyPane('camera'), /Unknown privacy setting/);
   assert.throws(() => desktop.openPrivacyPane('https://example.com'), /Unknown privacy setting/);

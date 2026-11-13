@@ -1,4 +1,8 @@
 export const en = {
+  'analysis.nothingHeard': 'Nothing heard yet. LearnTranscriber writes down what it hears; ask again once people talk.',
+  'analysis.permissionMissing':
+    'Nothing heard yet. Allow {{permission}} for LearnTranscriber in System Settings, then try again.',
+  'analysis.openSettings': 'Open System Settings',
   'error.credentialStorageTimeout':
     'macOS is asking to allow Keychain access. Choose Always Allow in its prompt, then try again.',
   'error.keychainBlocked':

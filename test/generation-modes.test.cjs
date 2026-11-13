@@ -537,3 +537,17 @@ test('a late cancelled insight does not mark its round analyzed', async (t) => {
   assert.deepEqual(f.log.settledRounds, [{ id: f.session.id, analyzed: false }]);
   assert.deepEqual(f.log.answers, []);
 });
+
+test('manual insight failures return to their panel owner without broadcasting an automatic failure', async (t) => {
+  const f = harness(t, {
+    stream: async () => {
+      throw new Error('Provider unavailable');
+    },
+  });
+  f.repos.entries.add(f.session.id, 'transcript', 'Heard context', 'THEY');
+  await assert.rejects(f.run({ mode: 'insight', trigger: 'manual' }), /Provider unavailable/);
+  assert.deepEqual(f.log.automaticFailures, []);
+  assert.equal(f.log.finished.length, 1);
+  assert.equal(f.log.finished[0].outcome, 'error');
+  assert.equal(f.log.errors.length, 1);
+});

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { createWorkspace } from '@/bridge'
 import { localizeMessage } from '@/format'
 import { flushBeforeQuit } from '@/features/workspace/quit-flush'
+import { showListeningHint } from '@/features/workspace/listening-hint'
 import { errorReporter } from '@/features/workspace/error-reporter'
 import { setErrorReport, setRestartAction, showError } from '@/features/workspace/error-toast'
 import { useCaptureFeedback } from '@/features/workspace/use-capture-feedback'
@@ -76,6 +77,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   })
   const toggleListening = () => recorder.toggle(shown.actions.ensureSession)
   const runAction = useShortcutActions({
+    api,
+    notice: (permission) => showListeningHint(api, permission),
     overlay: () => overlayRef.current,
     captureScreen: answering.actions.captureScreen,
     quickScreenshot: () => readState()?.settings.quickScreenshot === true,

@@ -111,3 +111,12 @@ test('the first previous shows the newest response, the first next the oldest, a
   assert.equal(responseIndex(null, 0, -1), 0);
   assert.equal(responseIndex(5, 2, -1), 1);
 });
+
+test('the panel analyzes an explicit live request once without starting a second recorder', async () => {
+  const h = harness({ overlay: true, recording: false });
+  await h.run('analyze');
+  assert.deepEqual(h.calls, [['insightNow']]);
+  const workspace = harness({ recording: true });
+  await workspace.run('analyze');
+  assert.deepEqual(workspace.calls, []);
+});
