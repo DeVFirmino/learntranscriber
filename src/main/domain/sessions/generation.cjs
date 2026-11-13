@@ -5,6 +5,7 @@ const { fastFirstSettings } = require('./fast-first.cjs');
 const MODES = [
   'chat',
   'summary',
+  'practice',
   'summaryRewrite',
   'translation',
   'insight',
@@ -47,6 +48,8 @@ function generationQuestion(mode, input, settings) {
   }
   if (mode === 'summary')
     return 'Summarize this conversation with sections for overview, decisions, open questions and next steps. Do not invent details.';
+  if (mode === 'practice')
+    return 'Write practice questions that check understanding of what this session covered: five at most, numbered, from the easiest to the hardest, fewer when the transcript is too short. Then add a "## Answers" section with a short answer to each, by number, taken from the session. Use only what the session covered; do not invent facts.';
   if (mode === 'translation') {
     if (!String(settings.translationLanguage || '').trim())
       throw new Error('Translation is off. Choose a language in Settings.');

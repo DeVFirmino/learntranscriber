@@ -33,6 +33,7 @@ const MODE_FEATURES = {
   chat: 'analysis',
   screenInsight: 'analysis',
   summary: 'tldr',
+  practice: 'tldr',
   summaryRewrite: 'tldr',
   compact: 'tldr',
   translation: 'translation',
