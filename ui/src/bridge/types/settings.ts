@@ -16,6 +16,7 @@ export interface Settings {
   localWhisperGpu: boolean
   sessionTimer: boolean
   sessionNotesFolder: string
+  sessionNoteTemplate: 'general' | 'standup' | 'oneOnOne' | 'interview' | 'lecture'
   autoScroll: boolean
   notchEnabled: boolean
   notchMinimumVisibleSeconds: number

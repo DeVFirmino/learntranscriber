@@ -37,6 +37,7 @@ export function previewSettings(): Settings {
     localWhisperGpu: true,
     sessionTimer: false,
     sessionNotesFolder: '',
+    sessionNoteTemplate: 'general',
     autoScroll: true,
     notchEnabled: true,
     notchMinimumVisibleSeconds: 15,

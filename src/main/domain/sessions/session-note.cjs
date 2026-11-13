@@ -2,27 +2,12 @@
 // note keeps that summary (the assistant's email guidance, or the default TLDR) with a
 // handoff of the conversation, as a file in a folder of the user's.
 const { withLanguageRequirement } = require('./compaction.cjs');
+const { noteContract } = require('./note-templates.cjs');
 
 const DEFAULT_FOLDER = ['LearnTranscriber', 'Sessions'];
 const TITLE_LIMIT = 60;
 // Characters a macOS or Windows file name refuses, plus control characters.
 const UNSAFE_IN_NAME = /[\\/:*?"<>|\p{Cc}]/gu;
-
-const HANDOFF = `Write a Markdown note about this conversation for the user's own records, in exactly these sections:
-
-## Summary
-The summary, following the summary guidance.
-
-## Decisions
-What was decided, one bullet each.
-
-## Open items
-Questions left open, problems not yet solved and anything someone is waiting on, one bullet each.
-
-## Next steps
-Concrete next actions, with who does them when the conversation says so, one bullet each.
-
-Write "None." under a section with nothing to report. Summarize in your own words instead of copying the transcript. Use only facts from the conversation; do not invent details, decisions, dates or owners. Do not add a title or any other section.`;
 
 function transcriptLines(session) {
   return session.entries
@@ -31,14 +16,19 @@ function transcriptLines(session) {
     .join('\n');
 }
 
-// The request: the summary guidance and the handoff contract as instructions, the transcript as untrusted data.
-function noteMessages({ session, summaryGuidance, language }) {
+// The request: the summary guidance and the chosen template's sections as instructions, the transcript as untrusted
+// data.
+function noteMessages({ session, summaryGuidance, language, template = 'general' }) {
   const transcript = transcriptLines(session);
   if (!transcript.trim()) throw new Error('Nothing was transcribed in this session, so there is nothing to save.');
   return [
     {
       role: 'system',
-      content: withLanguageRequirement(`${HANDOFF}\n\nSummary guidance:\n${summaryGuidance}`, language, 'note'),
+      content: withLanguageRequirement(
+        `${noteContract(template)}\n\nSummary guidance:\n${summaryGuidance}`,
+        language,
+        'note',
+      ),
     },
     {
       role: 'user',
