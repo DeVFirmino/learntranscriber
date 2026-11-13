@@ -415,7 +415,7 @@ kbd {
 .film {
   max-width: 1040px;
   margin: 0 auto;
-  padding: 8px clamp(16px, 4vw, 48px) 56px;
+  padding: 0 clamp(16px, 4vw, 48px) 96px;
 }
 .film__frame {
   position: relative;
@@ -469,19 +469,6 @@ kbd {
 }
 .film__frame.is-playing .film__play {
   display: none;
-}
-.film__note {
-  margin: 18px 0 0;
-  color: var(--muted);
-  font-size: 15px;
-  text-align: center;
-}
-.film__note b {
-  color: var(--ink);
-}
-.film__note a {
-  color: var(--blue-ink);
-  font-weight: 600;
 }
 
 .button {
@@ -2836,7 +2823,7 @@ kbd {
 .source {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 90px clamp(16px, 4vw, 48px) 140px;
+  padding: 90px clamp(16px, 4vw, 48px) 72px;
 }
 .final {
   position: relative;
