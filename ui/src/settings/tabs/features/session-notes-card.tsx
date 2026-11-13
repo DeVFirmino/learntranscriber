@@ -4,9 +4,14 @@ import { useWorkspace } from '@/workspace'
 import { useT } from '@/use-t'
 import { PreferenceField } from '@/components/ui/preference-field'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import type { Settings } from '@/bridge/types/settings'
 
-// Where a stopped session's summary and handoff is saved: LearnTranscriber/Sessions in Documents, or a chosen folder.
-export function SessionNotesCard({ folder }: { folder: string }) {
+const TEMPLATES: Settings['sessionNoteTemplate'][] = ['general', 'standup', 'oneOnOne', 'interview', 'lecture']
+
+// Where a stopped session's summary and handoff is saved: LearnTranscriber/Sessions in Documents, or a chosen folder,
+// and which sections the note asks for.
+export function SessionNotesCard({ folder, template }: { folder: string; template: Settings['sessionNoteTemplate'] }) {
   const ws = useWorkspace()
   const { t } = useT()
   const [shown, setShown] = useState('')
@@ -53,6 +58,35 @@ export function SessionNotesCard({ folder }: { folder: string }) {
           </Button>
         ) : null}
       </div>
+      <p id="session-note-template-label" className="mt-4 text-sm font-medium">
+        {t('note.templateTitle')}
+      </p>
+      <p id="session-note-template-description" className="mt-1 text-xs text-muted-foreground">
+        {t('note.templateDescription')}
+      </p>
+      <Select
+        value={template}
+        onValueChange={(value) =>
+          void ws.act(async () => {
+            await ws.api.settings({ sessionNoteTemplate: value as Settings['sessionNoteTemplate'] })
+          })
+        }
+      >
+        <SelectTrigger
+          className="mt-2 w-60"
+          aria-labelledby="session-note-template-label"
+          aria-describedby="session-note-template-description"
+        >
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent position="popper" align="start">
+          {TEMPLATES.map((id) => (
+            <SelectItem value={id} key={id}>
+              {t(`note.template.${id}`)}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </PreferenceField>
   )
 }

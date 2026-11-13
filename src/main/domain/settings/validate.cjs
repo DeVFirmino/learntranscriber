@@ -3,6 +3,7 @@ const { BOUNDS: LOCAL_BOUNDS } = require('../providers/local-launch.cjs');
 const { DEFAULTS } = require('./defaults.cjs');
 const { validateEndpoint } = require('./endpoint.cjs');
 const { shortcutConfig } = require('./shortcuts.cjs');
+const { NOTE_TEMPLATE_IDS } = require('../sessions/note-templates.cjs');
 
 // The longest saved texts: the shortcut table and the user-global prompts are documents; other texts stay short.
 const TEXT_LIMITS = Object.freeze({
@@ -31,6 +32,7 @@ const CHOICES = Object.freeze({
   uiLanguage: [['', 'en', 'es', 'pt-BR'], 'Choose a supported interface language.'],
   surfaceTheme: [['dark', 'light'], 'Choose a dark or light surface.'],
   kvCacheMode: [['off', 'moderate', 'aggressive'], 'Choose a supported KV cache mode.'],
+  sessionNoteTemplate: [NOTE_TEMPLATE_IDS, 'Choose a supported note template.'],
 });
 
 const between = (min, max) => (value) => Number.isFinite(value) && value >= min && value <= max;
