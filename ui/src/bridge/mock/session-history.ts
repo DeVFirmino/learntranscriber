@@ -32,7 +32,9 @@ export function sessionHistoryApi(ctx: MockContext) {
       if (!['data', 'logs'].includes(name)) throw new Error('Unknown folder.')
       return true
     },
-    exportSession: async (id: string) => {
+    // The preview saves Markdown only; caption files come from the app.
+    exportSession: async (id: string, format?: string) => {
+      if (format && format !== 'markdown') throw new Error('In the app, this saves the transcript as captions.')
       const blob = new Blob([markdown(requireSession(id))], { type: 'text/markdown' })
       const link = document.createElement('a')
       link.href = URL.createObjectURL(blob)

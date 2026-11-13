@@ -4,6 +4,7 @@ const { createContextCapture } = require('../application/context/capture.cjs');
 const { jpegDataUrl, CAPTURE_IMAGE } = require('../application/context/screenshot-image.cjs');
 const { createSessionExport } = require('../application/sessions/export.cjs');
 const { sessionMarkdown } = require('../domain/sessions/markdown-export.cjs');
+const { FORMATS, sessionCaptions } = require('../domain/sessions/caption-export.cjs');
 const { sessionExportDestination } = require('../infrastructure/files/session-export.cjs');
 const { registerDesktop } = require('../interface/ipc/desktop.cjs');
 
@@ -30,7 +31,10 @@ function composeDesktop({
     context: createContextCapture({ active, nativeContext, screenshot }),
     desktop,
     exports: createSessionExport({
-      sessions: { markdown: (id) => sessionMarkdown(sessions.get(id)) },
+      build: (id, format, labels) =>
+        FORMATS.includes(format)
+          ? sessionCaptions(sessions.get(id), format, labels)
+          : sessionMarkdown(sessions.get(id)),
       destination: sessionExportDestination({ dialog, BrowserWindow, writeFileAtomic }),
     }),
   });

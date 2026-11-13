@@ -11,7 +11,7 @@ export function chatGenerationApi(ctx: MockContext) {
       const mode = input.mode || 'chat'
       if (mode === 'translation' && !settings.translationLanguage.trim())
         throw new Error('Translation is off. Choose a language in Settings.')
-      if (!['chat', 'summary', 'summaryRewrite', 'translation', 'insight', 'screenInsight'].includes(mode))
+      if (!['chat', 'summary', 'practice', 'summaryRewrite', 'translation', 'insight', 'screenInsight'].includes(mode))
         throw new Error('Invalid generation mode.')
       const summaryConversation =
         mode === 'summary' &&
@@ -55,6 +55,9 @@ export function chatGenerationApi(ctx: MockContext) {
         else if (mode === 'summary')
           answer +=
             'Overview: this sample session is about a study decision. Decisions: write the base case first. Open questions: none in the preview. Next steps: resume the session only if you mean to.'
+        else if (mode === 'practice')
+          answer +=
+            '\n\n1. What is a base case?\n2. Why must the recursive call shrink the input?\n3. Which list would you test first, and why?\n\n## Answers\n\n1. The input the function answers without calling itself.\n2. So the calls reach the base case and stop.\n3. The empty list: it checks the base case before any recursion.'
         else if (mode === 'translation')
           answer += `ME: Sample translation into ${settings.translationLanguage}. The original meaning is preserved. THEY: This is not a live translation.`
         else if (mode === 'insight')

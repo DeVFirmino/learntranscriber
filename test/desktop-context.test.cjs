@@ -63,15 +63,25 @@ test('a cancelled export writes nothing; a chosen path receives the Markdown', a
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const file = join(directory, 'session.md');
   let choice = null;
+  const asked = [];
   const exporter = createSessionExport({
-    sessions: { markdown: () => '# Planning\n' },
-    destination: { choose: async () => choice, write: writeFileAtomic },
+    build: (id, format) => (format === 'srt' ? '1\n00:00:00,000 --> 00:00:01,000\nHi\n' : '# Planning\n'),
+    destination: {
+      choose: async (_owner, format) => {
+        asked.push(format);
+        return choice;
+      },
+      write: writeFileAtomic,
+    },
   });
-  assert.equal(await exporter.export({}, 's1'), false);
+  assert.equal(await exporter.export({}, 's1', 'markdown'), false);
   assert.equal(existsSync(file), false);
   choice = file;
-  assert.equal(await exporter.export({}, 's1'), true);
+  assert.equal(await exporter.export({}, 's1', 'markdown'), true);
   assert.equal(readFileSync(file, 'utf8'), '# Planning\n');
+  assert.equal(await exporter.export({}, 's1', 'srt'), true);
+  assert.match(readFileSync(file, 'utf8'), /^1\n00:00:00,000 --> /);
+  assert.deepEqual(asked, ['markdown', 'markdown', 'srt']);
 });
 
 test('only safe response links are opened and oversized copies are refused', async () => {
