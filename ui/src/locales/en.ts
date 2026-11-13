@@ -998,6 +998,7 @@ export const en = {
   'headers.save': 'Save headers',
   'summary.reloadFirst': 'Reload the saved overview before editing.',
   'summary.generate': 'Generate summary',
+  'summary.practice': 'Practice questions',
   'summary.edit': 'Edit overview',
   'summary.editLabel': 'Edit session overview',
   'summary.hint': 'Manual changes save after 1.2 seconds. AI rewrites stay in preview until you select Done.',

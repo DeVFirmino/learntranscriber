@@ -1003,6 +1003,7 @@ export const ptBR: Messages = {
   'headers.save': 'Salvar headers',
   'summary.reloadFirst': 'Recarregue o resumo salvo antes de editar.',
   'summary.generate': 'Gerar resumo',
+  'summary.practice': 'Perguntas de prática',
   'summary.edit': 'Editar resumo',
   'summary.editLabel': 'Editar resumo da sessão',
   'summary.hint':

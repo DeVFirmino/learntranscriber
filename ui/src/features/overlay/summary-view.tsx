@@ -25,6 +25,16 @@ export function SummaryView({ session }: { session: SessionDetail | null }) {
       >
         {t('overlay.generateSummary')}
       </Button>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        className="w-fit"
+        disabled={!ws.state?.activeSessionId || Boolean(ws.requestId)}
+        onClick={() => void ws.act(() => ws.runGeneration('practice'))}
+      >
+        {t('summary.practice')}
+      </Button>
     </SessionSummary>
   )
 }
