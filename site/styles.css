@@ -411,6 +411,79 @@ kbd {
   font-size: 14px;
 }
 
+/* The launch film: a poster with a play button; the native player, with sound, once clicked. */
+.film {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 8px clamp(16px, 4vw, 48px) 56px;
+}
+.film__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--graphite);
+  box-shadow: var(--shadow-float);
+}
+.film__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.film__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px 10px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.93);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-float);
+  transform: translate(-50%, -50%);
+  transition: transform 200ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+.film__play svg {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  fill: #fff;
+}
+.film__play:hover {
+  background: #fff;
+  transform: translate(-50%, -50%) scale(1.04);
+}
+.film__play:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+.film__frame.is-playing .film__play {
+  display: none;
+}
+.film__note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  text-align: center;
+}
+.film__note b {
+  color: var(--ink);
+}
+.film__note a {
+  color: var(--blue-ink);
+  font-weight: 600;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
