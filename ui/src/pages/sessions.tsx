@@ -10,6 +10,7 @@ import { PaginationFooter } from '@/features/sessions/pagination-footer'
 import { SessionGroups } from '@/features/sessions/session-groups'
 import { selectionScope, toggleSessionSelection, visibleSessionSelection } from '@/features/sessions/session-selection'
 import { useSessionsPage } from '@/features/sessions/use-sessions-page'
+import { TranscribeFileButton } from '@/features/file-transcription/transcribe-file-button'
 
 // Past sessions: search (optionally over transcript text) and a paged grid of session cards grouped by day, with a
 // selection mode to delete several at once.
@@ -59,7 +60,7 @@ export function Sessions() {
             <Button variant="outline" disabled={!rows.length} onClick={() => setSelecting(true)}>
               {t('sessions.select')}
             </Button>
-
+            <TranscribeFileButton />
             <ActionButton onClick={() => void ws.act(() => ws.startFloatingSession())}>
               {t('sessions.new')}
             </ActionButton>
