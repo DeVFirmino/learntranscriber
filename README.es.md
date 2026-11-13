@@ -54,6 +54,14 @@
   <img src="docs/readme/hero.webp" alt="LearnTranscriber en un MacBook: una clase de inglés en línea a la izquierda y el asistente flotante respondiendo una pregunta sobre ella a la derecha." width="900">
 </p>
 
+<p align="center">
+  <a href="https://learntranscriber.danieldias.dev/#film"><img src="docs/readme/film-poster.webp" alt="Mira el video de 30 segundos de LearnTranscriber" width="720"></a>
+</p>
+
+<p align="center">
+  <b>Gratis y de código abierto (MIT).</b> Lee el código, abre un issue o envía un pull request: <a href="CONTRIBUTING.md">cómo contribuir</a>.
+</p>
+
 <sub>Esta es una traducción del [README en inglés](README.md). Si algo no coincide, vale el inglés.</sub>
 
 ## Contenido

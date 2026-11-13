@@ -54,6 +54,14 @@
   <img src="docs/readme/hero.webp" alt="LearnTranscriber on a MacBook: an online English class on the left, the floating assistant answering a question about it on the right." width="900">
 </p>
 
+<p align="center">
+  <a href="https://learntranscriber.danieldias.dev/#film"><img src="docs/readme/film-poster.webp" alt="Watch the 30-second LearnTranscriber film" width="720"></a>
+</p>
+
+<p align="center">
+  <b>Free and open source (MIT).</b> Read the code, open an issue or send a pull request: <a href="CONTRIBUTING.md">how to contribute</a>.
+</p>
+
 ## Contents
 
 - [What it does](#what-it-does)
