@@ -431,6 +431,10 @@ export const es: Messages = {
   'sessions.description': 'Busca en títulos, resúmenes y chat.',
   'sessions.includeTranscript': 'Buscar también en las transcripciones',
   'sessions.new': 'Nueva sesión',
+  'fileTranscription.choose': 'Transcribir archivo',
+  'fileTranscription.decoding': 'Leyendo {{name}}…',
+  'fileTranscription.progress': 'Transcribiendo la parte {{done}} de {{total}}…',
+  'fileTranscription.endFirst': 'Termina primero la sesión en vivo.',
   'sessions.search': 'Buscar',
   'sessions.searchPlaceholder': 'Busca en tu historial local',
   'sessions.clearSearch': 'Borrar búsqueda',
@@ -1504,6 +1508,8 @@ export const es: Messages = {
   'error.couldNotOpenTheDownloadedUpdate': 'No se pudo abrir la actualización descargada.',
   'error.thisUpdateCannotBeDownloadedHere': 'Esta actualización no se puede descargar aquí.',
   'error.transcriptionFailed': 'La transcripción falló.',
+  'error.chooseAnAudioOrVideoFileUpTo2Gb': 'Elige un archivo de audio o vídeo de hasta 2 GB.',
+  'error.thisFileHasNoAudioThisMacCanDecode': 'Este archivo no tiene audio que este Mac pueda leer.',
   'error.couldNotReachTheAiService':
     'No se pudo conectar con el servicio de IA. Comprueba tu conexión a internet y vuelve a intentarlo.',
   'error.theLocalServerOnThisMacIsNotAnswering':

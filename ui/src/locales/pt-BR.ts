@@ -425,6 +425,10 @@ export const ptBR: Messages = {
   'sessions.description': 'Busque em títulos, resumos e chat.',
   'sessions.includeTranscript': 'Buscar também nas transcrições',
   'sessions.new': 'Nova sessão',
+  'fileTranscription.choose': 'Transcrever arquivo',
+  'fileTranscription.decoding': 'Lendo {{name}}…',
+  'fileTranscription.progress': 'Transcrevendo a parte {{done}} de {{total}}…',
+  'fileTranscription.endFirst': 'Encerre a sessão ao vivo primeiro.',
   'sessions.search': 'Buscar',
   'sessions.searchPlaceholder': 'Busque no seu histórico local',
   'sessions.clearSearch': 'Limpar busca',
@@ -1491,6 +1495,8 @@ export const ptBR: Messages = {
   'error.couldNotOpenTheDownloadedUpdate': 'Não foi possível abrir a atualização baixada.',
   'error.thisUpdateCannotBeDownloadedHere': 'Esta atualização não pode ser baixada aqui.',
   'error.transcriptionFailed': 'A transcrição falhou.',
+  'error.chooseAnAudioOrVideoFileUpTo2Gb': 'Escolha um arquivo de áudio ou vídeo de até 2 GB.',
+  'error.thisFileHasNoAudioThisMacCanDecode': 'Este arquivo não tem áudio que este Mac consiga ler.',
   'error.couldNotReachTheAiService':
     'Não foi possível falar com o serviço de IA. Confira sua conexão com a internet e tente de novo.',
   'error.theLocalServerOnThisMacIsNotAnswering':
