@@ -18,6 +18,7 @@ function createSessionNotes({ settings, sessions, assistants, providers, route, 
         session,
         summaryGuidance: resolvePrompt('email', assistant, { settings: current }).prompt,
         language: outputLanguage(current),
+        template: current.sessionNoteTemplate,
       });
       const body = await route.run(
         current,
