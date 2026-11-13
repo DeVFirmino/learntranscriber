@@ -9,7 +9,7 @@ export function appApi(ctx: MockContext) {
     quitReady: async () => true,
     onAction: (listener) => actions.subscribe(listener),
     requestMicrophone: async () => true,
-    appVersion: async () => '0.1.2',
+    appVersion: async () => '0.1.3',
     // The preview restarts by reloading its sample workspace.
     relaunchApp: async () => window.location.reload(),
     openPrivacyPane: async () => undefined,
