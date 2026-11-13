@@ -784,3 +784,14 @@ for (const button of $$('[data-copy-terminal]')) {
     }, 1600);
   });
 }
+
+// The launch film loads nothing until asked; the first click plays it with sound and shows the native controls.
+const film = document.querySelector('[data-film]');
+if (film) {
+  const video = film.querySelector('video');
+  film.querySelector('[data-film-play]').addEventListener('click', () => {
+    film.classList.add('is-playing');
+    video.controls = true;
+    video.play();
+  });
+}
