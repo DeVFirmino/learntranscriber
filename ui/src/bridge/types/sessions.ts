@@ -30,6 +30,8 @@ export interface SessionPage {
   offset: number
 }
 
+export type SessionExportFormat = 'markdown' | 'srt' | 'vtt'
+
 export interface Entry {
   id: string
   session_id: string
@@ -83,6 +85,8 @@ export interface SessionsApi {
   historyStats: () => Promise<HistoryStats>
   clearHistory: () => Promise<{ sessions: number; messages: number; transcriptions: number }>
   revealAppFolder: (name: 'data' | 'logs') => Promise<boolean>
-  exportSession: (id: string) => Promise<boolean>
+  // Saves the session as a Markdown file, or its transcript as SRT or WebVTT captions labelled with these speaker
+  // names. Resolves false when the save dialog is cancelled.
+  exportSession: (id: string, format?: SessionExportFormat, labels?: { me: string; others: string }) => Promise<boolean>
   appendTranscript: (input: { sessionId: string; speaker: string; text: string }) => Promise<Entry>
 }
