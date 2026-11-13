@@ -36,7 +36,7 @@ export function FeaturesTab() {
           />
         </div>
       ))}
-      <SessionNotesCard folder={settings.sessionNotesFolder} />
+      <SessionNotesCard folder={settings.sessionNotesFolder} template={settings.sessionNoteTemplate} />
     </div>
   )
 }
