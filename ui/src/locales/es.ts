@@ -999,6 +999,7 @@ export const es: Messages = {
   'headers.save': 'Guardar cabeceras',
   'summary.reloadFirst': 'Recarga el resumen guardado antes de editar.',
   'summary.generate': 'Generar resumen',
+  'summary.practice': 'Preguntas de práctica',
   'summary.edit': 'Editar resumen',
   'summary.editLabel': 'Editar resumen de la sesión',
   'summary.hint':
