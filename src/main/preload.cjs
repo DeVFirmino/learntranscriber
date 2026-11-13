@@ -77,7 +77,7 @@ contextBridge.exposeInMainWorld(
     revealAppFolder: (name) => invoke('data:reveal-folder', name),
     deleteSession: (id) => invoke('sessions:delete', id),
     deleteSessions: (ids) => invoke('sessions:delete-many', ids),
-    exportSession: (id) => invoke('sessions:export', id),
+    exportSession: (id, format, labels) => invoke('sessions:export', id, format, labels),
     appendTranscript: (input) => invoke('transcript:append', input),
     transcribe: (input) => invoke('audio:transcribe', input),
     contextStatus: () => invoke('context:status'),

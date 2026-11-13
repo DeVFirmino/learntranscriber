@@ -1,7 +1,7 @@
 import { DropdownMenu as Menu } from 'radix-ui'
 import { ChevronDownIcon, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import type { SessionDetail } from '@/bridge/types/sessions'
+import type { SessionDetail, SessionExportFormat } from '@/bridge/types/sessions'
 import { useWorkspace } from '@/workspace'
 import { useT } from '@/use-t'
 import { sessionCopyText, writeSessionClipboard, type CopyLabels, type SessionCopyKind } from './session-clipboard'
@@ -32,6 +32,11 @@ export function SessionActions({
   }
   const itemClass =
     'cursor-default rounded-sm px-3 py-2 text-sm outline-none data-[highlighted]:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-40'
+  const hasTranscript = session.entries.some((entry) => entry.kind === 'transcript')
+  const save = (format: SessionExportFormat) =>
+    void ws.act(async () => {
+      await ws.api.exportSession(session.id, format, { me: labels.you, others: labels.others })
+    })
   const copy = (kind: SessionCopyKind) =>
     void ws.act(async () => {
       if (!(await writeSessionClipboard(sessionCopyText(session, kind, labels, active, summary))))
@@ -42,7 +47,7 @@ export function SessionActions({
       <Menu.Trigger asChild>
         <Button variant="outline">
           <Copy className="size-4" aria-hidden="true" />
-          {t('session.copyActions')}
+          {t('session.copyOrExport')}
           <ChevronDownIcon aria-hidden="true" />
         </Button>
       </Menu.Trigger>
@@ -63,12 +68,18 @@ export function SessionActions({
           >
             {t('session.copyChat')}
           </Menu.Item>
-          <Menu.Item
-            className={itemClass}
-            disabled={!session.entries.some((entry) => entry.kind === 'transcript')}
-            onSelect={() => copy('transcript')}
-          >
+          <Menu.Item className={itemClass} disabled={!hasTranscript} onSelect={() => copy('transcript')}>
             {t('session.copyTranscript')}
+          </Menu.Item>
+          <Menu.Separator className="my-1 h-px bg-border" />
+          <Menu.Item className={itemClass} onSelect={() => save('markdown')}>
+            {t('session.copyExportFile')}
+          </Menu.Item>
+          <Menu.Item className={itemClass} disabled={!hasTranscript} onSelect={() => save('srt')}>
+            {t('session.exportSrt')}
+          </Menu.Item>
+          <Menu.Item className={itemClass} disabled={!hasTranscript} onSelect={() => save('vtt')}>
+            {t('session.exportVtt')}
           </Menu.Item>
         </Menu.Content>
       </Menu.Portal>
