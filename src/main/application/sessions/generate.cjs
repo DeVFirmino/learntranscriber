@@ -127,7 +127,7 @@ function createGeneration({
         if (cancelled) trace(`Generation ${input?.mode || 'chat'} was cancelled.`);
         else log(`Generation ${input?.mode || 'chat'} failed: ${error?.message || error}`);
         // An automatic request has no visible owner: the workspace that asked may be hidden behind the bar.
-        if (['insight', 'screenInsight'].includes(input?.mode) && !cancelled)
+        if (['insight', 'screenInsight'].includes(input?.mode) && input?.trigger !== 'manual' && !cancelled)
           events.automaticFailed?.(error?.message || String(error));
         throw error;
       }

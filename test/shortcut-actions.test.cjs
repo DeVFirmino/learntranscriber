@@ -157,9 +157,7 @@ test('while everything is hidden, surface shortcuts are dropped and window short
   ]);
 });
 
-// Every shortcut with a known action, in idle and recording sessions, with surfaces shown and hidden. The main
-// process does not know whether a recording runs: Command-D always reaches the recorder as "record", which starts
-// listening when idle and analyzes without stopping when active, so no state ever turns a shortcut into a stop.
+// Command-D starts in the recorder when idle and analyzes once in the panel when active; it never stops capture.
 test('all 19 shortcuts with a known action, across idle/recording and visible/hidden states', () => {
   const reference = DEFINITIONS.filter((d) => d.reference);
   assert.equal(reference.length, 19);
@@ -168,13 +166,17 @@ test('all 19 shortcuts with a known action, across idle/recording and visible/hi
     for (const hidden of [false, true]) {
       for (const { id, reference: name } of reference) {
         const { actions, sent, calls, state } = harness({ concealed: hidden, notch: true });
+        state.listening = recording;
         const delivered = actions.dispatch(id);
         assert.ok(!sent.some(([, , action]) => action === 'toggleRecording'), `${name} never stops recording`);
         if (hidden && SURFACE_ACTIONS.has(id)) {
           assert.equal(delivered, false, `${name} is dropped while hidden`);
           assert.deepEqual([sent, calls], [[], []]);
         } else assert.equal(delivered, true, `${name} is delivered`);
-        if (id === 'record' && !hidden) assert.deepEqual(sent, [['main', 'workspace:action', 'record']]);
+        if (id === 'record' && !hidden)
+          assert.deepEqual(sent, [
+            [recording ? 'panel' : 'main', 'workspace:action', recording ? 'analyze' : 'record'],
+          ]);
         if (id !== 'hide') assert.equal(state.concealed, hidden, `${name} leaves concealment unchanged`);
         matrix[`${recording ? 'recording' : 'idle'}/${hidden ? 'hidden' : 'visible'}/${name}`] = delivered;
       }
@@ -225,8 +227,8 @@ test('Command-D while listening opens the session panel so the answer shows as i
   state.expanded = false;
   state.listening = true;
   actions.dispatch('record');
-  assert.deepEqual(calls, ['show-floating', 'expand-panel']);
-  assert.deepEqual(sent.at(-1), ['main', 'workspace:action', 'record']);
+  assert.deepEqual(calls, ['show-floating', 'expand-panel', 'focus-panel']);
+  assert.deepEqual(sent, [['panel', 'workspace:action', 'analyze']]);
 });
 
 test('the recording toggle brings a hidden floating assistant back without showing the workspace', () => {
@@ -241,4 +243,11 @@ test('Ask never falls back to the main window when the floating window is unavai
   assert.equal(h.actions.dispatch('ask'), false);
   assert.deepEqual(h.sent, []);
   assert.deepEqual(h.calls, ['show-floating']);
+});
+
+test('live analysis has no hidden-workspace fallback when the panel is unavailable', () => {
+  const h = harness({ overlayOpen: false });
+  h.state.listening = true;
+  assert.equal(h.actions.dispatch('record'), false);
+  assert.deepEqual(h.sent, []);
 });

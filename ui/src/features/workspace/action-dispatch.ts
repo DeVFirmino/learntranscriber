@@ -18,9 +18,9 @@ export interface ActionHooks {
 
 type Handler = (hooks: ActionHooks) => unknown
 
-// The floating assistant answers only the shortcuts of its own question box. Capture opens that box and attaches the
-// screenshot there, ready to send.
+// The floating assistant owns live analysis and its question box. Capture attaches a screenshot there, ready to send.
 const FLOATING: Record<string, Handler> = {
+  analyze: (hooks) => hooks.insightNow(),
   showResponse: (hooks) => hooks.floating('floating-response'),
   ask: (hooks) => hooks.floating('floating-ask'),
   capture: (hooks) => {

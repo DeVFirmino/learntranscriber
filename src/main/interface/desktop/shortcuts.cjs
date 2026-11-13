@@ -117,10 +117,11 @@ function createShortcutActions({
       if (action === 'previousResponse' || action === 'nextResponse') return panel ? send(panel, action) : false;
       if (action === 'previousInsight' || action === 'nextInsight')
         return shown(windows.notch()) ? send(windows.notch(), action) : false;
-      // Ask and capture belong to the floating assistant: they open the panel's Session tab,
+      // Ask, capture and live analysis belong to the floating assistant: they open the panel's Session tab,
       // where the screenshot waits beside the question box, instead of bringing the workspace forward. The workspace
       // never receives these actions.
-      if (action === 'ask' || action === 'capture') {
+      const analyzing = action === 'record' && windows.listening().active;
+      if (action === 'ask' || action === 'capture' || analyzing) {
         windows.showOverlay();
         const overlay = windows.overlay();
         if (windows.open(overlay)) {
@@ -128,7 +129,7 @@ function createShortcutActions({
           const deliver = () => {
             if (overlay.isDestroyed()) return;
             overlay.focus();
-            overlay.webContents.send('workspace:action', action);
+            overlay.webContents.send('workspace:action', analyzing ? 'analyze' : action);
           };
           if (overlay.webContents.isLoadingMainFrame()) overlay.webContents.once('did-finish-load', deliver);
           else deliver();
@@ -136,13 +137,8 @@ function createShortcutActions({
         }
         return false;
       }
-      // Recording starts or analyzes from the bar. While listening,
-      // Command-D asks for an answer now, so the session panel opens to show it processing and streaming in.
-      if (action === 'record' || action === 'capture' || action === 'toggleRecording') windows.showOverlay();
-      if (action === 'capture' || (action === 'record' && windows.listening().active)) {
-        const overlay = windows.overlay();
-        if (windows.open(overlay) && !windows.overlayExpanded()) windows.setOverlayExpanded(overlay, true);
-      }
+      // Only the workspace owns audio capture; live analysis belongs to the visible panel above.
+      if (action === 'record' || action === 'toggleRecording') windows.showOverlay();
       const main = windows.ensureMain();
       const deliver = () => {
         if (!main.isDestroyed()) main.webContents.send('workspace:action', action);
