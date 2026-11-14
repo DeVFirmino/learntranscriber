@@ -2,7 +2,7 @@ const { shortcutConfig } = require('../../domain/settings/shortcuts.cjs');
 
 const { createShortcutDelivery } = require('./shortcut-delivery.cjs');
 const { createShortcutCommands } = require('./shortcut-commands.cjs');
-// Shortcuts that reach the session surfaces only while the app is not hidden.
+// Shortcuts that reach the session surfaces only while the app is not hidden; Command-D (record) reveals it first.
 // The other five actions (hide, overlay, onTop, opacity) always run.
 const SURFACE_ACTIONS = new Set([
   'ask',
@@ -68,6 +68,12 @@ function createShortcutActions({
     },
     dispatch(action) {
       if (suspended()) return false;
+      // Command-D always answers: while everything is hidden it brings the windows back first, then starts listening
+      // or analyzes the conversation as usual. The other surface shortcuts stay silent while hidden.
+      if (action === 'record' && privacy().concealed) {
+        privacy().toggleConcealment();
+        changed();
+      }
       if (SURFACE_ACTIONS.has(action) && privacy().concealed) return false;
       return Object.hasOwn(commands, action) ? commands[action]() : delivery.main(action);
     },
