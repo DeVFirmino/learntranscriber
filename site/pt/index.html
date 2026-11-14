@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LearnTranscriber · Leia o que você ouve. Pergunte enquanto escuta.</title>
+    <meta
+      name="description"
+      content="Leia o que você ouve e pergunte enquanto escuta. O LearnTranscriber leva transcrição ao vivo e um assistente de IA flutuante para aulas, vídeos e reuniões no seu Mac."
+    />
+    <link rel="canonical" href="https://learntranscriber.danieldias.dev/pt/" />
+    <link rel="alternate" hreflang="en" href="https://learntranscriber.danieldias.dev/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://learntranscriber.danieldias.dev/pt/" />
+    <link rel="alternate" hreflang="x-default" href="https://learntranscriber.danieldias.dev/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="LearnTranscriber" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:title" content="LearnTranscriber · Leia o que você ouve. Pergunte enquanto escuta." />
+    <meta
+      property="og:description"
+      content="Leia o que você ouve e pergunte enquanto escuta. O LearnTranscriber leva transcrição ao vivo e um assistente de IA flutuante para aulas, vídeos e reuniões no seu Mac."
+    />
+    <meta property="og:url" content="https://learntranscriber.danieldias.dev/pt/" />
+    <meta property="og:image" content="https://learntranscriber.danieldias.dev/img/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="LearnTranscriber mostrando uma transcrição ao vivo e um insight de IA durante uma aula de inglês online, em um Mac."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LearnTranscriber · Leia o que você ouve. Pergunte enquanto escuta." />
+    <meta
+      name="twitter:description"
+      content="Leia o que você ouve e pergunte enquanto escuta. O LearnTranscriber leva transcrição ao vivo e um assistente de IA flutuante para aulas, vídeos e reuniões no seu Mac."
+    />
+    <meta name="twitter:image" content="https://learntranscriber.danieldias.dev/img/og.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false"><symbol id="i-screen" viewBox="0 0 24 24"><path d="M2.5 10.5v-5a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 13v1.5a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2V13M12 16.5v4M8 20.5h8" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-listen" viewBox="0 0 24 24"><path d="M9 5.5a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5a6.5 6.5 0 0 0 13 0M12 17v4" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-transcript" viewBox="0 0 24 24"><path d="M5 11V4.5a2 2 0 0 1 2-2h7l5 5V11M14 2.5v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 13.5v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6M9 17.5h6" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-sessions" viewBox="0 0 24 24"><path d="M5 11V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M3 7.5h4M10.5 7.5h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 13.5V19a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-5.5M3 16.5h4M10.5 16.5h4" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-sheets" viewBox="0 0 24 24"><path d="M3.5 11V5.5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2V11M3.5 7.5h17M9.5 3.5V11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 13.5v5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-5M3.5 17h17M9.5 13.5v7" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 13v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-capture" viewBox="0 0 24 24"><path d="M3 11.5V9a2 2 0 0 1 2-2h2l1.5-2.2A2 2 0 0 1 10.2 4h3.6a2 2 0 0 1 1.7.8L17 7h2a2 2 0 0 1 2 2v2.5M9 12a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M15 14.5a3 3 0 0 1-6 0" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-stealth" viewBox="0 0 24 24"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49M14.084 14.158a3 3 0 0 1-4.242-4.242" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143M3 3l18 18" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-shortcuts" viewBox="0 0 24 24"><path d="M2.5 11V7.5a5 5 0 0 1 5-5h9a5 5 0 0 1 5 5V11M10 10h4v4h-4zM10 10V8.25A1.75 1.75 0 1 0 8.25 10H10M14 10V8.25A1.75 1.75 0 1 1 15.75 10H14M14 14v1.75A1.75 1.75 0 1 0 15.75 14H14M10 14v1.75A1.75 1.75 0 1 1 8.25 14H10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 13.5v3a5 5 0 0 1-5 5h-9a5 5 0 0 1-5-5v-3" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-models" viewBox="0 0 24 24"><path d="M12 2.5l9 4.5-9 4.5-9-4.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12l9 4.5 9-4.5M3 16.5l9 4.5 9-4.5" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-assistants" viewBox="0 0 24 24"><path d="M16 7.5a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 20.5c0-3.9 3.4-6.5 7.5-6.5s7.5 2.6 7.5 6.5" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><path d="M7.5 10.5V7.5a4.5 4.5 0 0 1 9 0v3" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="4.5" y="10.5" width="15" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 15v2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol><symbol id="i-coffee" viewBox="0 0 24 24"><path d="M4.5 10.5h11v5.5a4 4 0 0 1-4 4h-3a4 4 0 0 1-4-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M15.5 12h1.5a2.5 2.5 0 0 1 0 5h-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 3.5c-1 1.2-1 2.3 0 3.5M11.5 3.5c-1 1.2-1 2.3 0 3.5" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v10M8 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-math" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 4.5h5M18 2v5M15.5 9.5h5" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-english" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 10L18 2l3.5 8M15.8 7h4.4" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-programming" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 2.5L14 6l2.5 3.5M19.5 2.5L22 6l-2.5 3.5" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-meeting" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2.5h8M14 6h8M14 9.5h5" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-star" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 2L19.5 4.14L21.99 4.9L20.43 6.99L20.47 9.6L18 8.75L15.53 9.6L15.57 6.99L14.01 4.9L16.5 4.14Z" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-general" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="a-spanish" viewBox="0 0 24 24"><path d="M11.5 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM3 21.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.2 6a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0 -3.6 0M18 2h.01M18 10h.01M14 6h.01M22 6h.01M15.2 3.2h.01M20.8 3.2h.01M15.2 8.8h.01M20.8 8.8h.01" fill="none" stroke="var(--accent, #2581ff)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+    <a class="skip" href="#main">Ir para o conteúdo</a>
+    <header class="top" data-top>
+      <div class="dock">
+        <a class="dock__home" href="#" aria-label="Início do LearnTranscriber"><img src="/img/logo-3d.webp" width="640" height="575" alt="" /></a>
+        <div class="dock__picker">
+          <button class="dock__pill" type="button" aria-expanded="false" aria-controls="dock-menu" data-dock-pill>
+            <span data-dock-label>LearnTranscriber</span>
+            <svg class="dock__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <nav class="dock__menu" id="dock-menu" aria-label="Todas as seções" data-dock-menu hidden>
+            <a href="#assistants"><svg class="icon" aria-hidden="true"><use href="#i-assistants" /></svg>Assistentes</a>
+            <a href="#how"><svg class="icon" aria-hidden="true"><use href="#i-listen" /></svg>Como funciona</a>
+            <a href="#uses"><svg class="icon" aria-hidden="true"><use href="#i-screen" /></svg>Funciona com o que você usa</a>
+            <a href="#privacy"><svg class="icon" aria-hidden="true"><use href="#i-stealth" /></svg>Privacidade</a>
+            <a href="#faq"><svg class="icon" aria-hidden="true"><use href="#i-shortcuts" /></svg>Perguntas</a>
+            <a href="#download"><svg class="icon" aria-hidden="true"><use href="#i-download" /></svg>Baixar</a>
+          </nav>
+        </div>
+        <span class="dock__dot" aria-hidden="true"></span>
+        <nav class="dock__keys" aria-label="Seções">
+          <a class="dock__key" href="#assistants" data-tip="Assistentes" aria-label="Assistentes"><svg class="icon" aria-hidden="true"><use href="#i-assistants" /></svg></a>
+          <a class="dock__key" href="#how" data-tip="Como funciona" aria-label="Como funciona"><svg class="icon" aria-hidden="true"><use href="#i-listen" /></svg></a>
+          <a class="dock__key" href="#privacy" data-tip="Privacidade" aria-label="Privacidade"><svg class="icon" aria-hidden="true"><use href="#i-stealth" /></svg></a>
+          <a class="dock__key" href="#download" data-tip="Baixar" aria-label="Baixar"><svg class="icon" aria-hidden="true"><use href="#i-download" /></svg></a>
+        </nav>
+        <nav class="dock__lang" aria-label="Idioma">
+          <a href="/" hreflang="en" lang="en">EN</a>
+          <a href="/pt/" hreflang="pt-BR" lang="pt-BR" aria-current="page">PT</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <h1 id="hero-title" class="hero__title">
+            <span class="hero__line">Leia o que você ouve.</span>
+            <span class="hero__line">
+              <span class="mark">Pergunte
+                <svg class="mark__stroke" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M4 16C58 8 130 5 190 9C232 12 266 14 296 9" />
+                </svg>
+              </span>
+              enquanto escuta.
+            </span>
+          </h1>
+          <p class="hero__lead">
+            Acompanhe aulas, vídeos e reuniões com transcrição ao vivo no seu Mac. Pergunte ao assistente flutuante
+            sobre o que foi dito, com o provedor de IA que você escolher.
+          </p>
+          <p class="hero__meta">Para Macs com Apple Silicon · macOS 14 ou mais recente</p>
+        </div>
+      </section>
+
+      <section class="story" id="demo" data-story aria-label="LearnTranscriber em uma aula, uma reunião e um tutorial">
+        <div class="story__pin">
+          <div class="scenes" aria-label="Situações">
+            <button type="button" class="scenes__tab is-on" data-scene-tab="0" aria-pressed="true"><svg class="glyph" aria-hidden="true"><use href="#a-english" /></svg>Aulas</button>
+            <button type="button" class="scenes__tab" data-scene-tab="1" aria-pressed="false"><svg class="glyph" aria-hidden="true"><use href="#a-meeting" /></svg>Reuniões</button>
+            <button type="button" class="scenes__tab" data-scene-tab="2" aria-pressed="false"><svg class="glyph" aria-hidden="true"><use href="#a-programming" /></svg>Tutoriais</button>
+          </div>
+        <div class="stage">
+          <svg class="stage__links" data-links aria-hidden="true"></svg>
+          <video class="stage__wave" src="/img/home-loop.mp4" poster="/img/home-loop.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+
+          <div class="float obj obj--board" data-depth="0.7" data-source aria-hidden="true">
+            <span class="pings"><i></i><i></i></span>
+            <img src="/img/objects/whiteboard.webp" width="467" height="596" alt="" />
+            <span class="obj__label">Aulas e tutoriais</span>
+          </div>
+          <div class="float obj obj--phones" data-depth="1" data-source data-active aria-hidden="true">
+            <span class="pings"><i></i><i></i></span>
+            <img src="/img/objects/headphones.webp" width="446" height="541" alt="" />
+            <span class="obj__label">Aulas online</span>
+          </div>
+          <div class="float obj obj--mic" data-depth="0.5" data-source aria-hidden="true">
+            <span class="pings"><i></i><i></i></span>
+            <img src="/img/objects/microphone.webp" width="338" height="625" alt="" />
+            <span class="obj__label">Reuniões</span>
+          </div>
+          <div class="float float--assistants" data-depth="0.5" aria-hidden="true">
+            <span class="chip is-active" data-chip="0"><svg class="glyph"><use href="#a-english" /></svg>Inglês</span>
+            <span class="chip"><svg class="glyph"><use href="#a-math" /></svg>Matemática</span>
+            <span class="chip" data-chip="1"><svg class="glyph"><use href="#a-meeting" /></svg>Anotador</span>
+            <span class="chip" data-chip="2"><svg class="glyph"><use href="#a-programming" /></svg>Programação</span>
+            <span class="chip"><svg class="glyph"><use href="#a-general" /></svg>Geral</span>
+          </div>
+          <div class="float obj obj--bubble" data-depth="0.8" aria-hidden="true">
+            <span class="pings"><i></i><i></i></span>
+            <img src="/img/objects/bubble.webp" width="469" height="413" alt="" />
+            <span class="obj__label">Respostas</span>
+          </div>
+          <div class="float obj obj--notebook" data-depth="0.6" aria-hidden="true">
+            <span class="pings"><i></i><i></i></span>
+            <img src="/img/objects/notebook.webp" width="491" height="553" alt="" />
+            <span class="obj__label">Resumos</span>
+          </div>
+          <div class="float float--saved" data-depth="0.9" aria-hidden="true">
+            <svg class="glyph glyph--tile"><use href="#a-star" /></svg>
+            <span><b data-saved-title>Aula de inglês · present perfect</b><small data-saved-meta>Salva · 52 min · resumo pronto</small></span>
+          </div>
+
+          <figure class="mac" role="img" aria-label="Ilustração: o assistente flutuante do LearnTranscriber respondendo perguntas durante uma aula online, uma reunião de equipe e um tutorial de programação.">
+            <img class="mac__frame" src="/img/macbook.webp" width="2220" height="1343" alt="" />
+              <div class="mac__screen" data-demo aria-hidden="true">
+                <div class="menubar">
+                  <span class="menubar__app" data-scene-app>Sala de aula</span>
+                  <span class="menubar__items"><span>Arquivo</span><span>Visualizar</span><span>Janela</span></span>
+                  <span class="menubar__right">
+                    <svg class="menubar__mark" viewBox="0 0 256 192"><path fill="currentColor" d="M29 150C5 135-5 96 7 65C23 25 66 1 105 1C144 1 173 22 180 51C187 80 169 94 145 85C116 73 100 68 77 73C44 79 17 112 29 150Z" /><path fill="currentColor" d="M222 39C249 54 261 94 250 126C236 167 197 187 157 185C117 185 84 169 76 141C68 117 79 100 101 103C124 107 140 122 169 117C211 111 240 74 222 39Z" /></svg>
+                    <span>ter 10:42</span>
+                  </span>
+                </div>
+
+                <div class="scene is-on" data-scene="0">
+                <div class="call">
+                  <div class="call__bar">
+                    <span class="lights"><i></i><i></i><i></i></span>
+                    <span>Aula de inglês · Conversação B2</span>
+                  </div>
+                  <div class="call__stage">
+                    <video class="call__main" src="/img/call/teacher.mp4" poster="/img/call/teacher.jpg" autoplay muted loop playsinline></video>
+                    <span class="call__name">Tom · Professor</span>
+                    <span class="call__self"><video src="/img/call/student.mp4" poster="/img/call/student.jpg" autoplay muted loop playsinline></video><span class="call__name">Você</span></span>
+                  </div>
+                  <div class="call__controls">
+                    <span class="ctl"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zM19 11a7 7 0 0 1-14 0M12 18v3" /></svg></span>
+                    <span class="ctl"><svg viewBox="0 0 24 24"><path d="M15 10l5-3v10l-5-3M3 7h12v10H3z" /></svg></span>
+                    <span class="ctl"><svg viewBox="0 0 24 24"><path d="M3 5h18v11H3zM8 20h8M12 16v4M12 13V8M9.5 10.5 12 8l2.5 2.5" /></svg></span>
+                    <span class="ctl ctl--leave">Sair</span>
+                  </div>
+                </div>
+                </div>
+
+                <div class="scene" data-scene="1">
+                <div class="call meet">
+                  <div class="call__bar">
+                    <span class="lights"><i></i><i></i><i></i></span>
+                    <span>Reunião do time · Semanal</span>
+                  </div>
+                  <div class="meet__grid">
+                    <span class="meet__tile meet__tile--speaker"><video src="/img/meet/ana.mp4" poster="/img/meet/ana.jpg" muted loop playsinline preload="none"></video><span class="call__name">Ana · Produto</span></span>
+                    <span class="meet__tile"><video src="/img/meet/leo.mp4" poster="/img/meet/leo.jpg" muted loop playsinline preload="none"></video><span class="call__name">Leo · Design</span></span>
+                    <span class="meet__tile meet__tile--off"><span class="meet__avatar">RK</span><span class="call__name">Raj · Engenharia</span></span>
+                  </div>
+                  <div class="call__controls">
+                    <span class="ctl"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zM19 11a7 7 0 0 1-14 0M12 18v3" /></svg></span>
+                    <span class="ctl"><svg viewBox="0 0 24 24"><path d="M15 10l5-3v10l-5-3M3 7h12v10H3z" /></svg></span>
+                    <span class="ctl"><svg viewBox="0 0 24 24"><path d="M3 5h18v11H3zM8 20h8M12 16v4M12 13V8M9.5 10.5 12 8l2.5 2.5" /></svg></span>
+                    <span class="ctl ctl--leave">Sair</span>
+                  </div>
+                </div>
+                </div>
+
+                <div class="scene" data-scene="2">
+                <div class="call editor">
+                  <div class="call__bar">
+                    <span class="lights"><i></i><i></i><i></i></span>
+                    <span>Tutorial de hooks do React · Parte 3</span>
+                  </div>
+                  <div class="editor__body">
+                    <div class="editor__tabs"><span class="editor__tab is-on">useUser.ts</span><span class="editor__tab">App.tsx</span></div>
+                    <pre class="editor__code"><code><span class="k">import</span> { useEffect, useState } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="k">export function</span> <span class="f">useUser</span>(id: <span class="t">string</span>) {
+  <span class="k">const</span> [user, setUser] = <span class="f">useState</span>&lt;<span class="t">User</span> | <span class="t">null</span>&gt;(<span class="t">null</span>)
+
+  <span class="f">useEffect</span>(() =&gt; {
+    console.<span class="f">log</span>(<span class="s">'fetching user'</span>, id)
+    <span class="f">fetch</span>(<span class="s">`/api/users/${id}`</span>)
+      .<span class="f">then</span>((response) =&gt; response.<span class="f">json</span>())
+      .<span class="f">then</span>(setUser)
+  }, [id])
+
+  <span class="k">return</span> user
+}</code></pre>
+                    <span class="editor__cam"><video src="/img/tutorial/dev.mp4" poster="/img/tutorial/dev.jpg" muted loop playsinline preload="none"></video></span>
+                  </div>
+                </div>
+                </div>
+
+                <section class="panel">
+                  <div class="panel__head">
+                    <span class="tabs">
+                      <span class="tab"><svg class="icon"><use href="#i-transcript" /></svg>Transcrição</span>
+                      <span class="tab tab--on"><svg class="icon"><use href="#i-sessions" /></svg>Sessão</span>
+                      <span class="tab"><svg class="icon"><use href="#i-sheets" /></svg>Resumo</span>
+                    </span>
+                  </div>
+                  <div class="panel__feed" data-feed></div>
+                  <div class="panel__ask" data-ask>
+                    <span class="compose" data-compose>Faça outra pergunta…</span>
+                    <span class="send" data-send><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg></span>
+                  </div>
+                  <div class="panel__toast" data-toast><svg class="glyph"><use href="#a-star" /></svg><span data-toast-text><b>Sessão salva</b> · resumo pronto</span></div>
+                </section>
+
+                <div class="bar">
+                  <span class="bar__assistant"><svg class="glyph"><use data-scene-glyph href="#a-english" /></svg><span data-scene-assistant>Assistente de inglês</span></span>
+                  <span class="bar__controls">
+                    <svg class="icon"><use href="#i-home" /></svg>
+                    <span class="bar__rec"><i></i><span data-timer>12:04</span><span class="wave" data-wave><i></i><i></i><i></i><i></i><i></i></span></span>
+                    <span class="bar__on"><svg class="icon"><use href="#i-listen" /></svg></span>
+                    <svg class="icon"><use href="#i-capture" /></svg>
+                    <svg class="icon"><use href="#i-stealth" /></svg>
+                    <svg class="icon"><use href="#i-shortcuts" /></svg>
+                  </span>
+                </div>
+              </div>
+          </figure>
+        </div>
+        </div>
+      </section>
+
+      <section class="pick" id="assistants" aria-labelledby="pick-title">
+        <h2 id="pick-title" class="section-title">Escolha seu assistente.</h2>
+        <p class="pick__lead">Cinco já vêm com o app, cada um com instruções para um assunto. Escolha um antes de começar ou escreva o seu.</p>
+
+        <div class="pick__icons" role="tablist" aria-label="Assistentes que vêm com o app" data-pick>
+          <button class="pick__item" type="button" role="tab" id="pick-tab-english" aria-controls="pick-english" aria-selected="true">
+            <img src="/img/assistants/english.webp" width="462" height="543" alt="" />
+            <span class="pick__label">Inglês</span>
+          </button>
+          <button class="pick__item" type="button" role="tab" id="pick-tab-math" aria-controls="pick-math" aria-selected="false">
+            <img src="/img/assistants/math.webp" width="462" height="543" alt="" />
+            <span class="pick__label">Matemática</span>
+          </button>
+          <button class="pick__item" type="button" role="tab" id="pick-tab-programming" aria-controls="pick-programming" aria-selected="false">
+            <img src="/img/assistants/programming.webp" width="462" height="543" alt="" />
+            <span class="pick__label">Programação</span>
+          </button>
+          <button class="pick__item" type="button" role="tab" id="pick-tab-note-taker" aria-controls="pick-note-taker" aria-selected="false">
+            <img src="/img/assistants/note-taker.webp" width="462" height="543" alt="" />
+            <span class="pick__label">Anotador</span>
+          </button>
+          <button class="pick__item" type="button" role="tab" id="pick-tab-general" aria-controls="pick-general" aria-selected="false">
+            <img src="/img/assistants/general.webp" width="462" height="543" alt="" />
+            <span class="pick__label">Geral</span>
+          </button>
+        </div>
+
+        <div class="pick__chat">
+          <div class="pick__panels">
+            <article class="pick__panel is-on" id="pick-english" role="tabpanel" aria-labelledby="pick-tab-english">
+              <header class="pick__head"><svg class="glyph"><use href="#a-english" /></svg><span class="pick__who"><b>Assistente de inglês</b><small>Explica a gramática e as palavras da aula, com exemplos curtos e reais.</small></span><span class="pick__tag">Educação</span></header>
+              <div class="pick__talk">
+                <p class="pick__q">Quando uso “for” ou “since”?</p>
+                <div class="pick__a"><p>“For” leva um período de tempo, como <b>for three years</b>. “Since” leva um ponto de partida, como <b>since 2023</b>.</p></div>
+              </div>
+            </article>
+            <article class="pick__panel" id="pick-math" role="tabpanel" aria-labelledby="pick-tab-math">
+              <header class="pick__head"><svg class="glyph"><use href="#a-math" /></svg><span class="pick__who"><b>Assistente de matemática</b><small>Resolve os passos e as fórmulas da aula, explicando cada símbolo.</small></span><span class="pick__tag">Educação</span></header>
+              <div class="pick__talk">
+                <p class="pick__q">Por que a derivada de x² é 2x?</p>
+                <div class="pick__a"><p>Pela regra da potência, a derivada de <i>x</i><sup><i>n</i></sup> é <i>n</i>·<i>x</i><sup><i>n</i>−1</sup>, em que <i>n</i> é o expoente. Com <i>n</i> = 2, o resultado é 2<i>x</i>.</p></div>
+              </div>
+            </article>
+            <article class="pick__panel" id="pick-programming" role="tabpanel" aria-labelledby="pick-tab-programming">
+              <header class="pick__head"><svg class="glyph"><use href="#a-programming" /></svg><span class="pick__who"><b>Assistente de programação</b><small>Explica o código na tela, na linguagem que você está usando.</small></span><span class="pick__tag">Educação</span></header>
+              <div class="pick__talk">
+                <p class="pick__q">Por que esse efeito roda duas vezes em desenvolvimento?</p>
+                <div class="pick__a"><p>O Strict Mode do React monta cada componente duas vezes em desenvolvimento para revelar efeitos colaterais. Em produção, o efeito roda uma vez.</p></div>
+              </div>
+            </article>
+            <article class="pick__panel" id="pick-note-taker" role="tabpanel" aria-labelledby="pick-tab-note-taker">
+              <header class="pick__head"><svg class="glyph"><use href="#a-meeting" /></svg><span class="pick__who"><b>Anotador</b><small>Registra as decisões, as tarefas e as perguntas em aberto enquanto a reunião acontece.</small></span><span class="pick__tag">Reuniões</span></header>
+              <div class="pick__talk">
+                <p class="pick__q">O que decidimos sobre o beta?</p>
+                <div class="pick__a"><p><b>Decisão:</b> o beta vai para os 50 primeiros usuários na sexta que vem. <b>Tarefa:</b> o Leo termina as telas de onboarding até quarta.</p></div>
+              </div>
+            </article>
+            <article class="pick__panel" id="pick-general" role="tabpanel" aria-labelledby="pick-tab-general">
+              <header class="pick__head"><svg class="glyph"><use href="#a-general" /></svg><span class="pick__who"><b>Assistente geral</b><small>Explica qualquer assunto, de um resumo rápido até os detalhes, com um glossário no fim.</small></span><span class="pick__tag">Geral</span></header>
+              <div class="pick__talk">
+                <p class="pick__q">O que significa “product-led growth”?</p>
+                <div class="pick__a"><p>O próprio produto atrai e mantém os usuários, com planos gratuitos e compartilhamento dentro do app. <b>Glossário:</b> um growth loop é um ciclo em que usar o produto traz novos usuários.</p></div>
+              </div>
+            </article>
+          </div>
+          <div class="pick__compose" aria-hidden="true">
+            <span>Faça outra pergunta…</span>
+            <svg class="icon"><use href="#i-capture" /></svg>
+            <span class="pick__send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="how" id="how" aria-labelledby="how-title">
+        <div class="how__head">
+          <h2 id="how-title" class="section-title">Um atalho para começar.<br />Respostas onde você já está.</h2>
+          <img class="how__logo" src="/img/logo-3d.webp" width="640" height="575" alt="" />
+        </div>
+
+        <div class="flow" id="features" data-flow>
+          <div class="flow__pin">
+            <ol class="flow__steps">
+              <li class="flow__step is-on" data-flow-step>
+                <h3>Escolha o assistente</h3>
+                <div class="flow__more"><p>Escolha o assistente do assunto na barra flutuante. Cinco já vêm com o app, e você pode escrever o seu.</p></div>
+              </li>
+              <li class="flow__step" data-flow-step>
+                <h3>Aperte para ouvir</h3>
+                <div class="flow__more"><p>Clique no microfone ou aperte <kbd>⌘</kbd><kbd>D</kbd>. O microfone e o áudio do computador só começam aí, e param quando você parar.</p></div>
+              </li>
+              <li class="flow__step" data-flow-step>
+                <h3>Leia enquanto falam</h3>
+                <div class="flow__more"><p>A transcrição chega conforme as pessoas falam, pelo Apple Speech no seu Mac, por um servidor Whisper local ou por um serviço de transcrição na nuvem.</p></div>
+              </li>
+              <li class="flow__step" data-flow-step>
+                <h3>Pergunte enquanto ainda falam</h3>
+                <div class="flow__more"><p>Digite no painel flutuante, sobre qualquer app, e aperte <kbd>⌘</kbd><kbd>↩</kbd>. Entre com o ChatGPT, use uma chave de API ou rode um modelo local no seu Mac.</p></div>
+              </li>
+              <li class="flow__step" data-flow-step>
+                <h3>Mostre o slide</h3>
+                <div class="flow__more"><p>Aperte <kbd>⌘</kbd><kbd>E</kbd> para anexar uma captura de tela ou um texto selecionado à pergunta, e a resposta enxerga o que você vê.</p></div>
+              </li>
+              <li class="flow__step" data-flow-step>
+                <h3>Guarde cada sessão</h3>
+                <div class="flow__more"><p>Ao parar, a sessão fica no seu Mac com a transcrição, as respostas e o resumo. Salve o resumo como uma nota em Markdown, com decisões e próximos passos.</p></div>
+              </li>
+            </ol>
+
+            <div class="flow__stage" aria-hidden="true">
+              <div class="rig" data-rig>
+                <div class="rig__panel">
+                  <div class="rig__head">
+                    <span class="rig__chip"><svg class="icon"><use href="#i-transcript" /></svg><span data-flow-engine>Apple Speech</span></span>
+                    <span class="rig__chip"><svg class="icon"><use href="#i-models" /></svg><span data-flow-model>ChatGPT</span></span>
+                  </div>
+                  <div class="rig__lines">
+                    <p class="rig__line"><b>Eles</b><span data-flow-line="We use the present perfect for experiences, like “I have visited Lisbon twice.”"></span></p>
+                    <p class="rig__line"><b>Eles</b><span data-flow-line="And “for” or “since” when something started in the past and is still true."></span></p>
+                  </div>
+                  <div class="rig__talk">
+                    <p class="rig__q"><span class="rig__shot">Slide 4</span><span data-flow-q></span></p>
+                    <div class="rig__a"><b>Assistente de inglês</b><p data-flow-a></p></div>
+                  </div>
+                  <div class="rig__ask"><span data-flow-ask>Pergunte sobre a aula…</span><span class="rig__send" data-flow-send><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg></span></div>
+                  <div class="rig__toast"><svg class="glyph"><use href="#a-star" /></svg><span><b>Sessão salva</b> · resumo pronto</span></div>
+                </div>
+                <div class="rig__menu">
+                  <span class="rig__item"><svg class="glyph"><use href="#a-english" /></svg>Assistente de inglês</span>
+                  <span class="rig__item"><svg class="glyph"><use href="#a-math" /></svg>Assistente de matemática</span>
+                  <span class="rig__item"><svg class="glyph"><use href="#a-programming" /></svg>Assistente de programação</span>
+                  <span class="rig__item"><svg class="glyph"><use href="#a-meeting" /></svg>Anotador</span>
+                  <span class="rig__item"><svg class="glyph"><use href="#a-general" /></svg>Assistente geral</span>
+                </div>
+                <div class="rig__picker" data-flow-picker><svg class="glyph"><use href="#a-english" /></svg><span>Assistente de inglês</span><svg class="rig__chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg></div>
+                <div class="rig__bar">
+                  <span class="rig__key"><svg class="icon"><use href="#i-home" /></svg></span>
+                  <span class="rig__status"><i></i><span data-flow-timer>0:00</span><span class="rig__wave"><i></i><i></i><i></i><i></i></span></span>
+                  <span class="rig__key rig__key--mic" data-flow-mic><svg class="icon"><use href="#i-listen" /></svg></span>
+                  <span class="rig__key" data-flow-capture><svg class="icon"><use href="#i-capture" /></svg></span>
+                  <span class="rig__key"><svg class="icon"><use href="#i-stealth" /></svg></span>
+                  <span class="rig__key"><svg class="icon"><use href="#i-shortcuts" /></svg></span>
+                </div>
+                <div class="rig__note">
+                  <p class="rig__file">Aula de inglês · present perfect.md</p>
+                  <p class="rig__h">## Resumo</p>
+                  <p>- Present perfect: have ou has + particípio passado</p>
+                  <p>- “For” + um período de tempo, “since” + um ponto de partida</p>
+                  <p class="rig__h">## Próximos passos</p>
+                  <p>- Escrever cinco frases com “since”</p>
+                </div>
+                <div class="rig__flash"></div>
+              </div>
+              <svg class="flow__cursor" data-cursor viewBox="0 0 24 24"><path d="M5 2.5v17l4.6-4.4 3.1 7 2.9-1.3-3.1-6.9h6.4z" /></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reach" id="uses" aria-labelledby="reach-title">
+        <h2 id="reach-title" class="reach__title" data-words>Funciona com o que você usa.</h2>
+        <p class="reach__lead">Aulas, YouTube, Zoom, Meet. Pergunte de qualquer app.</p>
+        <div class="reach__stage">
+          <button class="reach__app is-on" type="button" data-app aria-pressed="true">
+            <span class="reach__bar"><i></i><i></i><i></i>Aula</span>
+            <img class="reach__icon" src="/img/objects/whiteboard.webp" width="467" height="596" alt="" loading="lazy" />
+            <img src="/img/call/teacher.jpg" width="960" height="540" alt="" loading="lazy" />
+          </button>
+          <button class="reach__app" type="button" data-app aria-pressed="false">
+            <span class="reach__bar"><i></i><i></i><i></i>YouTube</span>
+            <img class="reach__icon" src="/img/sources/video.webp" width="240" height="240" alt="" loading="lazy" />
+            <img src="/img/tutorial/dev.jpg" width="640" height="360" alt="" loading="lazy" />
+          </button>
+          <button class="reach__app" type="button" data-app aria-pressed="false">
+            <span class="reach__bar"><i></i><i></i><i></i>Zoom</span>
+            <img class="reach__icon" src="/img/sources/webcam.webp" width="240" height="240" alt="" loading="lazy" />
+            <img src="/img/meet/ana.jpg" width="960" height="540" alt="" loading="lazy" />
+          </button>
+          <button class="reach__app" type="button" data-app aria-pressed="false">
+            <span class="reach__bar"><i></i><i></i><i></i>Google Meet</span>
+            <img class="reach__icon" src="/img/sources/call.webp" width="240" height="240" alt="" loading="lazy" />
+            <img src="/img/meet/leo.jpg" width="640" height="360" alt="" loading="lazy" />
+          </button>
+          <div class="reach__float" data-reach-float aria-live="polite">
+            <span class="reach__pill"><svg class="glyph"><use data-reach-glyph href="#a-english" /></svg><span data-reach-name>Assistente de inglês</span></span>
+            <span class="reach__answer" data-reach-answer>“Since” leva um ponto de partida, como since 2023.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="privacy" id="privacy" aria-labelledby="privacy-title">
+        <div class="privacy__inner">
+          <h2 id="privacy-title" class="section-title">Seu, no seu Mac.</h2>
+          <ul class="promises">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-listen" /></svg>Só escuta quando você mandar</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg>Chaves no Chaveiro</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-models" /></svg>O que é local fica local</li>
+          </ul>
+
+          <div class="download" id="download">
+            <img class="download__icon" src="/img/app-icon-3d.webp" width="560" height="560" alt="Ícone do app LearnTranscriber" loading="lazy" />
+            <a class="download__button" href="https://github.com/DeVFirmino/learntranscriber/releases/latest/download/LearnTranscriber-arm64.dmg"><svg class="icon" aria-hidden="true"><use href="#i-download" /></svg>Baixar para Mac</a>
+            <a class="download__code" href="https://github.com/DeVFirmino/learntranscriber"><svg class="icon" viewBox="0 0 128 128" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M64 5.103c-33.347 0-60.388 27.035-60.388 60.388 0 26.682 17.303 49.317 41.297 57.303 3.017.56 4.125-1.31 4.125-2.905 0-1.44-.056-6.197-.082-11.243-16.8 3.653-20.345-7.125-20.345-7.125-2.747-6.98-6.705-8.836-6.705-8.836-5.48-3.748.413-3.67.413-3.67 6.063.425 9.257 6.223 9.257 6.223 5.386 9.23 14.127 6.562 17.573 5.02.542-3.903 2.107-6.568 3.834-8.076-13.413-1.525-27.514-6.704-27.514-29.843 0-6.593 2.36-11.98 6.223-16.21-.628-1.52-2.695-7.662.584-15.98 0 0 5.07-1.623 16.61 6.19C53.7 35 58.867 34.327 64 34.304c5.13.023 10.3.694 15.127 2.033 11.526-7.813 16.59-6.19 16.59-6.19 3.287 8.317 1.22 14.46.593 15.98 3.872 4.23 6.215 9.617 6.215 16.21 0 23.194-14.127 28.3-27.574 29.796 2.167 1.874 4.097 5.55 4.097 11.183 0 8.08-.07 14.583-.07 16.572 0 1.607 1.088 3.49 4.148 2.897 23.98-7.994 41.263-30.622 41.263-57.294C124.388 32.14 97.35 5.104 64 5.104z" /></svg>Ou pegue o código no GitHub</a>
+            <a class="download__version" href="https://github.com/DeVFirmino/learntranscriber/releases/tag/v0.1.3">v0.1.3 · Novidades</a>
+            <div class="terminal" aria-label="Instalar com o Homebrew">
+              <div class="terminal__bar">
+                <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="terminal__title">Instalar com o Homebrew</span>
+                <button class="terminal__copy" type="button" data-copy-terminal>Copiar</button>
+              </div>
+              <pre class="terminal__body"><code><span class="terminal__line"><span class="f">brew</span> tap learntranscriber/tap</span>
+<span class="terminal__line"><span class="f">brew</span> trust learntranscriber/tap</span>
+<span class="terminal__line"><span class="f">brew</span> install --cask learntranscriber</span></code></pre>
+            </div>
+          </div>
+
+          <ol class="install">
+            <li class="install__step">
+              <div class="install__art" aria-hidden="true">
+                <div class="install__dock">
+                  <span class="install__tip">Downloads</span>
+                  <span class="install__file"><i></i></span>
+                  <span class="install__name">LearnTranscriber.dmg</span>
+                </div>
+              </div>
+              <p><b>1</b>Abra o DMG.</p>
+            </li>
+            <li class="install__step">
+              <div class="install__art" aria-hidden="true">
+                <div class="install__window">
+                  <img class="install__app" src="/img/app-icon-3d.webp" width="560" height="560" alt="" loading="lazy" />
+                  <span class="install__arrow"></span>
+                  <span class="install__folder"></span>
+                </div>
+              </div>
+              <p><b>2</b>Arraste para Aplicativos.</p>
+            </li>
+            <li class="install__step">
+              <div class="install__art" aria-hidden="true">
+                <div class="install__settings">
+                  <span class="install__side"><i></i>Privacidade e Segurança</span>
+                  <span class="install__pane"><small>Segurança</small><em>LearnTranscriber</em><span class="install__open">Abrir Mesmo Assim</span></span>
+                </div>
+              </div>
+              <p><b>3</b>Na primeira vez, escolha Abrir Mesmo Assim.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="faq" id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="section-title">Perguntas</h2>
+        <div class="faq__list">
+          <details>
+            <summary>É grátis?</summary>
+            <p>Sim. Não há nada para comprar: baixe o DMG, instale com o Homebrew ou compile o código no seu Mac. As respostas vêm do provedor de IA que você escolher, então uma chave de API é cobrada por esse provedor, enquanto um modelo local roda no seu Mac.</p>
+          </details>
+          <details>
+            <summary>Algum bot entra nas minhas reuniões?</summary>
+            <p>Não. Ele ouve o áudio do seu computador, então chamadas do Zoom, do Google Meet e do Teams são transcritas sem ninguém entrar.</p>
+          </details>
+          <details>
+            <summary>Funciona sem a nuvem?</summary>
+            <p>Funciona. Use o Apple Speech ou um servidor Whisper local para a transcrição e um modelo local para as respostas, e tudo fica no seu Mac.</p>
+          </details>
+          <details>
+            <summary>As pessoas veem o app quando eu compartilho a tela?</summary>
+            <p>As janelas pedem ao macOS proteção contra captura, mas o compartilhamento de tela no Zoom, no Teams ou no Meet ainda pode mostrá-las. Confira o que os participantes veem antes de apresentar.</p>
+          </details>
+          <details>
+            <summary>Posso instalar com o Homebrew?</summary>
+            <p>Pode, com os três comandos em Baixar. O <code>brew trust</code> é a autorização única que o Homebrew pede para um tap que ele não mantém, e o <code>brew upgrade --cask learntranscriber</code> traz as versões seguintes. O macOS ainda pede Abrir Mesmo Assim na primeira vez.</p>
+          </details>
+          <details>
+            <summary>Em quais Macs funciona?</summary>
+            <p>Em Macs com Apple Silicon e macOS 14 ou mais recente. Para compilar, você também precisa do Node.js e do Xcode com o SDK do macOS 26.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="source" id="source" aria-labelledby="source-title">
+        <div class="final">
+          <p class="final__bar" aria-hidden="true"><i></i><i></i><i></i></p>
+          <div class="final__body">
+            <div class="final__text">
+              <h2 id="source-title" class="final__title">Leia o que você ouve.<br /><span class="mark">Pergunte</span> enquanto escuta.</h2>
+              <p>Um app para toda aula e toda chamada, com um assistente para cada assunto, no seu Mac.</p>
+              <div class="final__cta">
+                <a class="button button--primary" href="#download"><span class="button__dot" aria-hidden="true"></span>Baixar para Mac</a>
+                <a class="button button--quiet" href="#assistants">Conheça os assistentes <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+            <div class="final__art" aria-hidden="true">
+              <img class="final__icon" src="/img/app-icon-3d.webp" width="560" height="560" alt="" loading="lazy" />
+              <img class="final__bust" src="/img/assistants/english.webp" width="462" height="543" alt="" loading="lazy" />
+              <img class="final__bust" src="/img/assistants/math.webp" width="462" height="543" alt="" loading="lazy" />
+              <img class="final__bust" src="/img/assistants/programming.webp" width="462" height="543" alt="" loading="lazy" />
+              <img class="final__bust" src="/img/assistants/note-taker.webp" width="462" height="543" alt="" loading="lazy" />
+              <img class="final__bust" src="/img/assistants/general.webp" width="462" height="543" alt="" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+      <section class="film" id="film" aria-label="O filme do LearnTranscriber">
+        <div class="film__frame" data-film>
+          <video class="film__video" src="/img/film/launch.mp4" poster="/img/film/launch-poster.webp" preload="none" playsinline aria-label="Um filme de 30 segundos: um estudante travado em uma frase numa aula online pergunta ao LearnTranscriber e segue em frente"></video>
+          <button class="film__play" type="button" data-film-play aria-label="Assistir ao filme de 30 segundos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
+            <span>Assistir ao filme · 30 s</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="open" aria-labelledby="open-title" data-open>
+        <div class="open__inner">
+          <div class="open__scene" aria-hidden="true">
+            <img class="open__lock" src="/img/open-lock.webp" width="507" height="640" alt="" loading="lazy" />
+            <span class="open__card open__card--read">Grátis</span>
+            <span class="open__card open__card--build">Código aberto</span>
+            <span class="open__card open__card--change">No GitHub</span>
+          </div>
+          <div class="open__text">
+            <h2 id="open-title" class="section-title">Grátis e de código aberto.</h2>
+            <p class="open__lead">O LearnTranscriber não custa nada, e o app inteiro é de código aberto. Leia como ele escuta, o que guarda e o que envia. Compile no seu Mac e mude o que quiser.</p>
+            <p class="open__lead">Ele também se apoia em código aberto, do Electron e do React ao whisper.cpp e ao llama.cpp. O código está no GitHub, com licença MIT.</p>
+            <a class="open__github" href="https://github.com/DeVFirmino/learntranscriber"><svg viewBox="0 0 128 128" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M64 5.103c-33.347 0-60.388 27.035-60.388 60.388 0 26.682 17.303 49.317 41.297 57.303 3.017.56 4.125-1.31 4.125-2.905 0-1.44-.056-6.197-.082-11.243-16.8 3.653-20.345-7.125-20.345-7.125-2.747-6.98-6.705-8.836-6.705-8.836-5.48-3.748.413-3.67.413-3.67 6.063.425 9.257 6.223 9.257 6.223 5.386 9.23 14.127 6.562 17.573 5.02.542-3.903 2.107-6.568 3.834-8.076-13.413-1.525-27.514-6.704-27.514-29.843 0-6.593 2.36-11.98 6.223-16.21-.628-1.52-2.695-7.662.584-15.98 0 0 5.07-1.623 16.61 6.19C53.7 35 58.867 34.327 64 34.304c5.13.023 10.3.694 15.127 2.033 11.526-7.813 16.59-6.19 16.59-6.19 3.287 8.317 1.22 14.46.593 15.98 3.872 4.23 6.215 9.617 6.215 16.21 0 23.194-14.127 28.3-27.574 29.796 2.167 1.874 4.097 5.55 4.097 11.183 0 8.08-.07 14.583-.07 16.572 0 1.607 1.088 3.49 4.148 2.897 23.98-7.994 41.263-30.622 41.263-57.294C124.388 32.14 97.35 5.104 64 5.104z" /></svg>github.com/DeVFirmino/learntranscriber<span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+    <footer class="foot">
+      <div class="foot__card">
+        <p class="foot__bar" aria-hidden="true"><i></i><i></i><i></i></p>
+        <div class="foot__body">
+          <div class="foot__id">
+            <img class="foot__icon" src="/img/app-icon-3d.webp" width="560" height="560" alt="" loading="lazy" />
+            <div>
+              <p class="foot__name">LearnTranscriber</p>
+              <p class="foot__line">Leia o que você ouve. Pergunte enquanto escuta.</p>
+              <p class="foot__by">Feito por <a class="maker" href="https://danieldias.dev" aria-label="daniel dias"><svg class="maker__mark" viewBox="0 0 64 64" aria-hidden="true"><g fill="#C85A32"><rect x="20" y="16" width="8" height="40" /><rect x="36" y="8" width="8" height="28" /></g></svg><span class="maker__name" aria-hidden="true">daniel dias</span></a></p>
+            </div>
+          </div>
+          <nav class="foot__cols" aria-label="Links do site">
+            <div>
+              <h3>Explore</h3>
+              <a href="#assistants">Assistentes</a>
+              <a href="#how">Como funciona</a>
+              <a href="#uses">Funciona com</a>
+            </div>
+            <div>
+              <h3>Baixe</h3>
+              <a href="#download">Baixar para Mac</a>
+              <a href="https://github.com/DeVFirmino/learntranscriber"><svg viewBox="0 0 128 128" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M64 5.103c-33.347 0-60.388 27.035-60.388 60.388 0 26.682 17.303 49.317 41.297 57.303 3.017.56 4.125-1.31 4.125-2.905 0-1.44-.056-6.197-.082-11.243-16.8 3.653-20.345-7.125-20.345-7.125-2.747-6.98-6.705-8.836-6.705-8.836-5.48-3.748.413-3.67.413-3.67 6.063.425 9.257 6.223 9.257 6.223 5.386 9.23 14.127 6.562 17.573 5.02.542-3.903 2.107-6.568 3.834-8.076-13.413-1.525-27.514-6.704-27.514-29.843 0-6.593 2.36-11.98 6.223-16.21-.628-1.52-2.695-7.662.584-15.98 0 0 5.07-1.623 16.61 6.19C53.7 35 58.867 34.327 64 34.304c5.13.023 10.3.694 15.127 2.033 11.526-7.813 16.59-6.19 16.59-6.19 3.287 8.317 1.22 14.46.593 15.98 3.872 4.23 6.215 9.617 6.215 16.21 0 23.194-14.127 28.3-27.574 29.796 2.167 1.874 4.097 5.55 4.097 11.183 0 8.08-.07 14.583-.07 16.572 0 1.607 1.088 3.49 4.148 2.897 23.98-7.994 41.263-30.622 41.263-57.294C124.388 32.14 97.35 5.104 64 5.104z" /></svg>GitHub</a>
+              <a href="#faq">Perguntas</a>
+            </div>
+            <div>
+              <h3>Apoie</h3>
+              <a href="https://buymeacoffee.com/dellphell"><svg class="icon" aria-hidden="true"><use href="#i-coffee" /></svg>Me pague um café</a>
+              <a href="#privacy">Privacidade</a>
+            </div>
+          </nav>
+        </div>
+        <p class="foot__strip"><span>Grátis e de código aberto · licença MIT</span><span>2026</span></p>
+      </div>
+    </footer>
+
+    <script src="/site.js" defer></script>
+  </body>
+</html>
