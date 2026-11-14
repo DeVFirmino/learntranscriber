@@ -17,11 +17,15 @@ test('practice is a known mode that needs a transcript and is kept, not a draft'
   assert.equal(MODE_FEATURES.practice, 'tldr');
 });
 
-test('the request asks for at most five numbered questions, easiest first, then the answers, without invention', () => {
+test('the request asks for a three-question quiz block, easiest first, with no answers outside it', () => {
   const question = generationQuestion('practice', {}, {});
-  assert.match(question, /five at most, numbered, from the easiest to the hardest/);
-  assert.match(question, /"## Answers" section/);
+  assert.match(question, /Write 3 practice questions/);
+  assert.match(question, /from the easiest to the hardest/);
+  assert.match(question, /fenced code block tagged quiz/);
+  assert.match(question, /"choices":\["...","...","...","..."\],"answer":0/);
+  assert.match(question, /Never write the answers outside the block/);
   assert.match(question, /do not invent facts/);
+  assert.doesNotMatch(question, /## Answers/);
 });
 
 test('the questions are saved as an assistant entry tagged with their mode', () => {

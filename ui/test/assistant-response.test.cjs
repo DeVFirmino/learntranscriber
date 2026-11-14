@@ -33,7 +33,7 @@ const load = (file) => {
   });
   return moduleValue.exports;
 };
-const { AssistantResponse } = load('src/components/assistant-response.tsx');
+const { AssistantResponse, ResponseBody, RESPONSE_COMPONENTS } = load('src/components/assistant-response.tsx');
 const { safeResponseLink } = load('src/features/response-link.ts');
 const actions = { copyResponseCode: async () => {}, openResponseLink: async () => {} };
 const render = (content, streaming = false) =>
@@ -100,4 +100,71 @@ test('code regions offer keyboard access and line wrapping without changing copy
   assert.match(result, /tabindex="0"/);
   assert.match(result, /aria-pressed="true"/);
   assert.match(result, /hljs-keyword/);
+});
+
+test('a quiz block renders choices and check buttons without revealing answers or explanations', () => {
+  const quiz = JSON.stringify({
+    questions: [
+      {
+        question: 'Past simple of go?',
+        choices: ['goed', 'went', 'gone', 'going'],
+        answer: 1,
+        explanation: 'Irregular.',
+      },
+    ],
+  });
+  const result = render(`Try these.\n\n\`\`\`quiz\n${quiz}\n\`\`\``);
+  assert.match(result, /data-practice-quiz/);
+  assert.match(result, /role="radiogroup"/);
+  assert.equal((result.match(/role="radio"/g) || []).length, 4);
+  assert.match(result, /aria-label="went"/);
+  assert.doesNotMatch(result, /Irregular\./);
+  assert.doesNotMatch(result, /data-code-block/);
+  assert.doesNotMatch(result, /&quot;answer&quot;/);
+});
+
+test('a malformed quiz block shows a notice with its text collapsed, and a streaming quiz is hidden', () => {
+  const malformed = render('```quiz\n{"questions": "nope"}\n```');
+  assert.match(malformed, /data-practice-quiz-unavailable/);
+  assert.match(malformed, /aria-expanded="false"/);
+  assert.doesNotMatch(malformed, /data-code-block/);
+  assert.match(render('```json\n{"questions": "nope"}\n```'), /data-code-block/);
+  const streaming = render('Here.\n```quiz\n{"questions":[{"answer":1,"explanation":"secret', true);
+  assert.doesNotMatch(streaming, /secret/);
+  assert.match(streaming, /Here\./);
+});
+
+test('a quiz shows one question at a time with steps and arrows for the rest', () => {
+  const question = (index) => ({
+    question: `Question text ${index}?`,
+    choices: [`a${index}`, `b${index}`, `c${index}`, `d${index}`],
+    answer: 0,
+    explanation: `Because ${index}.`,
+  });
+  const quiz = JSON.stringify({ questions: [question(1), question(2), question(3)] });
+  const result = render(`\`\`\`quiz\n${quiz}\n\`\`\``);
+  assert.match(result, /Question text 1\?/);
+  assert.doesNotMatch(result, /Question text 2\?/);
+  assert.equal((result.match(/role="radio"/g) || []).length, 4);
+  assert.equal((result.match(/class="practice-quiz-step"/g) || []).length, 3);
+  assert.match(result, /aria-current="step"/);
+  assert.match(result, /aria-label="Previous question"[^>]*disabled=""|disabled=""[^>]*aria-label="Previous question"/);
+});
+
+test('the Markdown components stay the same across font sizes, so a quiz in progress is not remounted', () => {
+  const find = (node) => {
+    if (!node || typeof node !== 'object') return null;
+    if (node.props?.components) return node.props.components;
+    const children = [node.props?.children].flat();
+    for (const child of children) {
+      const found = find(child);
+      if (found) return found;
+    }
+    return null;
+  };
+  const props = { content: 'Text', streaming: false, actions };
+  const small = find(ResponseBody({ ...props, fontScale: 1 }));
+  const large = find(ResponseBody({ ...props, fontScale: 1.3 }));
+  assert.equal(small, RESPONSE_COMPONENTS);
+  assert.equal(large, RESPONSE_COMPONENTS);
 });
