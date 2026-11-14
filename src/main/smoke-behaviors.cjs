@@ -70,10 +70,13 @@ async function run(context, { output, check, ready, wait, eventually, checks, er
       ),
     ),
   );
-  await eventually(() =>
-    js(
-      panel,
-      `(()=>{const box=document.querySelector('[data-sonner-toast][data-type="error"]')?.getBoundingClientRect();return box && box.top>=0 && box.bottom<=innerHeight})()`,
+  check(
+    'The microphone recovery action stays fully inside the panel',
+    await eventually(() =>
+      js(
+        panel,
+        `(()=>{const box=document.querySelector('[data-sonner-toast][data-type="error"]')?.getBoundingClientRect();return box && box.top>=0 && box.bottom<=innerHeight})()`,
+      ),
     ),
   );
   await screenshot(panel, 'microphone-settings-action');
