@@ -158,17 +158,20 @@ test('paused Apple Speech drops both owner and direct native-output packets unti
   const id = repos.sessions.create('Pause', 'general').id;
   const writes = [];
   const service = new AppleSpeechSessions(repos, '/fixture', () => {});
-  const part = {
+  const part = (speaker) => ({
+    speaker,
+    locale: 'en-US',
     ready: true,
     ended: false,
     child: { stdin: { writable: true, writableLength: 0, write: (bytes) => writes.push(Buffer.from(bytes)) } },
-  };
+  });
   service.sessions.set(9, {
     id,
     parts: new Map([
-      ['ME', part],
-      ['THEY', part],
+      ['ME en-US', part('ME')],
+      ['THEY en-US', part('THEY')],
     ]),
+    pickers: new Map(),
     stopping: false,
   });
   service.setPaused(9, true);

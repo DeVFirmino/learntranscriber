@@ -30,7 +30,6 @@ function harness(t, settings, options = {}) {
         session: value(args, '--session-id'),
         speaker: value(args, '--speaker-label'),
         language: value(args, '--language'),
-        alternate: value(args, '--alternate-language'),
       });
       return spawn(process.execPath, [fixture, ...args, ...mode], { stdio: spawnOptions.stdio });
     },
@@ -53,14 +52,29 @@ function harness(t, settings, options = {}) {
   return { repos, id, spawned, captions, notices, readyLocales, service, transcript };
 }
 
-test('automatic speech gives every helper the Portuguese alternate and records both languages', async (t) => {
-  const { id, spawned, readyLocales, service } = harness(t, { systemAudio: true, appleSpeechLocale: 'auto' });
+test('automatic speech runs one helper per speaker and language and saves one language only', async (t) => {
+  const { id, spawned, readyLocales, service, transcript } = harness(t, {
+    systemAudio: true,
+    appleSpeechLocale: 'auto',
+  });
   await service.start(1, id);
   assert.deepEqual(spawned, [
-    { session: id, speaker: 'ME', language: 'en-US', alternate: 'pt-BR' },
-    { session: id, speaker: 'THEY', language: 'en-US', alternate: 'pt-BR' },
+    { session: id, speaker: 'ME', language: 'en-US' },
+    { session: id, speaker: 'ME', language: 'pt-BR' },
+    { session: id, speaker: 'THEY', language: 'en-US' },
+    { session: id, speaker: 'THEY', language: 'pt-BR' },
   ]);
-  assert.deepEqual(readyLocales, ['en-US', 'pt-BR', 'en-US', 'pt-BR']);
+  // Each speaker's two helpers start side by side, so their ready order varies.
+  assert.deepEqual(readyLocales.toSorted(), ['en-US', 'en-US', 'pt-BR', 'pt-BR']);
+  service.push(1, { sessionId: id, speaker: 'ME', samples: packet() });
+  const wav = require('../src/main/domain/audio/wav.cjs').wav(Buffer.from(packet()));
+  assert.equal(service.pushSystem({ sessionId: id, bytes: Uint8Array.from(wav).buffer }), true);
+  await service.stop(1);
+  // Both languages heard the same audio; the picker saves each speaker's text once, never twice.
+  assert.deepEqual(transcript(), [
+    ['ME', 'final ME'],
+    ['THEY', 'final THEY'],
+  ]);
 });
 
 test('automatic speech listens in English alone when Portuguese cannot stream', async (t) => {
@@ -77,7 +91,7 @@ test('automatic speech listens in English alone when Portuguese cannot stream', 
   );
   await service.start(1, id);
   assert.deepEqual(asked, ['en-US', 'pt-BR']);
-  assert.deepEqual(spawned, [{ session: id, speaker: 'ME', language: 'en-US', alternate: null }]);
+  assert.deepEqual(spawned, [{ session: id, speaker: 'ME', language: 'en-US' }]);
 });
 
 test('a language change restarts the running helpers for the same speakers without ending the session', async (t) => {
@@ -95,8 +109,10 @@ test('a language change restarts the running helpers for the same speakers witho
   assert.equal(service.push(1, { sessionId: id, speaker: 'ME', samples: packet() }), true);
   await switching;
   assert.deepEqual(spawned.slice(2), [
-    { session: id, speaker: 'ME', language: 'en-US', alternate: 'pt-BR' },
-    { session: id, speaker: 'THEY', language: 'en-US', alternate: 'pt-BR' },
+    { session: id, speaker: 'ME', language: 'en-US' },
+    { session: id, speaker: 'ME', language: 'pt-BR' },
+    { session: id, speaker: 'THEY', language: 'en-US' },
+    { session: id, speaker: 'THEY', language: 'pt-BR' },
   ]);
   assert.equal(service.owns(1), true);
   service.push(1, { sessionId: id, speaker: 'ME', samples: packet() });
@@ -144,11 +160,8 @@ test('a change during startup applies once the session has started', async (t) =
   assert.equal(await starting, true);
   await switching;
   assert.deepEqual(
-    spawned.map((item) => [item.language, item.alternate]),
-    [
-      ['pt-BR', null],
-      ['en-US', 'pt-BR'],
-    ],
+    spawned.map((item) => item.language),
+    ['pt-BR', 'en-US', 'pt-BR'],
   );
 });
 

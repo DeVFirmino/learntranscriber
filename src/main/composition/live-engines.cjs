@@ -24,6 +24,8 @@ function createLiveEngines({ repositories, localModels, vault, nativeSpeech, tra
       preflight: (locale) => nativeSpeech.capabilities(locale),
       onReady: (locale) => nativeSpeech.recordLocaleUsage(locale),
       onNotice: (message) => fanOut.broadcast('integration:error', message),
+      // The automatic language compares the words each language recognized over recent seconds.
+      now: () => Date.now(),
     }),
   };
 }
