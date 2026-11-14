@@ -288,7 +288,7 @@ Change these default global shortcuts in Settings → Shortcuts.
 
 | Shortcut | Action |
 | --- | --- |
-| ⌘D | Start listening / analyze the conversation |
+| ⌘D | Start listening / analyze the conversation (also brings back hidden windows) |
 | ⌘Return | Ask / submit a question |
 | ⌘E | Capture the screen |
 | ⌘⇧K | Read selected text |

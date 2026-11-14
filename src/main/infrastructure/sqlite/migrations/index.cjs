@@ -8,6 +8,7 @@ const MIGRATIONS = [
   require('./007-unique-assistant-names.cjs'),
   require('./008-native-audio-selection.cjs'),
   require('./009-generation-identity.cjs'),
+  require('./010-automatic-speech-language.cjs'),
 ];
 
 // Applies each pending migration in its own transaction; `user_version` records the last one applied.

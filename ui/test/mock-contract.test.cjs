@@ -154,3 +154,17 @@ test('preview batch deletion matches native validation and counts unique normali
   assert.equal(await h.sessions.deleteSessions([` ${id} `, id]), 1);
   assert.equal(h.ctx.sessions.size, before - 1);
 });
+
+test('preview Apple Speech defaults to automatic, reports its primary language and names both in sessions', async () => {
+  const { ctx, sessions } = context();
+  const audio = loadTs('src/bridge/mock/audio.ts', globals).audioApi(ctx);
+  assert.equal(ctx.settings.appleSpeechLocale, 'auto');
+  assert.equal((await audio.speechCapabilities()).locale, 'en-US');
+  ctx.settings.transcriptionProvider = 'apple';
+  assert.equal((await sessions.createSession('Class')).transcription_model, 'Apple Speech (Auto EN + PT)');
+  const { sessionMetadata } = require('../../src/main/domain/sessions/rules.cjs');
+  assert.equal(
+    sessionMetadata({ transcriptionProvider: 'apple', appleSpeechLocale: 'auto' }, {}).transcriptionModel,
+    'Apple Speech (Auto EN + PT)',
+  );
+});

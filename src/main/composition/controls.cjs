@@ -48,6 +48,7 @@ function composeControls({
       privacy: () => started.privacy,
       shortcuts: () => started.shortcutRegistry,
       screenInsights: core.screenInsights,
+      appleSpeech: () => started.engines?.apple,
     },
     changed: core.changed,
     publicState: () => started.workspaceState.snapshot(),

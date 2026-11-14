@@ -60,7 +60,8 @@ const DEFAULTS = Object.freeze({
   transcriptionPrompt: '',
   // Fresh profiles transcribe with OpenAI: no local engine and Apple native transcription off.
   transcriptionProvider: 'openai',
-  appleSpeechLocale: 'en-US',
+  // Automatic listens in English and Portuguese at once (domain/audio/speech-languages.cjs).
+  appleSpeechLocale: 'auto',
   language: '',
   // Empty turns incoming transcript translation off; that is the default.
   translationLanguage: '',

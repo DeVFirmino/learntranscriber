@@ -75,8 +75,9 @@ export function audioApi(ctx: MockContext) {
       throw new Error('Managed languages are unavailable in this browser preview.')
     },
     cancelSpeechAssets: async () => true,
+    // Automatic Apple Speech reports its primary language, as the native capabilities check does.
     speechCapabilities: async () => ({
-      locale: settings.appleSpeechLocale,
+      locale: settings.appleSpeechLocale === 'auto' ? 'en-US' : settings.appleSpeechLocale,
       supportsOnDeviceRecognition: false,
       authorization: 'not-determined',
     }),
