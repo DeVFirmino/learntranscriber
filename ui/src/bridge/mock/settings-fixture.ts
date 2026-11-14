@@ -65,7 +65,7 @@ export function previewSettings(): Settings {
     overlayClickThrough: false,
     overlayOnTop: true,
     launchFloating: true,
-    autoInsights: true,
+    autoInsights: false,
     insightMode: 'proactive',
     assistantId: 'general',
     autoSelection: false,

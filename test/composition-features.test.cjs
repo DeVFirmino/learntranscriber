@@ -63,34 +63,37 @@ test('the audio wiring registers capture, live, segment and speech channels, and
   for (const channel of ['voice:start', 'local-voice:start']) assert.equal(handlers.has(channel), false, channel);
 });
 
-test('the session wiring registers its channels and a created session gets its start reads', async (t) => {
-  const repositories = createRepositories(openDatabase(':memory:'));
-  t.after(() => repositories.db.close());
-  const { handle, handlers, call } = recordingHandle();
-  const baselines = [],
-    prepared = [];
-  composeSessions({
-    handle,
-    repositories,
-    active: createActiveSession(),
-    metadata: () => ({}),
-    requests: stub(),
-    route: stub(),
-    providers: stub(),
-    outputLeases: stub(),
-    appleSpeech: stub(),
-    transcriptionJobs: stub(),
-    screenInsights: { sessionStarted: (id) => baselines.push(id) },
-    realtimePrompts: { prepare: async (input) => prepared.push(input) },
-    isLiveNotch: () => false,
-    changed: () => {},
+for (const autoInsights of [false, true]) {
+  test(`session creation prepares AI guidance only after opting in: autoInsights=${autoInsights}`, async (t) => {
+    const repositories = createRepositories(openDatabase(':memory:'));
+    t.after(() => repositories.db.close());
+    repositories.settings.update({ autoInsights });
+    const { handle, handlers, call } = recordingHandle();
+    const baselines = [],
+      prepared = [];
+    composeSessions({
+      handle,
+      repositories,
+      active: createActiveSession(),
+      metadata: () => ({}),
+      requests: stub(),
+      route: stub(),
+      providers: stub(),
+      outputLeases: stub(),
+      appleSpeech: stub(),
+      transcriptionJobs: stub(),
+      screenInsights: { sessionStarted: (id) => baselines.push(id) },
+      realtimePrompts: { prepare: async (input) => prepared.push(input) },
+      isLiveNotch: () => false,
+      changed: () => {},
+    });
+    for (const channel of ['sessions:create', 'sessions:end', 'sessions:page', 'ai:translate-entry', 'ai:follow-ups'])
+      assert.ok(handlers.has(channel), channel);
+    const session = await call('sessions:create', 'Planning');
+    assert.deepEqual(baselines, [session.id]);
+    assert.equal(prepared.length, Number(autoInsights));
   });
-  for (const channel of ['sessions:create', 'sessions:end', 'sessions:page', 'ai:translate-entry', 'ai:follow-ups'])
-    assert.ok(handlers.has(channel), channel);
-  const session = await call('sessions:create', 'Planning');
-  assert.deepEqual(baselines, [session.id]);
-  assert.equal(prepared.length, 1);
-});
+}
 
 test('the memory wiring registers only dictation', (t) => {
   const repositories = createRepositories(openDatabase(':memory:'));

@@ -71,12 +71,12 @@ test('microphone-only and loopback capture do not require Screen Recording, and 
   }
 });
 
-test('saved or provisional speech generates exactly once and bypasses empty-capture hints', async () => {
+test('manual analysis works with automatic insights off for saved or provisional speech', async () => {
   for (const input of [
     { entries: [{ kind: 'transcript', content: 'Heard a sentence.' }] },
     { captions: { THEY: 'A question in progress?' } },
   ]) {
-    const h = harness(input);
+    const h = harness({ ...input, settings: { autoInsights: false } });
     await h.run();
     assert.equal(h.calls.filter(([action]) => action === 'insight').length, 1);
     assert.deepEqual(h.hints, []);

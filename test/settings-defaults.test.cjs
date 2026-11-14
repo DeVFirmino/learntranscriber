@@ -16,6 +16,8 @@ test('fresh profiles start with their built-in defaults', (t) => {
   assert.deepEqual(
     {
       copyToPrompt: settings.copyToPrompt,
+      autoInsights: settings.autoInsights,
+      liveTranscription: settings.liveTranscription,
       provider: settings.provider,
       model: settings.model,
       autoCompact: settings.autoCompact,
@@ -29,6 +31,8 @@ test('fresh profiles start with their built-in defaults', (t) => {
     },
     {
       copyToPrompt: true,
+      autoInsights: false,
+      liveTranscription: true,
       provider: 'openai',
       model: 'gpt-4o-mini',
       autoCompact: true,
