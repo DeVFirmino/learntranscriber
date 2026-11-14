@@ -4,7 +4,7 @@ const { spawnSpeechPart, writePcm, stopPart } = require('./speech-part.cjs');
 const { requestedLanguages, preflightLanguages } = require('./live-languages.cjs');
 
 // Live Apple Speech captions: one helper per speaker of a session, final lines saved as transcript entries. The
-// automatic language gives each helper a second recognizer.
+// automatic language gives each helper a second recognizer, and a language change restarts the running helpers.
 class AppleSpeechSessions {
   constructor({ settings, sessions, entries }, executable, onCaption, options = {}) {
     this.repositories = { settings, sessions, entries };
@@ -30,12 +30,20 @@ class AppleSpeechSessions {
     const languages = requestedLanguages(settings.appleSpeechLocale);
     const state = { owner, id, ...languages, parts: new Map(), stopping: false, suppress: false };
     this.sessions.set(owner, state);
+    const startup = this.open(state, languages, settings.systemAudio);
+    // A language change waits until the session has started in the language it asked for.
+    state.queue = startup.catch(() => {});
+    return startup;
+  }
+
+  async open(state, languages, systemAudio) {
+    const { owner } = state;
     try {
       if (this.preflight) Object.assign(state, await this.checked(state, languages));
       if (state.stopping || this.sessions.get(owner) !== state) throw new Error('Apple Speech startup was cancelled.');
       await this.startPart(state, 'ME');
       if (state.stopping || this.sessions.get(owner) !== state) throw new Error('Apple Speech startup was cancelled.');
-      if (settings.systemAudio) await this.startPart(state, 'THEY');
+      if (systemAudio) await this.startPart(state, 'THEY');
       return true;
     } catch (error) {
       if (this.sessions.get(owner) === state) await this.stop(owner, true);
@@ -45,6 +53,39 @@ class AppleSpeechSessions {
 
   checked(state, languages) {
     return preflightLanguages(languages, { preflight: this.preflight, cancelled: () => state.stopping });
+  }
+
+  // Applies the saved language to every running session right away. Changes queue behind a session's startup and
+  // earlier changes, and never reject: a failure is reported as the session's caption error.
+  switchLanguage() {
+    return Promise.all(
+      [...this.sessions.values()].map((state) => (state.queue = state.queue.then(() => this.relaunch(state)))),
+    );
+  }
+
+  // The session's helpers stop without saving and new ones start for the same speakers, so the session goes on.
+  async relaunch(state) {
+    const setting = this.repositories.settings.read().appleSpeechLocale;
+    if (state.stopping || state.setting === setting) return;
+    try {
+      const requested = requestedLanguages(setting);
+      const languages = this.preflight ? await this.checked(state, requested) : requested;
+      if (state.stopping) return;
+      const unchanged = languages.locale === state.locale && languages.alternate === state.alternate;
+      Object.assign(state, languages);
+      if (unchanged) return;
+      const previous = [...state.parts];
+      state.restarting = true;
+      for (const [, part] of previous) part.retired = true;
+      await Promise.all([
+        ...previous.map(([, part]) => stopPart(part, this.stopTimeout)),
+        ...previous.map(([speaker]) => this.startPart(state, speaker)),
+      ]);
+    } catch (error) {
+      if (!state.stopping) this.fail(state, error.message);
+    } finally {
+      state.restarting = false;
+    }
   }
 
   async startPart(state, speaker) {
@@ -57,9 +98,11 @@ class AppleSpeechSessions {
       speaker,
       readyTimeout: this.readyTimeout,
       onMessage: (message) => this.message(state, part, message),
-      onOverflow: () => this.fail(state, 'Apple Speech sent too much data.'),
+      onOverflow: () => {
+        if (!part.retired) this.fail(state, 'Apple Speech sent too much data.');
+      },
       onEnded: () => {
-        if (!state.stopping && !state.suppress) this.fail(state, 'Apple Speech stopped unexpectedly.');
+        if (!state.stopping && !state.suppress && !part.retired) this.fail(state, 'Apple Speech stopped unexpectedly.');
       },
     });
     state.parts.set(speaker, part);
@@ -67,7 +110,8 @@ class AppleSpeechSessions {
   }
 
   message(state, part, message) {
-    if (state.suppress || this.sessions.get(state.owner) !== state || !message || typeof message !== 'object') return;
+    if (state.suppress || part.retired || this.sessions.get(state.owner) !== state) return;
+    if (!message || typeof message !== 'object') return;
     if (message.type === 'ready') {
       if (!part.settled) {
         try {
@@ -128,7 +172,10 @@ class AppleSpeechSessions {
     )
       throw new Error('Invalid Apple Speech audio packet.');
     if (state.paused) return true;
-    return writePcm(state.parts.get(speaker), samples);
+    const part = state.parts.get(speaker);
+    // While the language changes, audio for a helper that is not listening yet is dropped.
+    if (state.restarting && (!part?.ready || part.retired)) return true;
+    return writePcm(part, samples);
   }
 
   pushSystem(segment) {
