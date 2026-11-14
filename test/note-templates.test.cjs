@@ -27,13 +27,14 @@ test('each template asks for its own sections, all starting with the summary', (
     ],
     lecture: ['## Summary', '## Key terms', '## Main ideas', '## Questions to review', '## Assignments and dates'],
   };
-  assert.deepEqual(NOTE_TEMPLATE_IDS, Object.keys(expected));
+  assert.deepEqual(NOTE_TEMPLATE_IDS, ['auto', ...Object.keys(expected)]);
   for (const [id, sections] of Object.entries(expected)) assert.deepEqual(headings(noteContract(id)), sections, id);
 });
 
 test('every template keeps the no-invention rules, and an unknown one falls back to general', () => {
-  for (const id of NOTE_TEMPLATE_IDS)
+  for (const id of NOTE_TEMPLATE_IDS.filter((item) => item !== 'auto'))
     assert.match(noteContract(id), /do not invent details, decisions, dates or owners/);
+  assert.match(noteContract('auto'), /never add anything that was not said/);
   assert.equal(noteContract('nope'), noteContract('general'));
 });
 
@@ -43,8 +44,14 @@ test('the note request uses the chosen template', () => {
   assert.doesNotMatch(system.content, /## Decisions/);
 });
 
-test('the setting defaults to general and refuses other values', () => {
-  assert.equal(DEFAULTS.sessionNoteTemplate, 'general');
+test('the automatic template writes the detailed session notes instead of fixed meeting sections', () => {
+  assert.match(noteContract('auto'), /Write detailed notes of this session/);
+  assert.equal(headings(noteContract('auto')), null);
+  assert.doesNotMatch(noteContract('auto'), /Write "None\."/);
+});
+
+test('the setting defaults to automatic and refuses other values', () => {
+  assert.equal(DEFAULTS.sessionNoteTemplate, 'auto');
   assert.deepEqual(validateSettings({ sessionNoteTemplate: 'standup' }), { sessionNoteTemplate: 'standup' });
   assert.throws(() => validateSettings({ sessionNoteTemplate: 'essay' }), /Choose a supported note template/);
 });

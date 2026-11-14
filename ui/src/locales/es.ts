@@ -340,6 +340,7 @@ export const es: Messages = {
   'note.defaultFolder': 'Usar predeterminada',
   'note.templateTitle': 'Plantilla de nota',
   'note.templateDescription': 'Las secciones que trae la nota guardada.',
+  'note.template.auto': 'Automático',
   'note.template.general': 'General',
   'note.template.standup': 'Standup',
   'note.template.oneOnOne': 'Reunión 1:1',

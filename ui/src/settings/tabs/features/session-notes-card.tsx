@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import type { Settings } from '@/bridge/types/settings'
 
-const TEMPLATES: Settings['sessionNoteTemplate'][] = ['general', 'standup', 'oneOnOne', 'interview', 'lecture']
+const TEMPLATES: Settings['sessionNoteTemplate'][] = ['auto', 'general', 'standup', 'oneOnOne', 'interview', 'lecture']
 
 // Where a stopped session's summary and handoff is saved: LearnTranscriber/Sessions in Documents, or a chosen folder,
 // and which sections the note asks for.

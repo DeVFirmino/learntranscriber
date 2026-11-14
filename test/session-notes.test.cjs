@@ -21,7 +21,12 @@ const SESSION = {
 };
 
 test('the note asks for the summary guidance plus decisions, open items and next steps, from the transcript only', () => {
-  const [system, user] = noteMessages({ session: SESSION, summaryGuidance: 'TLDR first.', language: 'pt-BR' });
+  const [system, user] = noteMessages({
+    session: SESSION,
+    summaryGuidance: 'TLDR first.',
+    language: 'pt-BR',
+    template: 'general',
+  });
   for (const section of ['## Summary', '## Decisions', '## Open items', '## Next steps'])
     assert.ok(system.content.includes(section));
   assert.match(system.content, /Summary guidance:\nTLDR first\./);
@@ -31,6 +36,14 @@ test('the note asks for the summary guidance plus decisions, open items and next
     () => noteMessages({ session: { ...SESSION, entries: [] }, summaryGuidance: '', language: 'en' }),
     /nothing to save/,
   );
+});
+
+test('the automatic note asks for detailed notes shaped to the session, with no summary guidance when there is none', () => {
+  const [system] = noteMessages({ session: SESSION, summaryGuidance: '', language: 'en' });
+  assert.match(system.content, /Write detailed notes of this session/);
+  assert.match(system.content, /Class or lecture:/);
+  assert.doesNotMatch(system.content, /Summary guidance:/);
+  assert.doesNotMatch(system.content, /## Decisions/);
 });
 
 test('the file name sorts by local time and keeps the title safe for any file system', () => {

@@ -27,7 +27,7 @@ const DEFAULTS = Object.freeze({
   // Where a stopped session's summary and handoff note is saved; empty means LearnTranscriber/Sessions in Documents.
   sessionNotesFolder: '',
   // Which sections the saved note asks for: general, standup, oneOnOne, interview or lecture.
-  sessionNoteTemplate: 'general',
+  sessionNoteTemplate: 'auto',
   autoScroll: true,
   // Live insights and follow-ups appear in the Notch while a session listens.
   notchEnabled: true,

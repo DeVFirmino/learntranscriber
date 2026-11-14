@@ -336,6 +336,7 @@ export const ptBR: Messages = {
   'note.defaultFolder': 'Usar padrão',
   'note.templateTitle': 'Modelo da nota',
   'note.templateDescription': 'As seções que a nota salva traz.',
+  'note.template.auto': 'Automático',
   'note.template.general': 'Geral',
   'note.template.standup': 'Standup',
   'note.template.oneOnOne': 'Reunião 1:1',

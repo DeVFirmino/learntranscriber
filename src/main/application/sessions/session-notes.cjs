@@ -14,16 +14,20 @@ function createSessionNotes({ settings, sessions, assistants, providers, route, 
       const session = sessions.get(sessionId);
       if (!session) throw new Error('Session not found.');
       const assistant = assistants.forSession(session.assistant_id);
+      // The automatic note brings its own detailed guidance; the short default TL;DR would cut it down. An assistant's
+      // or the user's own summary guidance still applies.
+      const guidance = resolvePrompt('email', assistant, { settings: current });
+      const automatic = current.sessionNoteTemplate === 'auto' && guidance.source === 'built-in default';
       const messages = noteMessages({
         session,
-        summaryGuidance: resolvePrompt('email', assistant, { settings: current }).prompt,
+        summaryGuidance: automatic ? '' : guidance.prompt,
         language: outputLanguage(current),
         template: current.sessionNoteTemplate,
       });
       const body = await route.run(
         current,
         async (chosen) => {
-          chosen = forFeature(chosen, 'email');
+          chosen = forFeature(chosen, 'summary');
           signal.throwIfAborted();
           await providers.checkContext(chosen, messages, signal);
           signal.throwIfAborted();

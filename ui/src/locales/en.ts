@@ -332,6 +332,7 @@ export const en = {
   'note.defaultFolder': 'Use default',
   'note.templateTitle': 'Note template',
   'note.templateDescription': 'The sections the saved note asks for.',
+  'note.template.auto': 'Automatic',
   'note.template.general': 'General',
   'note.template.standup': 'Standup',
   'note.template.oneOnOne': 'One-on-one',
