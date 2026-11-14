@@ -13,6 +13,8 @@ class AppleSpeechSessions {
     this.spawn = options.spawn || spawn;
     this.preflight = options.preflight;
     this.onReady = options.onReady;
+    // Tells the user something went wrong without ending the captions; a caption error ends the recording.
+    this.onNotice = options.onNotice;
     this.readyTimeout = options.readyTimeout || 180000;
     this.stopTimeout = options.stopTimeout || 11000;
     this.sessions = new Map();
@@ -56,7 +58,8 @@ class AppleSpeechSessions {
   }
 
   // Applies the saved language to every running session right away. Changes queue behind a session's startup and
-  // earlier changes, and never reject: a failure is reported as the session's caption error.
+  // earlier changes, and never reject: a language that cannot stream is a notice and the running helpers go on in the
+  // old one; a new helper that fails after the old ones stopped is the session's caption error.
   switchLanguage() {
     return Promise.all(
       [...this.sessions.values()].map((state) => (state.queue = state.queue.then(() => this.relaunch(state)))),
@@ -67,16 +70,15 @@ class AppleSpeechSessions {
   async relaunch(state) {
     const setting = this.repositories.settings.read().appleSpeechLocale;
     if (state.stopping || state.setting === setting) return;
+    const languages = await this.switchable(state, setting);
+    if (!languages || state.stopping) return;
+    const unchanged = languages.locale === state.locale && languages.alternate === state.alternate;
+    Object.assign(state, languages);
+    if (unchanged) return;
+    const previous = [...state.parts];
+    state.restarting = true;
+    for (const [, part] of previous) part.retired = true;
     try {
-      const requested = requestedLanguages(setting);
-      const languages = this.preflight ? await this.checked(state, requested) : requested;
-      if (state.stopping) return;
-      const unchanged = languages.locale === state.locale && languages.alternate === state.alternate;
-      Object.assign(state, languages);
-      if (unchanged) return;
-      const previous = [...state.parts];
-      state.restarting = true;
-      for (const [, part] of previous) part.retired = true;
       await Promise.all([
         ...previous.map(([, part]) => stopPart(part, this.stopTimeout)),
         ...previous.map(([speaker]) => this.startPart(state, speaker)),
@@ -85,6 +87,18 @@ class AppleSpeechSessions {
       if (!state.stopping) this.fail(state, error.message);
     } finally {
       state.restarting = false;
+    }
+  }
+
+  // The languages of a new setting, or null when the helper rejects them.
+  async switchable(state, setting) {
+    const requested = requestedLanguages(setting);
+    if (!this.preflight) return requested;
+    try {
+      return await this.checked(state, requested);
+    } catch (error) {
+      if (!state.stopping) this.onNotice?.(error.message);
+      return null;
     }
   }
 

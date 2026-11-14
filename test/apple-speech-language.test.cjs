@@ -21,6 +21,7 @@ function harness(t, settings, options = {}) {
   const id = repos.sessions.create('Class', 'general').id;
   const spawned = [],
     captions = [],
+    notices = [],
     readyLocales = [];
   const service = new AppleSpeechSessions(repos, '/fixture/helper', (caption) => captions.push(caption), {
     spawn: (_executable, args, spawnOptions) => {
@@ -35,6 +36,7 @@ function harness(t, settings, options = {}) {
     },
     preflight: options.preflight,
     onReady: (locale) => readyLocales.push(locale),
+    onNotice: (message) => notices.push(message),
     readyTimeout: 2000,
     stopTimeout: 500,
   });
@@ -48,7 +50,7 @@ function harness(t, settings, options = {}) {
       .entries.filter((item) => item.kind === 'transcript')
       .map((item) => [item.speaker, item.content])
       .sort();
-  return { repos, id, spawned, captions, readyLocales, service, transcript };
+  return { repos, id, spawned, captions, notices, readyLocales, service, transcript };
 }
 
 test('automatic speech gives every helper the Portuguese alternate and records both languages', async (t) => {
@@ -150,8 +152,8 @@ test('a change during startup applies once the session has started', async (t) =
   );
 });
 
-test('a language that cannot stream is reported and keeps the running helpers', async (t) => {
-  const { repos, id, spawned, captions, service } = harness(
+test('a language that cannot stream is a notice that keeps the running helpers and their captions', async (t) => {
+  const { repos, id, spawned, captions, notices, service } = harness(
     t,
     { appleSpeechLocale: 'en-US' },
     { preflight: streams(['en-US', 'pt-BR']) },
@@ -160,8 +162,27 @@ test('a language that cannot stream is reported and keeps the running helpers', 
   repos.settings.update({ appleSpeechLocale: 'es-ES' });
   await service.switchLanguage();
   assert.equal(spawned.length, 1);
+  assert.deepEqual(notices, ['Streaming Apple Speech is unavailable for this language.']);
+  // A caption error ends the recording in the window, so a rejected switch must not send one.
+  assert.deepEqual(
+    captions.filter((caption) => caption.error),
+    [],
+  );
+  service.push(1, { sessionId: id, speaker: 'ME', samples: packet() });
+  await service.stop(1);
+  assert.equal(captions.at(-1).text, 'final ME', 'the old helper still captions the session');
+});
+
+test('a new helper that fails after the old ones stopped is the session caption error', async (t) => {
+  const { repos, id, captions, notices, service } = harness(t, { appleSpeechLocale: 'en-US' });
+  await service.start(1, id);
+  service.spawn = (_executable, args, spawnOptions) =>
+    spawn(process.execPath, [fixture, ...args, '--startup-error'], { stdio: spawnOptions.stdio });
+  repos.settings.update({ appleSpeechLocale: 'pt-BR' });
+  await service.switchLanguage();
+  assert.deepEqual(notices, []);
   assert.deepEqual(
     captions.filter((caption) => caption.error).map((caption) => caption.error),
-    ['Streaming Apple Speech is unavailable for this language.'],
+    ['Fixture language unavailable.'],
   );
 });

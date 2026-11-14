@@ -5,7 +5,8 @@ const { AppleSpeechSessions } = require('../infrastructure/native/apple-speech-s
 const { createCaptionPublisher } = require('../application/audio/caption-publication.cjs');
 
 // Builds the live transcription engines (local Whisper, OpenAI Realtime, Gemini Live and Apple speech), which all
-// publish their captions through one publisher.
+// publish their captions through one publisher. Apple Speech notices that do not end the captions reach every window
+// as an error toast.
 function createLiveEngines({ repositories, localModels, vault, nativeSpeech, transcribe, speech, fanOut, changed }) {
   const { settings, sessions, entries } = repositories;
   const transcripts = { settings, sessions, entries };
@@ -22,6 +23,7 @@ function createLiveEngines({ repositories, localModels, vault, nativeSpeech, tra
     apple: new AppleSpeechSessions(transcripts, nativeSpeech.executable, publishCaption, {
       preflight: (locale) => nativeSpeech.capabilities(locale),
       onReady: (locale) => nativeSpeech.recordLocaleUsage(locale),
+      onNotice: (message) => fanOut.broadcast('integration:error', message),
     }),
   };
 }
