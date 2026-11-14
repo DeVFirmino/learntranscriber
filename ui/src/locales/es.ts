@@ -4,7 +4,7 @@ export const es: Messages = {
   'analysis.nothingHeard':
     'Aún no se ha oído nada. LearnTranscriber transcribe lo que oye; vuelve a intentarlo cuando alguien hable.',
   'analysis.permissionMissing':
-    'Aún no se ha oído nada. Permite {{permission}} para LearnTranscriber en Ajustes del Sistema y vuelve a intentarlo.',
+    'Permite {{permission}} para LearnTranscriber en Ajustes del Sistema y vuelve a intentarlo.',
   'analysis.openSettings': 'Abrir Ajustes del Sistema',
   'error.credentialStorageTimeout':
     'macOS está pidiendo permiso para acceder al Llavero. Elige Permitir siempre en el aviso y vuelve a intentarlo.',

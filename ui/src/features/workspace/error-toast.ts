@@ -1,9 +1,10 @@
+import type { ListeningNotice } from '@/bridge/types/integrations'
 import { toast } from 'sonner'
 import { documentT } from '@/i18n'
 import { en } from '@/locales/en'
 
 let restart: (() => void) | null = null
-let report: ((message: string) => void) | null = null
+let report: ((message: string, notice?: ListeningNotice) => boolean | void) | null = null
 
 // The workspace says how to restart the app. A Keychain read macOS refused only recovers after a restart, so that
 // error offers it right in the notification and stays up long enough to use it.
@@ -13,8 +14,13 @@ export function setRestartAction(action: () => void) {
 
 // The workspace says where shown errors go besides the toast: main.log, and the floating bar when this window is
 // not the one the user is looking at.
-export function setErrorReport(action: (message: string) => void) {
+export function setErrorReport(action: (message: string, notice?: ListeningNotice) => boolean | void) {
   report = action
+}
+
+// A handoff transfers ownership before rendering; the destination presents it without reporting it again.
+export function routeFeedback(message: string, notice?: ListeningNotice) {
+  return report?.(message, notice) === true
 }
 
 function keychainBlocked(message: string) {
@@ -28,6 +34,7 @@ export function showError(
   action?: { label: string; onClick: () => void },
   { fromMain = false }: { fromMain?: boolean } = {},
 ) {
+  if (!fromMain && routeFeedback(message)) return
   const restartAction =
     !action && restart && keychainBlocked(message) ? { label: documentT('common.restartApp'), onClick: restart } : null
   toast.error(message, {
@@ -36,5 +43,4 @@ export function showError(
     action: restartAction ?? action,
     closeButton: true,
   })
-  if (!fromMain) report?.(message)
 }

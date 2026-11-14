@@ -9,7 +9,10 @@ test('silence is an informational hint; missing permissions have one action to t
   const { showListeningHint } = loadTsx('src/features/workspace/listening-hint.ts', {
     'src/format.ts': { errorMessage: (error) => error.message },
     sonner: { toast: { message: (message, options) => hints.push({ message, options }) } },
-    'src/features/workspace/error-toast.ts': { showError: (message) => errors.push(message) },
+    'src/features/workspace/error-toast.ts': {
+      showError: (message) => errors.push(message),
+      routeFeedback: () => false,
+    },
   });
   const api = { openPrivacyPane: async (permission) => panes.push(permission) };
   showListeningHint(api);

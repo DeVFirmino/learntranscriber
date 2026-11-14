@@ -36,7 +36,6 @@ export class NativeSystemAudio {
       unsubs.push(
         this.api.onSystemAudioError((message) => {
           if (this.active) on.error(message)
-          else if (this.starting) this.notify(message)
         }),
       )
     return unsubs

@@ -25,6 +25,7 @@ function harness({ entries = [], captions = {}, settings = {}, permissions = {},
         return { entries };
       },
       speechCapabilities: async () => ({ authorization }),
+      systemAudioStatus: async () => ({ permissionGranted: true }),
     },
     generating: () => false,
     captions: () => captions,

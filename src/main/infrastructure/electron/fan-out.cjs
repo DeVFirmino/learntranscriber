@@ -19,13 +19,16 @@ function windowFanOut({ BrowserWindow, windows }) {
     toSender(sender, channel, payload) {
       if (!sender.isDestroyed()) sender.send(channel, payload);
     },
-    // Every window but the one that sent the event, such as the floating bar for an error in a hidden workspace.
-    toOthers(sender, channel, payload) {
-      send(
-        BrowserWindow.getAllWindows().filter((window) => open(window) && window.webContents !== sender),
-        channel,
-        payload,
-      );
+    // User-facing feedback has one owner: the open panel, the focused app window, or the recording bar.
+    toVisible(sender, channel, payload) {
+      const shown = (window) => open(window) && window.isVisible();
+      const targets = [
+        windows.panelVisible() ? windows.overlay() : null,
+        BrowserWindow.getFocusedWindow(),
+        windows.bar(),
+        BrowserWindow.getAllWindows().find((window) => window.webContents === sender),
+      ];
+      send([targets.find(shown)], channel, payload);
     },
     // The window whose renderer started a voice conversation, found by its web contents id.
     toOwner(owner, channel, payload) {

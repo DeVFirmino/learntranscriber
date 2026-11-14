@@ -4,7 +4,7 @@ export const ptBR: Messages = {
   'analysis.nothingHeard':
     'Ainda não ouvimos nada. O LearnTranscriber transcreve o que ouve; tente de novo quando alguém falar.',
   'analysis.permissionMissing':
-    'Ainda não ouvimos nada. Permita {{permission}} para o LearnTranscriber nos Ajustes do Sistema e tente de novo.',
+    'Permita {{permission}} para o LearnTranscriber nos Ajustes do Sistema e tente de novo.',
   'analysis.openSettings': 'Abrir Ajustes do Sistema',
   'error.credentialStorageTimeout':
     'O macOS está pedindo permissão para acessar o Keychain. Escolha Permitir Sempre no aviso e tente de novo.',

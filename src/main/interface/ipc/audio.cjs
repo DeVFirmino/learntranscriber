@@ -12,7 +12,7 @@ function releaseWithOwner(sender, leases) {
   });
 }
 
-function registerAudio(handle, { systemAudio, leases, driver, live, segments, speech, onError = () => {} }) {
+function registerAudio(handle, { systemAudio, leases, driver, live, segments, speech }) {
   handle('audio:native-status', () => systemAudio.status());
   // The recording path's single lease, kept for callers that start and stop without naming one.
   handle('audio:native-start', (event, id) => {
@@ -33,14 +33,7 @@ function registerAudio(handle, { systemAudio, leases, driver, live, segments, sp
     const devices = await systemAudio.devices().catch(() => ({ devices: [], defaultOutputUID: null }));
     return { ...leases.status(), ...devices, driver: driver(devices.devices) };
   });
-  handle('live:start', async (event, id) => {
-    try {
-      return await live.start(event.sender.id, id);
-    } catch (error) {
-      onError(error.message);
-      throw error;
-    }
-  });
+  handle('live:start', (event, id) => live.start(event.sender.id, id));
   handle('live:push', (event, input) => live.push(event.sender.id, input));
   handle('live:stop', (event) => live.stop(event.sender.id));
   handle('live:set-paused', (event, paused) => live.setPaused(event.sender.id, paused));

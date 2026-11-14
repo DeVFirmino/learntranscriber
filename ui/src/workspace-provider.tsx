@@ -1,10 +1,10 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { createWorkspace } from '@/bridge'
-import { localizeMessage } from '@/format'
 import { flushBeforeQuit } from '@/features/workspace/quit-flush'
 import { showListeningHint } from '@/features/workspace/listening-hint'
 import { errorReporter } from '@/features/workspace/error-reporter'
-import { setErrorReport, setRestartAction, showError } from '@/features/workspace/error-toast'
+import { showIntegrationFeedback } from '@/features/workspace/integration-feedback'
+import { setErrorReport, setRestartAction } from '@/features/workspace/error-toast'
 import { useCaptureFeedback } from '@/features/workspace/use-capture-feedback'
 import { useGeneration } from '@/features/workspace/use-generation'
 import { useLiveInsights } from '@/features/workspace/use-live-insights'
@@ -28,10 +28,11 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   // shown is logged, and one shown in the workspace while the user looks elsewhere reaches the floating bar too.
   useEffect(() => {
     setRestartAction(() => void api.relaunchApp())
-    setErrorReport(
-      (message) =>
-        void api.reportError({ message, forward: !readOverlay() && !document.hasFocus() }).catch(() => undefined),
-    )
+    setErrorReport((message, notice) => {
+      const forward = !readOverlay() && !document.hasFocus()
+      void api.reportError({ message, forward, notice }).catch(() => undefined)
+      return forward
+    })
   }, [api])
   const captureState = useCaptureFeedback(api)
   const errors = errorReporter(api)
@@ -111,7 +112,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     delta: answering.delta,
     ...overlayAnswer.events,
     selection: pending.selection,
-    integrationError: (message) => showError(localizeMessage(message), undefined, { fromMain: true }),
+    integrationError: (feedback) => showIntegrationFeedback(api, feedback),
     loaded: async (value, alive) => {
       setState(value)
       if (readOverlay() && value.activeSessionId) await overlayAnswer.showLatest(value.activeSessionId, alive)

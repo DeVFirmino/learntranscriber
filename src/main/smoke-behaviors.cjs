@@ -40,6 +40,22 @@ async function run(context, { output, check, ready, wait, eventually, checks, er
       if (details.level === 'error') errors.push(details.message);
     });
   await js(
+    main,
+    `window.workspace.reportError({message:'Native system audio could not start (The user declined TCCs for application, window, display capture).',forward:true,notice:{permission:'screen'}})`,
+  );
+  check(
+    'Capture permission feedback belongs to one panel and offers System Settings',
+    await eventually(async () => {
+      const counts = await Promise.all(
+        [main, panel, bar].map((window) => js(window, `document.querySelectorAll('[data-sonner-toast]').length`)),
+      );
+      const action = await js(panel, `document.querySelector('[data-sonner-toast] [data-button]')?.textContent`);
+      return counts[0] === 0 && counts[1] === 1 && counts[2] === 0 && action === 'Open System Settings';
+    }),
+  );
+  await screenshot(panel, 'capture-permission-hint');
+  await js(panel, `document.querySelector('[data-sonner-toast] [data-close-button]')?.click()`);
+  await js(
     panel,
     `(()=>{
     const input=document.querySelector('textarea[name="question"]');

@@ -30,14 +30,22 @@ function registerWorkspace(handle, { state, shortcuts, discover, history, folder
     history.appendTranscript({ sessionId: input.sessionId, text: input.text, speaker: input.speaker }),
   );
   handle('ai:generate', (event, input) => generate(event, input));
-  // An error a window showed is written to main.log; one from a window the user is not looking at is also shown in
-  // the others, so a failure in the hidden workspace reaches the floating bar.
+  // The reporting window either owns the feedback or hands it to one visible surface; both paths are logged.
   handle('workspace:report-error', (event, input) => {
     // Kept short rather than refused, so a long message is still logged.
     const message = typeof input?.message === 'string' ? input.message.trim().slice(0, 500) : '';
     if (!message) return false;
     errors.log(message);
-    if (input.forward === true) errors.forward(event.sender, message);
+    const notice = input.notice;
+    if (input.forward === true) {
+      const allowed =
+        notice &&
+        typeof notice === 'object' &&
+        !Array.isArray(notice) &&
+        (notice.permission === undefined || ['microphone', 'screen', 'speech'].includes(notice.permission));
+      const feedback = allowed ? { message, notice: { permission: notice.permission } } : message;
+      errors.forward(event.sender, feedback);
+    }
     return true;
   });
   handle('app:quit-ready', (event, input) => {

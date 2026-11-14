@@ -1,3 +1,4 @@
+import type { IntegrationFeedback } from '../types/integrations'
 import type { GenerationApi } from '../types/generation'
 import type { Unsubscribe } from '../types/subscription'
 import type { LocalState } from '../types/local-models'
@@ -34,7 +35,7 @@ export function createMockEvents() {
     selections: hub<{ text: string; sessionId: string; application?: string }>(),
     systemAudio: hub<{ sessionId: string; speaker: string; mime: string; bytes: ArrayBuffer }>(),
     systemAudioErrors: hub<string>(),
-    integrationErrors: hub<string>(),
+    integrationErrors: hub<IntegrationFeedback>(),
   }
 }
 export type MockEvents = ReturnType<typeof createMockEvents>

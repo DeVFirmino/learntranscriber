@@ -63,19 +63,31 @@ test('owner events reach only the live window with that web contents id', () => 
   assert.deepEqual(sent, [['ai:delta', 1]]);
 });
 
-test('an error from one window reaches every other open window', () => {
+test('a hidden recorder transfers feedback to exactly one visible surface, preferring the open panel', () => {
   const log = [];
-  const main = fakeWindow('main', log, { contentsId: 1 }),
-    overlay = fakeWindow('overlay', log, { contentsId: 2 }),
-    bar = fakeWindow('bar', log, { contentsId: 5 }),
-    closed = fakeWindow('closed', log, { destroyed: true, contentsId: 4 });
+  const main = fakeWindow('main', log),
+    panel = fakeWindow('panel', log),
+    bar = fakeWindow('bar', log);
+  const state = { panel: true, focused: null, bar: true, main: false };
+  main.isVisible = () => state.main;
+  panel.isVisible = () => state.panel;
+  bar.isVisible = () => state.bar;
   const fanOut = windowFanOut({
-    BrowserWindow: { getAllWindows: () => [main, overlay, bar, closed] },
-    windows: { overlay: () => overlay, bar: () => bar, notch: () => null },
+    BrowserWindow: { getAllWindows: () => [main, panel, bar], getFocusedWindow: () => state.focused },
+    windows: { overlay: () => panel, bar: () => bar, panelVisible: () => state.panel, notch: () => null },
   });
-  fanOut.toOthers(main.webContents, 'integration:error', 'Failed');
-  assert.deepEqual(log, [
-    ['overlay', 'integration:error', 'Failed'],
-    ['bar', 'integration:error', 'Failed'],
-  ]);
+  fanOut.toVisible(main.webContents, 'integration:error', 'Blocked');
+  assert.deepEqual(log.splice(0), [['panel', 'integration:error', 'Blocked']]);
+  state.panel = false;
+  fanOut.toVisible(main.webContents, 'integration:error', 'Blocked');
+  assert.deepEqual(log.splice(0), [['bar', 'integration:error', 'Blocked']]);
+  state.focused = main;
+  state.main = true;
+  fanOut.toVisible(main.webContents, 'integration:error', 'Blocked');
+  assert.deepEqual(log.splice(0), [['main', 'integration:error', 'Blocked']]);
+  state.focused = null;
+  state.main = false;
+  state.bar = false;
+  fanOut.toVisible(main.webContents, 'integration:error', 'Blocked');
+  assert.deepEqual(log, []);
 });

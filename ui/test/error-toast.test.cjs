@@ -43,3 +43,23 @@ test('a refused Keychain read offers a restart, every shown error is reported, a
   showError('Sent by the main process', undefined, { fromMain: true });
   assert.deepEqual(reported, [keychain, 'Provider unavailable']);
 });
+
+test('handing feedback to main transfers presentation instead of also showing a local toast', () => {
+  const shown = [],
+    forwarded = [];
+  const { showError, setErrorReport, routeFeedback } = loadTsx('src/features/workspace/error-toast.ts', {
+    sonner: { toast: { error: (message) => shown.push(message) } },
+  });
+  setErrorReport((message, notice) => {
+    forwarded.push({ message, notice });
+    return true;
+  });
+  showError('Native capture refused');
+  assert.deepEqual(shown, []);
+  assert.equal(routeFeedback('Native capture refused', { permission: 'screen' }), true);
+  assert.equal(forwarded.length, 2);
+  assert.equal(forwarded[1].notice.permission, 'screen');
+  showError('Destination received it', undefined, { fromMain: true });
+  assert.deepEqual(shown, ['Destination received it']);
+  assert.equal(forwarded.length, 2, 'received feedback is never forwarded again');
+});
