@@ -194,7 +194,7 @@ test('a failed session-start request never throws and leaves the fallback for th
 test('a started session prepares the instruction with the insight settings, only when automatic insights are on', async (t) => {
   const repos = createRepositories(openDatabase(':memory:'));
   t.after(() => repos.db.close());
-  repos.settings.update({ provider: 'openai', model: 'gpt-4.1', language: 'pt' });
+  repos.settings.update({ provider: 'openai', model: 'gpt-4.1', language: 'pt', autoInsights: true });
   const session = repos.sessions.create('Call', 'general');
   const f = fixture();
   const started = prepareOnSessionStart({

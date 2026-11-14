@@ -1,4 +1,5 @@
 export const en = {
+  'audio.changeMicrophone': 'Change microphone',
   'analysis.nothingHeard': 'Nothing heard yet. LearnTranscriber writes down what it hears; ask again once people talk.',
   'analysis.permissionMissing': 'Allow {{permission}} for LearnTranscriber in System Settings, then try again.',
   'analysis.openSettings': 'Open System Settings',

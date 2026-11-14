@@ -46,7 +46,7 @@ const DEFAULTS = Object.freeze({
   // Copying a selection with Command-C analyzes it.
   copyToPrompt: true,
   kvCacheMode: 'off',
-  // Live captions and insights are on by default; OpenAI live transcription still needs
+  // Live captions are on by default; OpenAI live transcription still needs
   // OpenAI chosen as the transcription source and its key.
   liveTranscription: true,
   shortcuts: '{}',
@@ -85,7 +85,8 @@ const DEFAULTS = Object.freeze({
   overlayOnTop: true,
   // Opens as the floating assistant bar; the workspace opens from Home or the Dock.
   launchFloating: true,
-  autoInsights: true,
+  // Transcript analysis is manual until the user opts into automatic insights.
+  autoInsights: false,
   // When live insights are requested: only_questions, moderate, proactive, full_power or meeting_notes.
   insightMode: 'proactive',
   assistantId: 'general',

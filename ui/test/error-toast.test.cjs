@@ -63,3 +63,40 @@ test('handing feedback to main transfers presentation instead of also showing a 
   assert.deepEqual(shown, ['Destination received it']);
   assert.equal(forwarded.length, 2, 'received feedback is never forwarded again');
 });
+
+test('a disconnected microphone offers a working Audio Settings action, including forwarded and translated errors', () => {
+  const visible = [],
+    forwarded = [];
+  let opened = 0;
+  const missing = 'The selected microphone is not connected. Choose another one in Settings → Audio.';
+  const translated = 'O microfone selecionado não está conectado. Escolha outro em Configurações → Áudio.';
+  const { showError, setAudioSettingsAction, setErrorReport } = loadTsx('src/features/workspace/error-toast.ts', {
+    sonner: { toast: { error: (message, options) => visible.push({ message, options }) } },
+    'src/i18n.ts': {
+      documentT: (key) =>
+        ({
+          'error.theSelectedMicrophoneIsNotConnected': translated,
+          'audio.changeMicrophone': 'Trocar microfone',
+        })[key] ?? key,
+    },
+  });
+  setAudioSettingsAction(() => opened++);
+  setErrorReport((message) => {
+    forwarded.push(message);
+    return false;
+  });
+  for (const message of [missing, translated]) {
+    showError(message, undefined, { fromMain: true });
+    const toast = visible.at(-1);
+    assert.equal(toast.options.action.label, 'Trocar microfone');
+    assert.equal(toast.options.duration, 15000);
+    toast.options.action.onClick();
+  }
+  assert.equal(opened, 2);
+  assert.deepEqual(forwarded, []);
+  const explicit = { label: 'Custom recovery', onClick() {} };
+  showError(missing, explicit);
+  assert.equal(visible.at(-1).options.action, explicit);
+  showError('A different failure');
+  assert.equal(visible.at(-1).options.action, undefined);
+});

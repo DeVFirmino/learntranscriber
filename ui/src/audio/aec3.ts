@@ -20,4 +20,5 @@ export interface Aec3Module {
 export const AEC_SAMPLE_RATE = 48000
 export const REFERENCE_TIMEOUT_MS = 500
 export const AUDIO_BUFFER_DELAY_MS = 0
-export const CAPTURE_DELAY_MS = 60
+// Native system audio arrives in 100 ms packets; keep another packet of headroom for delivery jitter.
+export const CAPTURE_DELAY_MS = 200

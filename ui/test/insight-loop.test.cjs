@@ -255,3 +255,45 @@ test('a slow hesitation check is dropped when listening stops or the session or 
     assert.deepEqual(h.names(), ['hesitation']);
   }
 });
+
+test('manual analysis sends no automatic insight or hesitation requests during ten minutes of new speech', async () => {
+  const { InsightScheduler } = loadTs('src/features/workspace/insight-scheduler.ts');
+  const { HesitationMonitor } = loadTs('src/features/workspace/hesitation-monitor.ts');
+  let now = 0,
+    requests = 0;
+  const state = { activeSessionId: 's1', settings: { autoInsights: false, insightMode: 'proactive' } };
+  const listening = { sessionId: 's1', lines: [] };
+  const loop = new InsightLoop({
+    scheduler: new InsightScheduler(),
+    hesitation: new HesitationMonitor({
+      newId: () => 'unexpected-evaluation',
+      evaluate: async () => {
+        requests++;
+        return 'HESITATING';
+      },
+      cancel: async () => {},
+    }),
+    state: () => state,
+    recording: () => true,
+    paused: () => false,
+    listening: () => listening,
+    load: async () => {},
+    captions: () => ({ THEY: 'How does this work?', ME: 'Let me think about it' }),
+    generating: () => false,
+    generate: async () => {
+      requests++;
+      return 'Unexpected automatic answer';
+    },
+    failed: (error) => {
+      throw error;
+    },
+    now: () => now,
+    every: () => () => {},
+  });
+  for (now = 0; now <= 600_000; now += 1000) {
+    listening.lines.push(line('THEY', 'How does this work?', now));
+    listening.lines.push(line('ME', 'Let me think about it', now));
+    await loop.tick();
+  }
+  assert.equal(requests, 0);
+});
