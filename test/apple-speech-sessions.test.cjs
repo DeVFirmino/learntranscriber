@@ -15,7 +15,12 @@ const packet = () => new Int16Array([1000, -1000, 500]).buffer;
 
 test('persistent Apple helpers keep microphone and native output separate and save only final text', async () => {
   const repos = createRepositories(openDatabase(':memory:'));
-  repos.settings.update({ transcriptionProvider: 'apple', liveTranscription: true, systemAudio: true });
+  repos.settings.update({
+    transcriptionProvider: 'apple',
+    liveTranscription: true,
+    systemAudio: true,
+    appleSpeechLocale: 'en-US',
+  });
   const session = repos.sessions.create('Conversation', 'general');
   const captions = [];
   const readyLocales = [];

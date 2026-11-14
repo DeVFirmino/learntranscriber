@@ -28,6 +28,7 @@ test('fresh profiles start with their built-in defaults', (t) => {
       showMenuBarIcon: settings.showMenuBarIcon,
       customBaseUrl: settings.customBaseUrl,
       systemAudio: settings.systemAudio,
+      appleSpeechLocale: settings.appleSpeechLocale,
     },
     {
       copyToPrompt: true,
@@ -43,6 +44,7 @@ test('fresh profiles start with their built-in defaults', (t) => {
       showMenuBarIcon: false,
       customBaseUrl: '',
       systemAudio: process.platform === 'win32',
+      appleSpeechLocale: 'auto',
     },
   );
   // Each provider starts with its packaged model; a provider without one keeps asking for a model.

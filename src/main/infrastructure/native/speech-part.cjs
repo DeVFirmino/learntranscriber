@@ -4,13 +4,16 @@ const CHUNK = 64000;
 
 /**
  * Spawns the Apple Speech helper for one speaker of a session. The helper reads PCM on stdin and writes one JSON
- * message per line. `started` settles when the caller marks the part ready or failed, or when the helper exits or
- * times out first; `onEnded` runs after a part that was ready exits.
+ * message per line; with an alternate language it recognizes in both and still writes one stream. `started` settles
+ * when the caller marks the part ready or failed, or when the helper exits or times out first; `onEnded` runs after a
+ * part that was ready exits.
  */
-function spawnSpeechPart({ spawn, executable, sessionId, locale, speaker, readyTimeout, onMessage, onOverflow, onEnded }) {
+function spawnSpeechPart({ spawn, executable, sessionId, locale, alternate, speaker, readyTimeout, ...handlers }) {
+  const { onMessage, onOverflow, onEnded } = handlers;
+  const languages = alternate ? ['--language', locale, '--alternate-language', alternate] : ['--language', locale];
   const child = spawn(
     executable,
-    ['--mode', 'session', '--session-id', sessionId, '--language', locale, '--speaker-label', speaker],
+    ['--mode', 'session', '--session-id', sessionId, ...languages, '--speaker-label', speaker],
     { shell: false, stdio: ['pipe', 'pipe', 'ignore'], env: { PATH: '/usr/bin:/bin', LANG: 'en_US.UTF-8' } },
   );
   const part = { child, speaker, ready: false, settled: false, buffer: '', ended: false, rejectReady: null, exit: null };

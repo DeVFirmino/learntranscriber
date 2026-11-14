@@ -1,8 +1,10 @@
 const { spawn } = require('node:child_process');
 const { wavSamples } = require('../../domain/audio/wav.cjs');
 const { spawnSpeechPart, writePcm, stopPart } = require('./speech-part.cjs');
+const { requestedLanguages, preflightLanguages } = require('./live-languages.cjs');
 
-// Live Apple Speech captions: one helper per speaker of a session, final lines saved as transcript entries.
+// Live Apple Speech captions: one helper per speaker of a session, final lines saved as transcript entries. The
+// automatic language gives each helper a second recognizer.
 class AppleSpeechSessions {
   constructor({ settings, sessions, entries }, executable, onCaption, options = {}) {
     this.repositories = { settings, sessions, entries };
@@ -25,17 +27,11 @@ class AppleSpeechSessions {
     const settings = this.repositories.settings.read();
     if (settings.transcriptionProvider !== 'apple' || !settings.liveTranscription)
       throw new Error('Select Apple Speech and enable live captions first.');
-    const locale = String(settings.appleSpeechLocale || 'en-US').trim() || 'en-US';
-    const state = { owner, id, locale, parts: new Map(), stopping: false, suppress: false };
+    const languages = requestedLanguages(settings.appleSpeechLocale);
+    const state = { owner, id, ...languages, parts: new Map(), stopping: false, suppress: false };
     this.sessions.set(owner, state);
     try {
-      if (this.preflight) {
-        const result = await this.preflight(locale);
-        if (result.authorization === 'denied' || result.authorization === 'restricted')
-          throw new Error('Enable Speech Recognition for LearnTranscriber in macOS Privacy & Security.');
-        if (!result.supportsStreamingRecognition)
-          throw new Error('Streaming Apple Speech is unavailable for this language.');
-      }
+      if (this.preflight) Object.assign(state, await this.checked(state, languages));
       if (state.stopping || this.sessions.get(owner) !== state) throw new Error('Apple Speech startup was cancelled.');
       await this.startPart(state, 'ME');
       if (state.stopping || this.sessions.get(owner) !== state) throw new Error('Apple Speech startup was cancelled.');
@@ -47,12 +43,17 @@ class AppleSpeechSessions {
     }
   }
 
+  checked(state, languages) {
+    return preflightLanguages(languages, { preflight: this.preflight, cancelled: () => state.stopping });
+  }
+
   async startPart(state, speaker) {
     const { part, started } = spawnSpeechPart({
       spawn: this.spawn,
       executable: this.executable,
       sessionId: state.id,
       locale: state.locale,
+      alternate: state.alternate,
       speaker,
       readyTimeout: this.readyTimeout,
       onMessage: (message) => this.message(state, part, message),
@@ -71,6 +72,7 @@ class AppleSpeechSessions {
       if (!part.settled) {
         try {
           this.onReady?.(message.resolvedLocale || state.locale);
+          if (state.alternate) this.onReady?.(state.alternate);
         } catch (error) {
           part.settled = true;
           part.rejectReady(error);

@@ -1,11 +1,12 @@
 const { validateTranscriptionInput, withoutBlankAudio } = require('../../domain/audio/transcription-input.cjs');
+const { speechLanguages } = require('../../domain/audio/speech-languages.cjs');
 
 // Transcribes audio bytes with the configured engine: the managed local Whisper (through a runtime lease), Apple
-// Speech, or a cloud provider.
+// Speech (in the primary language when it is automatic), or a cloud provider.
 function createAudioTranscriber({ acquireWhisper, whisper, appleSpeech, providers }) {
   async function engineTranscript(bytes, input, settings, signal) {
     if (settings.transcriptionProvider === 'apple')
-      return appleSpeech.transcribe(bytes, settings.appleSpeechLocale, signal);
+      return appleSpeech.transcribe(bytes, speechLanguages(settings.appleSpeechLocale).primary, signal);
     if (settings.transcriptionProvider !== 'local') return providers.transcribe(settings, bytes, input.mime, signal);
     const lease = acquireWhisper();
     try {

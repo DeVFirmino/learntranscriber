@@ -41,6 +41,12 @@
       "mock": "rejects"
     },
     {
+      "name": "automatic Apple Speech language",
+      "patch": { "appleSpeechLocale": "auto" },
+      "native": "accepts",
+      "mock": "accepts"
+    },
+    {
       "name": "Gemini transcription selection",
       "patch": { "transcriptionProvider": "gemini" },
       "native": "accepts",
