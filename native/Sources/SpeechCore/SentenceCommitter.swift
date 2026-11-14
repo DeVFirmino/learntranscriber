@@ -6,7 +6,7 @@ import Foundation
 /// A sentence is saved when it ends with `.`, `?` or `!` and has at least 12 characters and 3 words; shorter ones
 /// join the next. Speech that runs on without punctuation is saved after 7 seconds once it holds 6 words and 32
 /// characters. Apple keeps revising its text, so the saved words are found again in each new text by aligning
-/// words, and a sentence that repeats the last saved one is not saved twice.
+/// words, and a sentence that repeats the last saved one word for word is not saved twice.
 public struct SentenceCommitter: Equatable, Sendable {
     /// What one running text makes the session emit.
     public struct Update: Equatable, Sendable {
@@ -106,11 +106,12 @@ public struct SentenceCommitter: Equatable, Sendable {
         return Array(tokens.dropFirst(min(saved.count, tokens.count)))
     }
 
-    /// Whether `text` repeats the last saved text, exactly or at 90% character similarity.
+    /// Whether `text` repeats the last saved text word for word. A near match is not a repeat: "The result is 200."
+    /// after "The result is 100." is a new fact.
     private func isRepeat(_ text: String) -> Bool {
         let normalized = TextAlignment.normalized(text)
         guard normalized.isEmpty == false, lastSaved.isEmpty == false else { return false }
-        return normalized == lastSaved || TextAlignment.similarity(normalized, lastSaved) >= 0.9
+        return normalized == lastSaved
     }
 
     private static func endsSentence(_ token: String) -> Bool {
