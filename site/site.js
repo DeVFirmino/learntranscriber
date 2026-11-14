@@ -70,96 +70,169 @@ const toast = $('[data-toast]');
 const timer = $('[data-timer]');
 const placeholder = compose.textContent;
 
-const scenes = [
-  {
-    app: 'Classroom',
-    assistant: ['#a-english', 'English Assistant'],
-    source: '.obj--phones',
-    saved: ['English class · present perfect', 'Saved · 52 min · summary ready'],
-    toast: '<b>Session saved</b> · summary ready',
-    script: [
-      {
-        kind: 'they',
-        text: 'We use the present perfect for experiences, like “I have visited Lisbon twice.”',
-        wait: 700,
-      },
-      {
-        kind: 'they',
-        text: 'And with “for” or “since” when something started in the past and is still true.',
-        wait: 1800,
-      },
-      {
-        kind: 'insight',
-        text: 'Present perfect: have or has plus the past participle, for experiences and things that are still true.',
-        wait: 1400,
-      },
-      { kind: 'ask', text: 'When do I use “for” or “since”?', wait: 1600 },
-      {
-        kind: 'answer',
-        text: '“For” takes a length of time, like for three years. “Since” takes a starting point, like since 2023: I have studied English since 2023.',
-        wait: 700,
-      },
-    ],
-  },
-  {
-    app: 'Video call',
-    assistant: ['#a-meeting', 'Note Taker'],
-    source: '.obj--mic',
-    saved: ['Team sync · beta launch', 'Saved · 34 min · decisions and next steps'],
-    toast: '<b>Summary saved</b> · decisions and next steps',
-    script: [
-      { kind: 'they', text: 'So the beta goes out to the first 50 users next Friday.', wait: 700 },
-      { kind: 'they', text: 'Leo, can you finish the onboarding screens by Wednesday?', wait: 1800 },
-      {
-        kind: 'insight',
-        text: 'Decision: the beta goes to the first 50 users next Friday. Leo owns onboarding, due Wednesday.',
-        wait: 1400,
-      },
-      { kind: 'ask', text: 'What did we decide about the beta?', wait: 1600 },
-      {
-        kind: 'answer',
-        text: 'It ships to the first 50 users next Friday, and Leo finishes the onboarding screens by Wednesday.',
-        wait: 700,
-      },
-    ],
-  },
-  {
-    app: 'Code',
-    assistant: ['#a-programming', 'Programming Assistant'],
-    source: '.obj--board',
-    saved: ['React tutorial · useEffect', 'Saved · 18 min · notes ready'],
-    toast: '<b>Session saved</b> · notes ready',
-    script: [
-      { kind: 'they', text: 'Now we fetch the user inside useEffect and keep it in state.', wait: 700 },
-      {
-        kind: 'they',
-        text: 'The id goes in the dependency array, so it fetches again when the id changes.',
-        wait: 1800,
-      },
-      {
-        kind: 'insight',
-        text: 'useEffect runs after render; with [id] it runs again only when the id changes.',
-        wait: 1400,
-      },
-      { kind: 'ask', text: 'Why does this log run twice in development?', shot: true, wait: 1600 },
-      {
-        kind: 'answer',
-        text: 'React’s Strict Mode mounts components twice in development to catch missing cleanups, so the effect runs twice. A production build runs it once per id.',
-        wait: 700,
-      },
-    ],
-  },
+// The page is served in English and in Brazilian Portuguese; the language comes from <html lang>. The spoken lines stay
+// in English on both pages, because the footage is in English. Everything else the script writes is in `copy`.
+const lang = document.documentElement.lang.toLowerCase().startsWith('pt') ? 'pt' : 'en';
+const spoken = [
+  [
+    'We use the present perfect for experiences, like “I have visited Lisbon twice.”',
+    'And with “for” or “since” when something started in the past and is still true.',
+  ],
+  ['So the beta goes out to the first 50 users next Friday.', 'Leo, can you finish the onboarding screens by Wednesday?'],
+  [
+    'Now we fetch the user inside useEffect and keep it in state.',
+    'The id goes in the dependency array, so it fetches again when the id changes.',
+  ],
 ];
+const copyBy = {
+  en: {
+    labels: { they: 'THEY', insight: 'Insight', answer: 'Assistant', screenshot: 'Screenshot' },
+    scenes: [
+      {
+        app: 'Classroom',
+        assistant: 'English Assistant',
+        saved: ['English class · present perfect', 'Saved · 52 min · summary ready'],
+        toast: '<b>Session saved</b> · summary ready',
+        insight:
+          'Present perfect: have or has plus the past participle, for experiences and things that are still true.',
+        ask: 'When do I use “for” or “since”?',
+        answer:
+          '“For” takes a length of time, like for three years. “Since” takes a starting point, like since 2023: I have studied English since 2023.',
+      },
+      {
+        app: 'Video call',
+        assistant: 'Note Taker',
+        saved: ['Team sync · beta launch', 'Saved · 34 min · decisions and next steps'],
+        toast: '<b>Summary saved</b> · decisions and next steps',
+        insight: 'Decision: the beta goes to the first 50 users next Friday. Leo owns onboarding, due Wednesday.',
+        ask: 'What did we decide about the beta?',
+        answer: 'It ships to the first 50 users next Friday, and Leo finishes the onboarding screens by Wednesday.',
+      },
+      {
+        app: 'Code',
+        assistant: 'Programming Assistant',
+        saved: ['React tutorial · useEffect', 'Saved · 18 min · notes ready'],
+        toast: '<b>Session saved</b> · notes ready',
+        insight: 'useEffect runs after render; with [id] it runs again only when the id changes.',
+        ask: 'Why does this log run twice in development?',
+        answer:
+          'React’s Strict Mode mounts components twice in development to catch missing cleanups, so the effect runs twice. A production build runs it once per id.',
+      },
+    ],
+    // The rig in “How it works”.
+    exchanges: [
+      [
+        'When do I use “for” or “since”?',
+        '“For” takes a length of time, like for three years. “Since” takes a starting point, like since 2023.',
+      ],
+      [
+        'Is the example on this slide right?',
+        'Yes. “I have lived here since 2020” uses “since” with a starting point, so the present perfect fits.',
+      ],
+    ],
+    engines: ['Whisper, local', 'Cloud service', 'Apple Speech'],
+    models: ['Your API key', 'Local model', 'ChatGPT'],
+    // “Works with what you use”: assistant glyph, name, answer.
+    reach: [
+      ['#a-english', 'English Assistant', '“Since” takes a starting point, like since 2023.'],
+      ['#a-programming', 'Programming Assistant', 'Strict Mode runs effects twice in development.'],
+      ['#a-meeting', 'Note Taker', 'Decision: the beta ships on Friday.'],
+      ['#a-general', 'General Assistant', 'Product-led growth: the product itself brings users in.'],
+    ],
+    copy: { idle: 'Copy', done: 'Copied', failed: 'Select and copy' },
+  },
+  pt: {
+    labels: { they: 'ELES', insight: 'Insight', answer: 'Assistente', screenshot: 'Captura' },
+    scenes: [
+      {
+        app: 'Sala de aula',
+        assistant: 'Assistente de inglês',
+        saved: ['Aula de inglês · present perfect', 'Salva · 52 min · resumo pronto'],
+        toast: '<b>Sessão salva</b> · resumo pronto',
+        insight:
+          'Present perfect: have ou has mais o particípio passado, para experiências e coisas que ainda são verdade.',
+        ask: 'Quando uso “for” ou “since”?',
+        answer:
+          '“For” leva um período de tempo, como for three years. “Since” leva um ponto de partida, como since 2023: I have studied English since 2023.',
+      },
+      {
+        app: 'Videochamada',
+        assistant: 'Anotador',
+        saved: ['Reunião do time · lançamento do beta', 'Salva · 34 min · decisões e próximos passos'],
+        toast: '<b>Resumo salvo</b> · decisões e próximos passos',
+        insight:
+          'Decisão: o beta vai para os 50 primeiros usuários na sexta que vem. O Leo cuida do onboarding, prazo quarta.',
+        ask: 'O que decidimos sobre o beta?',
+        answer:
+          'Ele sai para os 50 primeiros usuários na sexta que vem, e o Leo termina as telas de onboarding até quarta.',
+      },
+      {
+        app: 'Código',
+        assistant: 'Assistente de programação',
+        saved: ['Tutorial de React · useEffect', 'Salva · 18 min · notas prontas'],
+        toast: '<b>Sessão salva</b> · notas prontas',
+        insight: 'O useEffect roda depois da renderização; com [id], só roda de novo quando o id muda.',
+        ask: 'Por que esse log roda duas vezes em desenvolvimento?',
+        answer:
+          'O Strict Mode do React monta os componentes duas vezes em desenvolvimento para pegar limpezas que faltam, então o efeito roda duas vezes. Em produção, roda uma vez por id.',
+      },
+    ],
+    exchanges: [
+      [
+        'Quando uso “for” ou “since”?',
+        '“For” leva um período de tempo, como for three years. “Since” leva um ponto de partida, como since 2023.',
+      ],
+      [
+        'O exemplo deste slide está certo?',
+        'Está. “I have lived here since 2020” usa “since” com um ponto de partida, então o present perfect cabe.',
+      ],
+    ],
+    engines: ['Whisper, local', 'Serviço na nuvem', 'Apple Speech'],
+    models: ['Sua chave de API', 'Modelo local', 'ChatGPT'],
+    reach: [
+      ['#a-english', 'Assistente de inglês', '“Since” leva um ponto de partida, como since 2023.'],
+      ['#a-programming', 'Assistente de programação', 'O Strict Mode roda os efeitos duas vezes em desenvolvimento.'],
+      ['#a-meeting', 'Anotador', 'Decisão: o beta sai na sexta.'],
+      ['#a-general', 'Assistente geral', 'Product-led growth: o próprio produto traz os usuários.'],
+    ],
+    copy: { idle: 'Copiar', done: 'Copiado', failed: 'Selecione e copie' },
+  },
+};
+const copy = copyBy[lang];
+
+const sceneBase = [
+  { glyph: '#a-english', source: '.obj--phones' },
+  { glyph: '#a-meeting', source: '.obj--mic' },
+  { glyph: '#a-programming', source: '.obj--board', shot: true },
+];
+const scenes = sceneBase.map((base, index) => {
+  const text = copy.scenes[index];
+  const [first, second] = spoken[index];
+  return {
+    app: text.app,
+    assistant: [base.glyph, text.assistant],
+    source: base.source,
+    saved: text.saved,
+    toast: text.toast,
+    script: [
+      { kind: 'they', text: first, wait: 700 },
+      { kind: 'they', text: second, wait: 1800 },
+      { kind: 'insight', text: text.insight, wait: 1400 },
+      { kind: 'ask', text: text.ask, shot: base.shot, wait: 1600 },
+      { kind: 'answer', text: text.answer, wait: 700 },
+    ],
+  };
+});
 
 function line(kind, text, { shot = false } = {}) {
   const item = document.createElement('div');
   item.className = `line line--${kind}`;
   const labels = {
-    they: '<span class="who">THEY</span>',
-    insight: '<span class="label"><i></i>Insight</span>',
-    answer: '<span class="label">Assistant</span>',
+    they: `<span class="who">${copy.labels.they}</span>`,
+    insight: `<span class="label"><i></i>${copy.labels.insight}</span>`,
+    answer: `<span class="label">${copy.labels.answer}</span>`,
   };
-  const attached = shot ? '<span class="line__shot"><svg><use href="#i-capture" /></svg>Screenshot</span>' : '';
+  const attached = shot ? `<span class="line__shot"><svg><use href="#i-capture" /></svg>${copy.labels.screenshot}</span>` : '';
   item.innerHTML = `${labels[kind] || ''}${attached}<span class="text"></span>`;
   item.querySelector('.text').textContent = text;
   return item;
@@ -495,16 +568,7 @@ const cameras = [
   [12, -12, 1],
   [16, -20, 0.96],
 ];
-const exchanges = [
-  [
-    'When do I use “for” or “since”?',
-    '“For” takes a length of time, like for three years. “Since” takes a starting point, like since 2023.',
-  ],
-  [
-    'Is the example on this slide right?',
-    'Yes. “I have lived here since 2020” uses “since” with a starting point, so the present perfect fits.',
-  ],
-];
+const exchanges = copy.exchanges;
 const clock = (seconds) => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 let flowStep = -1;
 let flowRun = 0;
@@ -522,8 +586,8 @@ function flowPhase(phase) {
   [flowQuestion.textContent, flowAnswer.textContent] = phase >= 5 ? exchanges[1] : phase >= 4 ? exchanges[0] : ['', ''];
   flowAsk.textContent = askHint;
   flowAsk.parentElement.classList.remove('is-typing');
-  flowEngine.textContent = 'Apple Speech';
-  flowModel.textContent = 'ChatGPT';
+  flowEngine.textContent = copy.engines[2];
+  flowModel.textContent = copy.models[2];
   if (phase < 2) flowSeconds = 0;
   flowTimer.textContent = clock(flowSeconds);
 }
@@ -596,12 +660,12 @@ async function flowAct(step, token) {
   } else if (step === 2) {
     flowCursor.classList.remove('is-on');
     rig.classList.add('has-panel');
-    flowCycle(flowEngine, ['Whisper, local', 'Cloud service', 'Apple Speech'], token);
+    flowCycle(flowEngine, copy.engines, token);
     for (const line of flowLines) {
       if (!(await flowType(line, line.dataset.flowLine, token, 26))) return;
     }
   } else if (step === 3) {
-    flowCycle(flowModel, ['Your API key', 'Local model', 'ChatGPT'], token);
+    flowCycle(flowModel, copy.models, token);
     await flowAskQuestion(exchanges[0], token, false);
   } else if (step === 4) {
     if (!(await flowClick($('[data-flow-capture]', rig), token))) return;
@@ -672,12 +736,7 @@ reachTitle.replaceChildren(
 const reachWords = $$('span', reachTitle);
 const reachApps = $$('[data-app]', reach);
 const reachFloat = $('[data-reach-float]', reach);
-const reachStops = [
-  ['#a-english', 'English Assistant', '“Since” takes a starting point, like since 2023.'],
-  ['#a-programming', 'Programming Assistant', 'Strict Mode runs effects twice in development.'],
-  ['#a-meeting', 'Note Taker', 'Decision: the beta ships on Friday.'],
-  ['#a-general', 'General Assistant', 'Product-led growth: the product itself brings users in.'],
-];
+const reachStops = copy.reach;
 let reachAt = 0;
 
 function lightReach() {
@@ -773,13 +832,13 @@ for (const button of $$('[data-copy-terminal]')) {
     const commands = $$('.terminal__line', terminal).map((line) => line.textContent).join('\n');
     try {
       await navigator.clipboard.writeText(commands);
-      button.textContent = 'Copied';
+      button.textContent = copy.copy.done;
       button.toggleAttribute('data-copied', true);
     } catch {
-      button.textContent = 'Select and copy';
+      button.textContent = copy.copy.failed;
     }
     setTimeout(() => {
-      button.textContent = 'Copy';
+      button.textContent = copy.copy.idle;
       button.removeAttribute('data-copied');
     }, 1600);
   });

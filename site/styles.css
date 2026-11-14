@@ -329,6 +329,47 @@ kbd {
   opacity: 1;
   translate: -50% 0;
 }
+.dock__lang {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 2px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+}
+.dock__lang a {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  height: 38px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition:
+    background 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    color 200ms var(--ease-out);
+}
+.dock__lang a:hover,
+.dock__lang a[aria-current='page'] {
+  border-color: #dde3ec;
+  background: var(--paper);
+  box-shadow: 0 2px 6px -2px rgb(19 37 74 / 0.25);
+  color: var(--ink);
+}
+.dock__lang a[aria-current='page'] {
+  color: var(--blue-ink);
+}
+.dock__lang a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
 .brand {
   display: inline-flex;
   align-items: center;
