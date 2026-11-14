@@ -138,3 +138,13 @@
     transition: none;
   }
 }
+.assistant-response .practice-quiz-notice {
+  margin: 0 0 var(--ui-space-2);
+  color: var(--muted-foreground);
+}
+.practice-quiz-original[data-state='open'] svg {
+  transform: rotate(180deg);
+}
+.practice-quiz-unavailable [data-code-block] {
+  margin-bottom: 0;
+}

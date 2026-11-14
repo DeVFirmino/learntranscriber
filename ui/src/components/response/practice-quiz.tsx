@@ -1,9 +1,10 @@
-import { useId, useState } from 'react'
-import { Check, RotateCcw, X } from 'lucide-react'
+import { useId, useState, type ReactNode } from 'react'
+import { Check, ChevronDown, RotateCcw, X } from 'lucide-react'
 import { RadioGroup } from 'radix-ui'
 import { ActionButton } from '@/components/ui/action-button'
 import { Button } from '@/components/ui/button'
 import { ChoiceTile } from '@/components/ui/choice-tile'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { documentT as t } from '@/i18n'
 import { quizScore, type QuizQuestion } from '@/features/practice-quiz'
 import './practice-quiz.css'
@@ -110,5 +111,22 @@ export function PracticeQuiz({ questions }: { questions: QuizQuestion[] }) {
         </div>
       ) : null}
     </section>
+  )
+}
+
+// A quiz block the model wrote in the wrong shape: a short notice, with the original text (which may hold the answers)
+// behind a disclosure instead of shown outright.
+export function PracticeQuizUnavailable({ children }: { children: ReactNode }) {
+  return (
+    <Collapsible data-practice-quiz-unavailable className="practice-quiz practice-quiz-unavailable">
+      <p className="practice-quiz-notice">{t('quiz.unavailable')}</p>
+      <CollapsibleTrigger asChild>
+        <Button type="button" size="sm" variant="ghost" className="practice-quiz-original">
+          {t('quiz.showOriginal')}
+          <ChevronDown aria-hidden="true" />
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent>{children}</CollapsibleContent>
+    </Collapsible>
   )
 }

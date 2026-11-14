@@ -123,8 +123,12 @@ test('a quiz block renders choices and check buttons without revealing answers o
   assert.doesNotMatch(result, /&quot;answer&quot;/);
 });
 
-test('a malformed quiz block stays a code block, and a streaming quiz is hidden', () => {
-  assert.match(render('```quiz\n{"questions": "nope"}\n```'), /data-code-block/);
+test('a malformed quiz block shows a notice with its text collapsed, and a streaming quiz is hidden', () => {
+  const malformed = render('```quiz\n{"questions": "nope"}\n```');
+  assert.match(malformed, /data-practice-quiz-unavailable/);
+  assert.match(malformed, /aria-expanded="false"/);
+  assert.doesNotMatch(malformed, /data-code-block/);
+  assert.match(render('```json\n{"questions": "nope"}\n```'), /data-code-block/);
   const streaming = render('Here.\n```quiz\n{"questions":[{"answer":1,"explanation":"secret', true);
   assert.doesNotMatch(streaming, /secret/);
   assert.match(streaming, /Here\./);

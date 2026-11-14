@@ -1108,6 +1108,8 @@ export const es: Messages = {
   'quiz.score': '{{correct}} de {{total}} correctas',
   'quiz.retry': 'Intentar de nuevo',
   'quiz.preparing': '[Preparando preguntas de práctica…]',
+  'quiz.unavailable': 'No se pudo crear este cuestionario de práctica.',
+  'quiz.showOriginal': 'Ver el texto original',
   'app.unavailable': 'Espacio de trabajo no disponible',
   'app.reloadWindow': 'Recargar ventana',
   'app.bridgeError': 'El puente nativo informó de un error. Esta vista previa no cambió a datos de ejemplo.',

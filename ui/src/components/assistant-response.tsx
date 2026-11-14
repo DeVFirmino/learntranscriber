@@ -5,7 +5,7 @@ import { documentT as t } from '@/i18n'
 import { safeResponseLink } from '@/features/response-link'
 import { hideQuizWhileStreaming, parsePracticeQuiz } from '@/features/practice-quiz'
 import { CodeBlock } from './response/code-block'
-import { PracticeQuiz } from './response/practice-quiz'
+import { PracticeQuiz, PracticeQuizUnavailable } from './response/practice-quiz'
 import { ResponseLink } from './response/response-link'
 
 export interface ResponseActions {
@@ -31,11 +31,13 @@ function ResponseBody({
         if (!isValidElement<{ children?: ReactNode; className?: string }>(children)) return <pre>{children}</pre>
         const code = String(children.props.children ?? '')
         const language = /language-([\w+-]+)/.exec(children.props.className || '')?.[1] || ''
-        const quiz = language === 'quiz' ? parsePracticeQuiz(code) : null
-        if (quiz) return <PracticeQuiz key={code} questions={quiz} />
-        return (
+        const block = (
           <CodeBlock key={code} code={code} language={language} copy={actions.copyResponseCode} fontScale={fontScale} />
         )
+        if (language !== 'quiz') return block
+        const quiz = parsePracticeQuiz(code)
+        if (quiz) return <PracticeQuiz key={code} questions={quiz} />
+        return <PracticeQuizUnavailable key={code}>{block}</PracticeQuizUnavailable>
       },
       a: ({ href, children }) => {
         const url = safeResponseLink(href)

@@ -1091,6 +1091,8 @@ export const en = {
   'quiz.score': '{{correct}} of {{total}} correct',
   'quiz.retry': 'Try again',
   'quiz.preparing': '[Preparing practice questions…]',
+  'quiz.unavailable': "Couldn't build this practice quiz.",
+  'quiz.showOriginal': 'Show the original text',
   'app.unavailable': 'Workspace unavailable',
   'app.reloadWindow': 'Reload window',
   'app.bridgeError': 'The native bridge reported an error. This preview did not switch to sample data.',

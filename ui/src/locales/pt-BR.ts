@@ -1101,6 +1101,8 @@ export const ptBR: Messages = {
   'quiz.score': '{{correct}} de {{total}} corretas',
   'quiz.retry': 'Tentar de novo',
   'quiz.preparing': '[Preparando questões de prática…]',
+  'quiz.unavailable': 'Não consegui montar este quiz de prática.',
+  'quiz.showOriginal': 'Ver o texto original',
   'app.unavailable': 'Workspace indisponível',
   'app.reloadWindow': 'Recarregar janela',
   'app.bridgeError': 'A ponte nativa informou um erro. Este preview não trocou para dados de exemplo.',
