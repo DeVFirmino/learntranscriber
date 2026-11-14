@@ -139,7 +139,7 @@ test('Ask opens the floating question box; Command-D shows the bar and leaves st
 
 test('while everything is hidden, surface shortcuts are dropped and window shortcuts still act', () => {
   const { actions, sent, calls, state } = harness({ concealed: true, notch: true });
-  for (const action of SURFACE_ACTIONS) assert.equal(actions.dispatch(action), false, action);
+  for (const action of SURFACE_ACTIONS) if (action !== 'record') assert.equal(actions.dispatch(action), false, action);
   assert.deepEqual(sent, []);
   assert.deepEqual(calls, []);
   actions.dispatch('overlay');
@@ -169,20 +169,30 @@ test('all 19 shortcuts with a known action, across idle/recording and visible/hi
         state.listening = recording;
         const delivered = actions.dispatch(id);
         assert.ok(!sent.some(([, , action]) => action === 'toggleRecording'), `${name} never stops recording`);
-        if (hidden && SURFACE_ACTIONS.has(id)) {
+        if (hidden && SURFACE_ACTIONS.has(id) && id !== 'record') {
           assert.equal(delivered, false, `${name} is dropped while hidden`);
           assert.deepEqual([sent, calls], [[], []]);
         } else assert.equal(delivered, true, `${name} is delivered`);
-        if (id === 'record' && !hidden)
+        if (id === 'record')
           assert.deepEqual(sent, [
             [recording ? 'panel' : 'main', 'workspace:action', recording ? 'analyze' : 'record'],
           ]);
-        if (id !== 'hide') assert.equal(state.concealed, hidden, `${name} leaves concealment unchanged`);
+        if (id === 'record') assert.equal(state.concealed, false, 'Command-D reveals hidden windows');
+        else if (id !== 'hide') assert.equal(state.concealed, hidden, `${name} leaves concealment unchanged`);
         matrix[`${recording ? 'recording' : 'idle'}/${hidden ? 'hidden' : 'visible'}/${name}`] = delivered;
       }
     }
   assert.equal(Object.keys(matrix).length, 76);
-  assert.equal(Object.values(matrix).filter((value) => !value).length, 28);
+  assert.equal(Object.values(matrix).filter((value) => !value).length, 26);
+});
+
+test('Command-D while everything is hidden brings the windows back, then records or analyzes as usual', () => {
+  const { actions, sent, calls, state } = harness({ concealed: true, panel: false });
+  state.expanded = false;
+  assert.equal(actions.dispatch('record'), true);
+  assert.equal(state.concealed, false);
+  assert.deepEqual(calls.slice(0, 2), ['conceal-toggle', 'publish']);
+  assert.deepEqual(sent, [['main', 'workspace:action', 'record']]);
 });
 
 test('an accelerator is reported only for an enabled shortcut', () => {
