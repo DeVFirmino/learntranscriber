@@ -3,6 +3,8 @@ const PRESETS = Object.freeze({
   analysis: { temperature: 0.4, maxOutputTokens: 1500, reasoningEffort: 'medium', reasoningMaxOutputTokens: 3000 },
   analysisGemini: { temperature: 0.4, maxOutputTokens: 3000, thinkingBudget: 0 },
   tldr: { temperature: 0.4, maxOutputTokens: 2048, reasoningEffort: 'medium', reasoningMaxOutputTokens: 4096 },
+  // Detailed session notes: a long class needs far more room than a TL;DR, and reasoning models spend part of it.
+  summary: { temperature: 0.4, maxOutputTokens: 8000, reasoningEffort: 'medium', reasoningMaxOutputTokens: 12000 },
   mcp: {
     temperature: 0.2,
     maxOutputTokens: 500,
@@ -32,9 +34,9 @@ for (const preset of Object.values(PRESETS)) Object.freeze(preset);
 const MODE_FEATURES = {
   chat: 'analysis',
   screenInsight: 'analysis',
-  summary: 'tldr',
+  summary: 'summary',
   practice: 'tldr',
-  summaryRewrite: 'tldr',
+  summaryRewrite: 'summary',
   compact: 'tldr',
   translation: 'translation',
   insight: 'realtimeSummary',

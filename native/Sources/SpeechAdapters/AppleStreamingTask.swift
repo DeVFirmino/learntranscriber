@@ -13,6 +13,8 @@ final class AppleStreamingTask: StreamingRecognitionTask {
         request.requiresOnDeviceRecognition = true
         request.shouldReportPartialResults = true
         request.taskHint = .dictation
+        // Punctuation marks where sentences end, so a long utterance can be saved sentence by sentence.
+        request.addsPunctuation = true
         task = recognizer.recognitionTask(with: request) { result, error in
             let outcome = StreamingTaskOutcome(text: result?.bestTranscription.formattedString,
                                                isFinal: result?.isFinal ?? false, error: error)
