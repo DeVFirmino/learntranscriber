@@ -112,6 +112,18 @@ struct StreamingRecognizerTests {
         #expect(sink.events == before, "a finished task's callbacks no longer reach the session")
     }
 
+    @Test func finishedSentencesAreSavedWhileTheSpeakerKeepsTalking() async throws {
+        let (recognizer, sink, tasks) = try makeRecognizer(onEnd: { engine in
+            engine.receive?(.transcript("Softmax picks one class. Sigmoid can pick several classes.", isFinal: true))
+        })
+        try await recognizer.append(pcm(speech))
+        tasks.last?.receive?(.transcript("Softmax picks one class. Sigmoid can", isFinal: false))
+        #expect(sink.finals == ["Softmax picks one class."], "saved before the task ends")
+        #expect(sink.events.last?.text == "Sigmoid can")
+        await recognizer.stop()
+        #expect(sink.finals == ["Softmax picks one class.", "Sigmoid can pick several classes."])
+    }
+
     @Test func anOddByteCountIsMalformedAudio() async throws {
         let (recognizer, _, _) = try makeRecognizer()
         await #expect(throws: SpeechFailure.malformedAudio) { try await recognizer.append(Data([1, 2, 3])) }
