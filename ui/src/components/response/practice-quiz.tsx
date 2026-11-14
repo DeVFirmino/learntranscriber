@@ -1,5 +1,5 @@
 import { useId, useState, type ReactNode } from 'react'
-import { Check, ChevronDown, RotateCcw, X } from 'lucide-react'
+import { Check, ChevronDown, ChevronLeft, ChevronRight, RotateCcw, X } from 'lucide-react'
 import { RadioGroup } from 'radix-ui'
 import { ActionButton } from '@/components/ui/action-button'
 import { Button } from '@/components/ui/button'
@@ -13,19 +13,22 @@ const LETTERS = 'ABCDEF'
 
 function QuizItem({
   item,
-  index,
-  total,
+  countId,
+  selected,
   checked,
+  onSelect,
   onCheck,
+  onNext,
 }: {
   item: QuizQuestion
-  index: number
-  total: number
+  countId: string
+  selected: string
   checked: number | null
+  onSelect: (choice: string) => void
   onCheck: (choice: number) => void
+  onNext?: () => void
 }) {
   const id = useId()
-  const [selected, setSelected] = useState('')
   const done = checked !== null
   const result = (choice: number) => {
     if (!done) return undefined
@@ -33,16 +36,15 @@ function QuizItem({
     return choice === checked ? 'wrong' : 'other'
   }
   return (
-    <li className="practice-quiz-item" data-checked={done || undefined}>
+    <div className="practice-quiz-item" data-checked={done || undefined}>
       <p id={`${id}-question`} className="practice-quiz-question">
-        <span className="practice-quiz-count">{t('quiz.position', { index: index + 1, total })}</span>
         {item.question}
       </p>
       <RadioGroup.Root
         className="practice-quiz-choices"
-        aria-labelledby={`${id}-question`}
+        aria-labelledby={`${countId} ${id}-question`}
         value={done ? String(checked) : selected}
-        onValueChange={setSelected}
+        onValueChange={onSelect}
         disabled={done}
       >
         {item.choices.map((choice, position) => (
@@ -68,39 +70,94 @@ function QuizItem({
           </span>
           <span>{item.explanation}</span>
         </div>
-      ) : (
+      ) : null}
+      {!done ? (
         <ActionButton type="button" size="sm" disabled={selected === ''} onClick={() => onCheck(Number(selected))}>
           {t('quiz.check')}
         </ActionButton>
-      )}
-    </li>
+      ) : onNext ? (
+        <ActionButton type="button" size="sm" onClick={onNext}>
+          {t('quiz.next')}
+        </ActionButton>
+      ) : null}
+    </div>
   )
 }
 
-// A practice quiz from an answer's `quiz` block: one choice per question, and each answer and explanation shown only
-// after that question is checked. Results stay in this view; nothing is saved.
+// A practice quiz from an answer's `quiz` block, one question at a time: choose, check, then move on. Each answer and
+// explanation shows only after its question is checked; the arrows and steps revisit any question. Nothing is saved.
 export function PracticeQuiz({ questions }: { questions: QuizQuestion[] }) {
+  const empty = () => questions.map(() => null)
   const [round, setRound] = useState(0)
-  const [checked, setChecked] = useState<(number | null)[]>(() => questions.map(() => null))
+  const [current, setCurrent] = useState(0)
+  const [selected, setSelected] = useState<string[]>(() => questions.map(() => ''))
+  const [checked, setChecked] = useState<(number | null)[]>(empty)
   const score = quizScore(questions, checked)
+  const last = questions.length - 1
+  const update = <T,>(values: T[], value: T) => values.map((item, index) => (index === current ? value : item))
+  const step = (index: number) => {
+    if (checked[index] === null) return 'open'
+    return checked[index] === questions[index].answer ? 'correct' : 'wrong'
+  }
   const retry = () => {
-    setChecked(questions.map(() => null))
+    setChecked(empty())
+    setSelected(questions.map(() => ''))
+    setCurrent(0)
     setRound(round + 1)
   }
+  const countId = useId()
   return (
     <section data-practice-quiz className="practice-quiz" aria-label={t('quiz.label')}>
-      <ol className="practice-quiz-list">
-        {questions.map((item, index) => (
-          <QuizItem
-            key={`${round}-${index}`}
-            item={item}
-            index={index}
-            total={questions.length}
-            checked={checked[index]}
-            onCheck={(choice) => setChecked(checked.map((value, position) => (position === index ? choice : value)))}
-          />
-        ))}
-      </ol>
+      <div className="practice-quiz-header">
+        <span id={countId} className="practice-quiz-count" aria-live="polite">
+          {t('quiz.position', { index: current + 1, total: questions.length })}
+        </span>
+        <div className="practice-quiz-steps">
+          {questions.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className="practice-quiz-step"
+              data-result={step(index)}
+              aria-current={index === current ? 'step' : undefined}
+              aria-label={t('quiz.goTo', { index: index + 1 })}
+              onClick={() => setCurrent(index)}
+            />
+          ))}
+        </div>
+        <div className="practice-quiz-nav">
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            aria-label={t('quiz.previous')}
+            disabled={current === 0}
+            onClick={() => setCurrent(current - 1)}
+          >
+            <ChevronLeft aria-hidden="true" />
+          </Button>
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            aria-label={t('quiz.next')}
+            disabled={current === last}
+            onClick={() => setCurrent(current + 1)}
+          >
+            <ChevronRight aria-hidden="true" />
+          </Button>
+        </div>
+      </div>
+      <QuizItem
+        key={`${round}-${current}`}
+        item={questions[current]}
+        countId={countId}
+        selected={selected[current]}
+        checked={checked[current]}
+        onSelect={(choice) => setSelected(update(selected, choice))}
+        onCheck={(choice) => setChecked(update(checked, choice))}
+        onNext={current < last ? () => setCurrent(current + 1) : undefined}
+      />
       {score.answered === score.total ? (
         <div className="practice-quiz-summary">
           <span role="status">{t('quiz.score', { correct: score.correct, total: score.total })}</span>

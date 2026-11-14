@@ -133,3 +133,20 @@ test('a malformed quiz block shows a notice with its text collapsed, and a strea
   assert.doesNotMatch(streaming, /secret/);
   assert.match(streaming, /Here\./);
 });
+
+test('a quiz shows one question at a time with steps and arrows for the rest', () => {
+  const question = (index) => ({
+    question: `Question text ${index}?`,
+    choices: [`a${index}`, `b${index}`, `c${index}`, `d${index}`],
+    answer: 0,
+    explanation: `Because ${index}.`,
+  });
+  const quiz = JSON.stringify({ questions: [question(1), question(2), question(3)] });
+  const result = render(`\`\`\`quiz\n${quiz}\n\`\`\``);
+  assert.match(result, /Question text 1\?/);
+  assert.doesNotMatch(result, /Question text 2\?/);
+  assert.equal((result.match(/role="radio"/g) || []).length, 4);
+  assert.equal((result.match(/class="practice-quiz-step"/g) || []).length, 3);
+  assert.match(result, /aria-current="step"/);
+  assert.match(result, /aria-label="Previous question"[^>]*disabled=""|disabled=""[^>]*aria-label="Previous question"/);
+});
