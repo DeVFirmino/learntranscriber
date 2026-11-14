@@ -101,3 +101,31 @@ test('code regions offer keyboard access and line wrapping without changing copy
   assert.match(result, /aria-pressed="true"/);
   assert.match(result, /hljs-keyword/);
 });
+
+test('a quiz block renders choices and check buttons without revealing answers or explanations', () => {
+  const quiz = JSON.stringify({
+    questions: [
+      {
+        question: 'Past simple of go?',
+        choices: ['goed', 'went', 'gone', 'going'],
+        answer: 1,
+        explanation: 'Irregular.',
+      },
+    ],
+  });
+  const result = render(`Try these.\n\n\`\`\`quiz\n${quiz}\n\`\`\``);
+  assert.match(result, /data-practice-quiz/);
+  assert.match(result, /role="radiogroup"/);
+  assert.equal((result.match(/role="radio"/g) || []).length, 4);
+  assert.match(result, /aria-label="went"/);
+  assert.doesNotMatch(result, /Irregular\./);
+  assert.doesNotMatch(result, /data-code-block/);
+  assert.doesNotMatch(result, /&quot;answer&quot;/);
+});
+
+test('a malformed quiz block stays a code block, and a streaming quiz is hidden', () => {
+  assert.match(render('```quiz\n{"questions": "nope"}\n```'), /data-code-block/);
+  const streaming = render('Here.\n```quiz\n{"questions":[{"answer":1,"explanation":"secret', true);
+  assert.doesNotMatch(streaming, /secret/);
+  assert.match(streaming, /Here\./);
+});

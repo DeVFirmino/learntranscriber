@@ -3,7 +3,9 @@ import Markdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { documentT as t } from '@/i18n'
 import { safeResponseLink } from '@/features/response-link'
+import { hideQuizWhileStreaming, parsePracticeQuiz } from '@/features/practice-quiz'
 import { CodeBlock } from './response/code-block'
+import { PracticeQuiz } from './response/practice-quiz'
 import { ResponseLink } from './response/response-link'
 
 export interface ResponseActions {
@@ -29,6 +31,8 @@ function ResponseBody({
         if (!isValidElement<{ children?: ReactNode; className?: string }>(children)) return <pre>{children}</pre>
         const code = String(children.props.children ?? '')
         const language = /language-([\w+-]+)/.exec(children.props.className || '')?.[1] || ''
+        const quiz = language === 'quiz' ? parsePracticeQuiz(code) : null
+        if (quiz) return <PracticeQuiz key={code} questions={quiz} />
         return (
           <CodeBlock key={code} code={code} language={language} copy={actions.copyResponseCode} fontScale={fontScale} />
         )
@@ -70,7 +74,7 @@ function ResponseBody({
         className="whitespace-pre-wrap text-sm leading-relaxed"
         style={style}
       >
-        {content}
+        {hideQuizWhileStreaming(content, t('quiz.preparing'))}
       </div>
     )
   return (
