@@ -1,9 +1,10 @@
 import type { WorkspaceApi } from '@/bridge/types/api'
-import { permissionGrants, permissionNeeds, type PermissionNeed } from '../onboarding/listening-choices'
+import type { PermissionNeed } from '../onboarding/listening-choices'
+import { missingListeningPermission } from './listening-permission'
 import { liveTranscript } from './insight-loop'
 
 export interface ManualInsightHooks {
-  api: Pick<WorkspaceApi, 'state' | 'session' | 'speechCapabilities'>
+  api: Pick<WorkspaceApi, 'state' | 'session' | 'speechCapabilities' | 'systemAudioStatus'>
   generating(): boolean
   captions(): Record<string, string>
   insight(transcript: string | undefined): Promise<unknown>
@@ -32,17 +33,9 @@ export class ManualInsight {
         if (!hooks.generating()) await hooks.insight(transcript || undefined)
         return
       }
-      // Capture always opens the microphone, including installations that predate onboarding's audio choice.
-      const needs = permissionNeeds({
-        ...state.settings,
-        onboardingAudioSource: state.settings.onboardingAudioSource || 'microphone',
-      })
-      const speech = needs.includes('speech') ? await hooks.api.speechCapabilities().catch(() => null) : null
+      const permission = await missingListeningPermission(hooks.api, state)
       if ((await hooks.api.state()).activeSessionId !== sessionId) return
-      const grants = permissionGrants(state, speech?.authorization)
-      // A failed capability read is not proof that macOS denied speech recognition.
-      if (!speech) grants.speech = true
-      hooks.notice(needs.find((need) => !grants[need]))
+      hooks.notice(permission)
     } finally {
       this.running = false
     }

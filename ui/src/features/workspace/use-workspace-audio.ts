@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { createCaptureErrorReporter } from './capture-error-reporter'
+import { showListeningHint } from './listening-hint'
 import { showError } from './error-toast'
 import { echoReduction } from '@/audio/aec3-module'
 import { AudioCapture } from '@/audio/capture'
@@ -18,12 +20,19 @@ export function useWorkspaceAudio(
 ) {
   const [audioRev, setAudioRev] = useState(0)
   const [recordingReminder, setRecordingReminder] = useState(false)
+  const [reportCaptureError] = useState(() =>
+    createCaptureErrorReporter({
+      api,
+      failure: showError,
+      blocked: (permission, diagnostic) => showListeningHint(api, permission, { diagnostic }),
+    }),
+  )
   const [audio] = useState(
     () =>
       new AudioCapture(
         api,
         (message) => {
-          if (message) showError(message)
+          if (message) void reportCaptureError(message)
           setAudioRev((value) => value + 1)
         },
         {
@@ -70,11 +79,13 @@ export function useWorkspaceAudio(
     return () => audio.dispose()
   }, [audio])
   const toggle = (ensureSession: () => Promise<void>) =>
-    recording.toggle(
-      ensureSession,
-      () => api.state(),
-      (starting) => api.reportListening(!starting && audio.recording, starting).catch(() => {}),
-    )
+    recording
+      .toggle(
+        ensureSession,
+        () => api.state(),
+        (starting) => api.reportListening(!starting && audio.recording, starting).catch(() => {}),
+      )
+      .catch((error: unknown) => reportCaptureError(errorMessage(error)))
   const actions = {
     audio,
     continueRecording: () => recordingTimer.continue(),
