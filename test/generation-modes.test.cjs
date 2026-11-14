@@ -157,7 +157,7 @@ test('hesitation evaluation uses its tiny model budget without writing or publis
 test('session generation carries the feature preset through preparation to the provider route', async (t) => {
   for (const [mode, feature] of [
     ['chat', 'analysis'],
-    ['summary', 'tldr'],
+    ['summary', 'summary'],
     ['insight', 'realtimeSummary'],
     ['translation', 'translation'],
   ]) {

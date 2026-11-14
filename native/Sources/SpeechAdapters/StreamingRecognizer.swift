@@ -5,7 +5,8 @@ import SpeechCore
 
 /// Live on-device recognition for one speaker: PCM16 frames go in, partial and final events come out.
 /// A task ends at each pause after speech (`PauseDetector`), so every utterance becomes final as soon as it is said,
-/// and in any case after fifty seconds (`TaskRotation`).
+/// and in any case after fifty seconds (`TaskRotation`). Within a task, finished sentences are saved as they are
+/// said (`SentenceCommitter`), so long speech without a pause is not held until the task ends.
 @MainActor
 public final class StreamingRecognizer: LiveRecognizing {
     /// Receives every outcome of one task on the main actor.
@@ -20,6 +21,7 @@ public final class StreamingRecognizer: LiveRecognizing {
     private var generation = 0
     private var samplesInTask = 0
     private var tracker = UtteranceTracker()
+    private var sentences = SentenceCommitter()
     private var pauses: PauseDetector
     /// True while a task drains; its failure then ends the drain instead of being reported.
     private var finishing = false
@@ -72,14 +74,19 @@ public final class StreamingRecognizer: LiveRecognizing {
         samplesInTask = 0
         pauses = PauseDetector(silenceLevel: PauseDetector.silenceLevel(for: identity.speaker))
         tracker = UtteranceTracker()
+        sentences.reset()
         task = makeTask { [weak self] outcome in self?.receive(outcome, generation: current) }
     }
 
     private func receive(_ outcome: StreamingTaskOutcome, generation: Int) {
         guard generation == self.generation else { return }
         switch tracker.receive(outcome) {
-        case .partial(let text): sink.emit(identity.makeEvent(.partial, text: text))
-        case .final(let text): sink.emit(identity.makeEvent(.final, text: text))
+        case .partial(let text):
+            let update = sentences.update(text, at: samplesInTask)
+            for sentence in update.finals { sink.emit(identity.makeEvent(.final, text: sentence)) }
+            sink.emit(identity.makeEvent(.partial, text: update.partial))
+        case .final(let text):
+            if let rest = sentences.finish(text) { sink.emit(identity.makeEvent(.final, text: rest)) }
         case nil: break
         }
         if case .failure(let message) = outcome, finishing == false {
@@ -100,7 +107,9 @@ public final class StreamingRecognizer: LiveRecognizing {
         // Ending input does not mean recognition has caught up. Cancelling early could persist a stale partial
         // and reject the final callback containing the last words, especially for system audio.
         await Self.waitForTaskEnd(of: self, within: drainTimeout)
-        if let text = tracker.finish() { sink.emit(identity.makeEvent(.final, text: text)) }
+        if let text = tracker.finish(), let rest = sentences.finish(text) {
+            sink.emit(identity.makeEvent(.final, text: rest))
+        }
         discardTask()
     }
 

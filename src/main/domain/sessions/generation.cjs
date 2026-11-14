@@ -2,6 +2,7 @@ const { text } = require('../shared/text.cjs');
 const { forFeature, MODE_FEATURES } = require('../providers/generation-presets.cjs');
 const { fastFirstSettings } = require('./fast-first.cjs');
 const { PRACTICE_QUESTION } = require('./practice-question.cjs');
+const { SUMMARY_QUESTION } = require('./summary-prompt.cjs');
 
 const MODES = [
   'chat',
@@ -47,8 +48,7 @@ function generationQuestion(mode, input, settings) {
       throw new Error('Invalid overview rewrite request.');
     return 'Rewrite the session overview according to the supplied instructions.';
   }
-  if (mode === 'summary')
-    return 'Summarize this conversation with sections for overview, decisions, open questions and next steps. Do not invent details.';
+  if (mode === 'summary') return SUMMARY_QUESTION;
   if (mode === 'practice') return PRACTICE_QUESTION;
   if (mode === 'translation') {
     if (!String(settings.translationLanguage || '').trim())
@@ -80,7 +80,7 @@ function generationSettings(mode, settings, session, input = {}) {
       'translation',
     );
   if (mode === 'summaryRewrite' && session.provider && session.model)
-    return forFeature({ ...settings, provider: session.provider, model: session.model }, 'tldr');
+    return forFeature({ ...settings, provider: session.provider, model: session.model }, MODE_FEATURES.summaryRewrite);
   return forFeature(settings, MODE_FEATURES[mode]);
 }
 
