@@ -21,7 +21,7 @@ export function previewSettings(): Settings {
     transcriptionModel: 'preview-whisper',
     transcriptionPrompt: '',
     transcriptionProvider: 'custom',
-    appleSpeechLocale: 'en-US',
+    appleSpeechLocale: 'auto',
     language: '',
     translationLanguage: '',
     microphoneId: 'default',

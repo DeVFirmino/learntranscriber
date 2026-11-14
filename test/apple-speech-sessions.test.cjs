@@ -15,7 +15,12 @@ const packet = () => new Int16Array([1000, -1000, 500]).buffer;
 
 test('persistent Apple helpers keep microphone and native output separate and save only final text', async () => {
   const repos = createRepositories(openDatabase(':memory:'));
-  repos.settings.update({ transcriptionProvider: 'apple', liveTranscription: true, systemAudio: true });
+  repos.settings.update({
+    transcriptionProvider: 'apple',
+    liveTranscription: true,
+    systemAudio: true,
+    appleSpeechLocale: 'en-US',
+  });
   const session = repos.sessions.create('Conversation', 'general');
   const captions = [];
   const readyLocales = [];
@@ -153,17 +158,20 @@ test('paused Apple Speech drops both owner and direct native-output packets unti
   const id = repos.sessions.create('Pause', 'general').id;
   const writes = [];
   const service = new AppleSpeechSessions(repos, '/fixture', () => {});
-  const part = {
+  const part = (speaker) => ({
+    speaker,
+    locale: 'en-US',
     ready: true,
     ended: false,
     child: { stdin: { writable: true, writableLength: 0, write: (bytes) => writes.push(Buffer.from(bytes)) } },
-  };
+  });
   service.sessions.set(9, {
     id,
     parts: new Map([
-      ['ME', part],
-      ['THEY', part],
+      ['ME en-US', part('ME')],
+      ['THEY en-US', part('THEY')],
     ]),
+    pickers: new Map(),
     stopping: false,
   });
   service.setPaused(9, true);

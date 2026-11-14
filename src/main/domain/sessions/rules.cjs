@@ -1,3 +1,5 @@
+const { speechLanguageLabel } = require('../audio/speech-languages.cjs');
+
 // Which provider and models a session records, from the settings and the running local models.
 function sessionMetadata(settings, runtimes) {
   return {
@@ -6,7 +8,7 @@ function sessionMetadata(settings, runtimes) {
     analysisModelSource: settings.provider,
     transcriptionModel:
       settings.transcriptionProvider === 'apple'
-        ? `Apple Speech (${settings.appleSpeechLocale})`
+        ? `Apple Speech (${speechLanguageLabel(settings.appleSpeechLocale)})`
         : settings.transcriptionProvider === 'local'
           ? runtimes?.whisper?.modelId || null
           : settings.transcriptionModel || null,

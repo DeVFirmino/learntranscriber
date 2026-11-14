@@ -3,17 +3,18 @@ const INPUT_LIMIT = 512000;
 const CHUNK = 64000;
 
 /**
- * Spawns the Apple Speech helper for one speaker of a session. The helper reads PCM on stdin and writes one JSON
- * message per line. `started` settles when the caller marks the part ready or failed, or when the helper exits or
- * times out first; `onEnded` runs after a part that was ready exits.
+ * Spawns the Apple Speech helper for one speaker of a session in one language. The helper reads PCM on stdin and
+ * writes one JSON message per line. `started` settles when the caller marks the part ready or failed, or when the
+ * helper exits or times out first; `onEnded` runs after a part that was ready exits.
  */
-function spawnSpeechPart({ spawn, executable, sessionId, locale, speaker, readyTimeout, onMessage, onOverflow, onEnded }) {
+function spawnSpeechPart({ spawn, executable, sessionId, locale, speaker, readyTimeout, ...handlers }) {
+  const { onMessage, onOverflow, onEnded } = handlers;
   const child = spawn(
     executable,
     ['--mode', 'session', '--session-id', sessionId, '--language', locale, '--speaker-label', speaker],
     { shell: false, stdio: ['pipe', 'pipe', 'ignore'], env: { PATH: '/usr/bin:/bin', LANG: 'en_US.UTF-8' } },
   );
-  const part = { child, speaker, ready: false, settled: false, buffer: '', ended: false, rejectReady: null, exit: null };
+  const part = { child, speaker, locale, ready: false, settled: false, buffer: '', ended: false, rejectReady: null, exit: null };
   const started = new Promise((resolve, reject) => {
     part.rejectReady = reject;
     part.resolveReady = resolve;

@@ -304,6 +304,7 @@ export const en = {
   'overlay.muteMic': 'Mute or unmute your microphone',
   'overlay.stopListening': 'Stop listening',
   'overlay.speechLanguage': 'Recognition language',
+  'overlay.speechLanguageAuto': 'Automatic (EN + PT)',
   'overlay.analyzeNow': 'Analyze now',
   'overlay.drag': 'Drag to move',
   'overlay.statusListening': 'Listening',

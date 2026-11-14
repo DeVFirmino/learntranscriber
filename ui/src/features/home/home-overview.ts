@@ -1,4 +1,5 @@
 import type { ShortcutDefinition } from '@/bridge/types/settings'
+import { AUTO_SPEECH_LOCALE } from '../speech-language'
 
 // The workspace state carries at most this many sessions, so a full list means there may be more.
 export const SESSION_LIST_LIMIT = 200
@@ -43,9 +44,11 @@ export function providerName(provider: string): string | null {
   return Object.hasOwn(PROVIDER_NAMES, provider) ? PROVIDER_NAMES[provider] : null
 }
 
-// Where speech becomes text: Apple Speech with its language, a local Whisper, the named cloud provider, or null for a
-// custom endpoint the caller translates.
+// Where speech becomes text: Apple Speech with its language (automatic names both), a local Whisper, the named cloud
+// provider, or null for a custom endpoint the caller translates.
 export function transcriptionName(settings: { transcriptionProvider: string; appleSpeechLocale: string }) {
+  if (settings.transcriptionProvider === 'apple' && settings.appleSpeechLocale === AUTO_SPEECH_LOCALE)
+    return 'Apple Speech · Auto (EN + PT)'
   if (settings.transcriptionProvider === 'apple') return `Apple Speech · ${settings.appleSpeechLocale || 'en-US'}`
   if (settings.transcriptionProvider === 'local') return 'Whisper · local'
   return providerName(settings.transcriptionProvider)

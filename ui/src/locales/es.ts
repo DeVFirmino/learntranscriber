@@ -312,6 +312,7 @@ export const es: Messages = {
   'overlay.muteMic': 'Silenciar o activar tu micrófono',
   'overlay.stopListening': 'Dejar de escuchar',
   'overlay.speechLanguage': 'Idioma de reconocimiento',
+  'overlay.speechLanguageAuto': 'Automático (EN + PT)',
   'overlay.analyzeNow': 'Analizar ahora',
   'overlay.drag': 'Arrastra para mover',
   'overlay.statusListening': 'Escuchando',
