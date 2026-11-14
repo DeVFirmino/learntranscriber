@@ -184,7 +184,7 @@ test('with echo reduction on, the recorded microphone loses the echo of the inco
   assert.ok(erle > 20, `echo return loss enhancement ${erle.toFixed(1)} dB`);
   // The incoming side is recorded as it was.
   assert.deepEqual([...joined(api.pushed.THEY).subarray(0, 512)], [...pcm16(far.subarray(0, 512))]);
-  assert.deepEqual(logs, ['[AEC3] ready at 48000 Hz with 60 ms microphone alignment']);
+  assert.deepEqual(logs, ['[AEC3] ready at 48000 Hz with 200 ms microphone alignment']);
   // Stopping releases both sides of the canceller.
   assert.equal(echo.captures.size, 0);
   assert.equal(echo.references.size, 0);
@@ -216,6 +216,42 @@ test('the helper packets of the native route are the echo reference', async () =
   const erle = 20 * Math.log10(rms(settled(pcm16(heard))) / rms(settled(me)));
   assert.ok(erle > 20, `echo return loss enhancement ${erle.toFixed(1)} dB`);
 });
+
+for (const deliveryLagMs of [0, 40, 80]) {
+  test(`nearby Mac playback is cancelled with 100 ms native packets and ${deliveryLagMs} ms delivery lag`, async () => {
+    let clock = 0;
+    const echo = new EchoReduction({ load: () => WebRtcAec3(), now: () => clock, log() {} });
+    const { capture, nodes, api } = recording({ echo });
+    await capture.start(
+      'session',
+      settings({
+        echoReductionEnabled: true,
+        systemAudioSource: 'native',
+        transcriptionProvider: 'apple',
+      }),
+    );
+    const far = voice(10, 3, 190),
+      heard = room(far, 0, 0.6);
+    let sent = 0;
+    for (let at = 0; at < far.length; at += 512) {
+      clock += 32;
+      // Speakers beside the microphone have no helpful acoustic delay. Only complete packets can arrive.
+      for (; sent + 1600 <= at + 512 - (deliveryLagMs * RATE) / 1000; sent += 1600) {
+        const packet = pcm16(far.subarray(sent, sent + 1600));
+        const bytes = new Uint8Array(44 + packet.byteLength);
+        bytes.set(new Uint8Array(packet.buffer), 44);
+        api.emitSystemAudio({ sessionId: 'session', speaker: 'THEY', mime: 'audio/wav', bytes: bytes.buffer });
+      }
+      post(nodes[0], pcm16(heard.subarray(at, at + 512)));
+    }
+    await capture.stop();
+    const me = joined(api.pushed.ME);
+    const settled = (samples) => Float32Array.from(samples.subarray(samples.length / 2), (v) => v / 32768);
+    const erle = 20 * Math.log10(rms(settled(pcm16(heard))) / rms(settled(me)));
+    assert.ok(erle > 30, `Mac playback still reaches ME: ${erle.toFixed(1)} dB suppression`);
+    assert.equal(api.pushed.THEY.length, 0, 'Apple Speech gets native output directly, without renderer duplication');
+  });
+}
 
 test('with echo reduction off, or outside the session recording, the microphone is recorded untouched', async () => {
   let loads = 0;

@@ -120,7 +120,7 @@ test('the reference AEC3 wasm removes a synthetic room echo of the incoming audi
   const settled = (samples) => samples.subarray(samples.length / 2);
   const erle = 20 * Math.log10(rms(settled(echo)) / rms(settled(out)));
   assert.ok(erle > 20, `echo return loss enhancement ${erle.toFixed(1)} dB`);
-  assert.deepEqual(logs, ['[AEC3] ready at 48000 Hz with 60 ms microphone alignment']);
+  assert.deepEqual(logs, ['[AEC3] ready at 48000 Hz with 200 ms microphone alignment']);
 });
 
 test('speech near the microphone survives, alone and over the echo', async () => {
@@ -131,11 +131,12 @@ test('speech near the microphone survives, alone and over the echo', async () =>
   assert.ok(rms(alone.subarray(96000)) / rms(near.subarray(96000)) > 0.8);
   const mixed = echo.map((v, i) => v + near[i]);
   const { out } = await call(far, mixed);
-  // The output follows the near voice 60 ms of alignment plus the canceller's own latency later.
+  // Alignment and the canceller's own latency must preserve the independent near voice.
   const window = out.subarray(96000, 176000);
   const at = (source, lag) => source.subarray(96000 - lag, 176000 - lag);
   let best = { lag: 0, value: 0 };
-  for (let lag = 900; lag <= 1400; lag++) {
+  const alignment = (CAPTURE_DELAY_MS * RATE) / 1000;
+  for (let lag = alignment; lag <= alignment + 480; lag++) {
     const value = correlation(window, at(near, lag));
     if (value > best.value) best = { lag, value };
   }
@@ -145,16 +146,17 @@ test('speech near the microphone survives, alone and over the echo', async () =>
   assert.ok(correlation(at(mixed, 0), at(near, 0)) < best.value);
 });
 
-test('until the canceller is ready the microphone is held back exactly 60 ms', async () => {
+test('until the canceller is ready the microphone is held back for the reference alignment', async () => {
   let resolve;
   const bus = new EchoReduction({ load: () => new Promise((done) => (resolve = done)), now: () => 0, log() {} });
   bus.setEnabled(true);
   bus.reference();
   const capture = bus.capture();
-  const block = Float32Array.from({ length: 2048 }, (_, i) => (i + 1) / 4096);
+  const heldSamples = (CAPTURE_DELAY_MS * RATE) / 1000;
+  const block = Float32Array.from({ length: heldSamples + 1088 }, (_, i) => (i + 1) / 8192);
   const out = Float32Array.from(capture.processFloat32(block, RATE));
-  assert.deepEqual([...out.subarray(0, 960)], new Array(960).fill(0));
-  assert.deepEqual([...out.subarray(960)], [...block.subarray(0, 2048 - 960)]);
+  assert.deepEqual([...out.subarray(0, heldSamples)], new Array(heldSamples).fill(0));
+  assert.deepEqual([...out.subarray(heldSamples)], [...block.subarray(0, block.length - heldSamples)]);
   resolve(fakeModule());
 });
 
@@ -252,8 +254,11 @@ test('when the last incoming source goes, the held-back audio comes out once and
   capture.processFloat32(block, RATE);
   reference.release();
   const out = capture.processFloat32(block, RATE);
-  assert.equal(out.length, 960 + 1600);
-  assert.deepEqual([...out.subarray(0, 960)], [...block.subarray(1600 - 960)]);
+  const heldSamples = (CAPTURE_DELAY_MS * RATE) / 1000;
+  assert.equal(out.length, heldSamples + block.length);
+  const held = new Float32Array(heldSamples);
+  held.set(block.subarray(Math.max(0, block.length - heldSamples)), Math.max(0, heldSamples - block.length));
+  assert.deepEqual([...out.subarray(0, heldSamples)], [...held]);
   assert.equal(calls.at(-1)[0], 'free');
   assert.equal(capture.processFloat32(block, RATE), block);
 });
@@ -273,7 +278,7 @@ test('pausing drops the held-back audio, and release frees the canceller for goo
   assert.ok(
     capture
       .processFloat32(block, RATE)
-      .subarray(0, 960)
+      .subarray(0, (CAPTURE_DELAY_MS * RATE) / 1000)
       .every((v) => v === 0),
   );
   capture.release();

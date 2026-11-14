@@ -1,4 +1,4 @@
-// Incoming audio (THEY) is the echo reference. The microphone (ME) is delayed 60 ms so the reference arrives
+// Incoming audio (THEY) is the echo reference. The microphone (ME) is delayed 200 ms so the reference arrives
 // first. When AEC3 cannot load or fails, microphone audio passes through unprocessed.
 
 import type { Aec3Module } from './aec3'
