@@ -1,4 +1,6 @@
 import { useMemo } from 'react'
+import { AUTO_SPEECH_LOCALE } from '@/features/speech-language'
+import { useWorkspace } from '@/workspace'
 import { SettingsIcon } from '../settings-icon'
 import { useSettingsT } from '../use-settings-t'
 import { AddLanguage } from './apple-speech/add-language'
@@ -19,6 +21,7 @@ import { useSpeechAssets } from './apple-speech/use-speech-assets'
 export function AppleSpeechPage() {
   const { st, language } = useSettingsT()
   const speech = useSpeechAssets()
+  const automatic = useWorkspace().state?.settings.appleSpeechLocale === AUTO_SPEECH_LOCALE
   const { capabilities, assets, installing } = speech
   const downloadable = useMemo(() => downloadableLocales(assets, language), [assets, language])
   const reserved = useMemo(() => reservedLocales(assets, language), [assets, language])
@@ -33,6 +36,10 @@ export function AppleSpeechPage() {
     )
   const status = speechStatus(capabilities, assets, installing)
   const installed = assets?.installedLocales || []
+  // Automatic listens in two languages, so it is named instead of the one the capabilities check resolved.
+  let locale = st('settings.api.localModels.appleSpeechLocaleSystem')
+  if (automatic) locale = st('settings.api.localModels.appleSpeechLocaleAuto')
+  else if (capabilities.locale) locale = tag(capabilities.locale)
   return (
     <div className="setting-group compact">
       <div className="local-provider-content">
@@ -43,11 +50,7 @@ export function AppleSpeechPage() {
           <div className="local-preview-stats">
             <div className="local-preview-stat">
               <span className="local-preview-stat-label">{st('settings.api.localModels.appleSpeechLocale')}</span>
-              <span className="local-preview-stat-value">
-                {capabilities.locale
-                  ? tag(capabilities.locale)
-                  : st('settings.api.localModels.appleSpeechLocaleSystem')}
-              </span>
+              <span className="local-preview-stat-value">{locale}</span>
             </div>
             <div className="local-preview-stat">
               <span className="local-preview-stat-label">{st('settings.api.localModels.appleSpeechReadyOnMac')}</span>

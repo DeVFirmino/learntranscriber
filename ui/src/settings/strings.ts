@@ -418,6 +418,11 @@ export const STRINGS: Record<string, { en: string; es?: string; 'pt-BR'?: string
     es: 'Configuración regional resuelta',
     'pt-BR': 'Locale resolvido',
   },
+  'settings.api.localModels.appleSpeechLocaleAuto': {
+    en: 'Automatic (EN + PT)',
+    es: 'Automático (EN + PT)',
+    'pt-BR': 'Automático (EN + PT)',
+  },
   'settings.api.localModels.appleSpeechLocaleDownloadAction': {
     en: 'Download',
     es: 'Descargar',

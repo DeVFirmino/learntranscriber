@@ -2,7 +2,7 @@ const { createSettingsUpdate } = require('../application/settings/update.cjs');
 const { sessionMetadata } = require('../domain/sessions/rules.cjs');
 
 // Saving settings and what each change sets off. A session's model metadata follows the saved settings and the
-// installed local runtimes.
+// installed local runtimes; a new Apple Speech language restarts the running live captions in it.
 function composeSettings({ repositories, active, localModels, effects, changed, publicState }) {
   const metadata = (settings = repositories().settings.read()) =>
     sessionMetadata(settings, localModels()?.state().runtimes);
@@ -17,6 +17,7 @@ function composeSettings({ repositories, active, localModels, effects, changed, 
       cancelScreenInsights: () => effects.screenInsights.cancel(),
       // The floating assistant is transparent and its pills draw their own theme colours, so nothing to repaint.
       surfaceTheme: () => {},
+      speechLanguage: () => void effects.appleSpeech()?.switchLanguage(),
     },
     changed,
     publicState,

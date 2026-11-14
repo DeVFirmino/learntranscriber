@@ -234,6 +234,32 @@ test('saving settings applies their effects, and a session model follows the set
   assert.equal(typeof metadata(), 'object');
 });
 
+test('a saved Apple Speech language switches the running live captions once the engines exist', () => {
+  const switched = [];
+  let engine = null;
+  const { update } = composeSettings({
+    repositories: () => ({
+      settings: { read: () => ({}), update: () => ({ autoSelection: true, autoScreenInsights: true }) },
+      sessions: { updateModel: () => {} },
+    }),
+    active: { id: () => null },
+    localModels: () => null,
+    effects: {
+      privacy: () => ({ update: () => {} }),
+      shortcuts: () => null,
+      screenInsights: { cancel: () => {} },
+      appleSpeech: () => engine,
+    },
+    changed: () => {},
+    publicState: () => 'public',
+  });
+  assert.equal(update.save({ appleSpeechLocale: 'auto' }), 'public');
+  engine = { switchLanguage: async () => switched.push('switched') };
+  update.save({ appleSpeechLocale: 'pt-BR' });
+  update.save({ overlayOpacity: 0.8 });
+  assert.deepEqual(switched, ['switched']);
+});
+
 test('waking from sleep reapplies privacy, and display changes bring the windows back', () => {
   const listeners = {},
     calls = [];

@@ -308,6 +308,7 @@ export const ptBR: Messages = {
   'overlay.muteMic': 'Silenciar ou ativar seu microfone',
   'overlay.stopListening': 'Parar de ouvir',
   'overlay.speechLanguage': 'Idioma do reconhecimento',
+  'overlay.speechLanguageAuto': 'Automático (EN + PT)',
   'overlay.analyzeNow': 'Analisar agora',
   'overlay.drag': 'Arraste para mover',
   'overlay.statusListening': 'Ouvindo',

@@ -26,6 +26,7 @@ function harness(t) {
       shortcuts: () => calls.push('shortcuts'),
       cancelScreenInsights: () => calls.push('cancel-insights'),
       surfaceTheme: () => calls.push('surface'),
+      speechLanguage: () => calls.push('speech-language'),
     },
     changed: () => calls.push('publish'),
     publicState: () => ({ settings: repos.settings.read() }),
@@ -69,4 +70,13 @@ test('display and theme changes run their effects in order', async (t) => {
   const { calls, update } = harness(t);
   update.save({ displayId: '2', surfaceTheme: 'light' });
   assert.deepEqual(calls, ['privacy', 'cancel-insights', 'surface', 'publish']);
+});
+
+test('a new Apple Speech language restarts live captions before the state is published', (t) => {
+  const { calls, update } = harness(t);
+  update.save({ appleSpeechLocale: 'auto' });
+  assert.deepEqual(calls, ['privacy', 'cancel-insights', 'speech-language', 'publish']);
+  calls.length = 0;
+  update.save({ overlayOpacity: 0.7 });
+  assert.equal(calls.includes('speech-language'), false);
 });

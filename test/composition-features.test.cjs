@@ -231,7 +231,7 @@ test('the live engines share one caption publisher', (t) => {
     transcribe: async () => '',
     speech: { heard: (caption) => heard.push(caption.text) },
     fanOut: {
-      broadcast: (channel, payload) => sent.push([channel, payload.text]),
+      broadcast: (channel, payload) => sent.push([channel, payload.text ?? payload]),
       toOwner: (owner, channel, payload) => sent.push([owner, channel, payload]),
     },
     changed: () => sent.push(['changed']),
@@ -242,6 +242,8 @@ test('the live engines share one caption publisher', (t) => {
   engines.gemini.onCaption({ speaker: 'ME', text: 'hello', final: true });
   assert.deepEqual(heard, ['hello']);
   assert.deepEqual(sent, [['live:caption', 'hello'], ['changed']]);
+  engines.apple.onNotice('Streaming Apple Speech is unavailable for this language.');
+  assert.deepEqual(sent.at(-1), ['integration:error', 'Streaming Apple Speech is unavailable for this language.']);
 });
 
 test('the workspace state reads the library, runtimes, windows and desktop into one snapshot', (t) => {

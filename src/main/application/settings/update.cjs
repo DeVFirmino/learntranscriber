@@ -15,6 +15,7 @@ function createSettingsUpdate({ settings, active, sessions, metadata, effects, c
       if (has('shortcuts')) effects.shortcuts(saved.shortcuts);
       if (!saved.autoSelection || !saved.autoScreenInsights || has('displayId')) effects.cancelScreenInsights();
       if (has('surfaceTheme')) effects.surfaceTheme();
+      if (has('appleSpeechLocale')) effects.speechLanguage();
       changed();
       return publicState();
     },

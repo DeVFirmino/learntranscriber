@@ -19,5 +19,6 @@ process.stdin.on('end', () => {
 if (args.includes('--startup-error')) {
   send({ type: 'error', error: 'Fixture language unavailable.' });
   process.exit(1);
-} else if (args.includes('--delay-ready')) setTimeout(() => send({ type: 'ready', resolvedLocale: 'en-US' }), 250);
-else send({ type: 'ready', resolvedLocale: 'en-US' });
+} else if (args.includes('--delay-ready'))
+  setTimeout(() => send({ type: 'ready', resolvedLocale: value('--language') || 'en-US' }), 250);
+else send({ type: 'ready', resolvedLocale: value('--language') || 'en-US' });

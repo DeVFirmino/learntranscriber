@@ -38,6 +38,8 @@ export function sessionsApi(ctx: MockContext) {
       const assistantId = settings.assistantId
       if (!assistants.some((assistant) => assistant.id === assistantId))
         throw new Error('Choose an existing assistant.')
+      // Automatic Apple Speech is named by its languages, as the native session rules do.
+      const speechLanguage = settings.appleSpeechLocale === 'auto' ? 'Auto EN + PT' : settings.appleSpeechLocale
       const session: SessionDetail = {
         id: crypto.randomUUID(),
         title: text(title || 'Untitled session', 200),
@@ -51,7 +53,7 @@ export function sessionsApi(ctx: MockContext) {
         analysis_model_source: settings.provider,
         transcription_model:
           settings.transcriptionProvider === 'apple'
-            ? `Apple Speech (${settings.appleSpeechLocale})`
+            ? `Apple Speech (${speechLanguage})`
             : settings.transcriptionModel || null,
         assistant_name: assistants.find((assistant) => assistant.id === assistantId)?.name || null,
         entries: [],

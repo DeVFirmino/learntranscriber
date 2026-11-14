@@ -30,6 +30,10 @@ test('each engine transcribes and local Whisper releases its lease, dropping bla
     'apple pt-BR',
   );
   assert.equal(
+    await audio.transcribe(wav, { transcriptionProvider: 'apple', appleSpeechLocale: 'auto' }),
+    'apple en-US',
+  );
+  assert.equal(
     await audio.transcribe({ ...wav, mime: 'audio/webm' }, { transcriptionProvider: 'openai' }),
     'openai audio/webm',
   );
