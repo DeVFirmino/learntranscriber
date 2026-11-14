@@ -63,14 +63,13 @@ public struct UtteranceTracker: Equatable, Sendable {
         return lastPartial.isEmpty ? nil : lastPartial
     }
 
-    /// Whether `next` starts a new transcription instead of revising `previous`. A revision keeps the opening words;
-    /// a restart begins with a word that is not among them. A short `previous` counts only when `next` is shorter
-    /// still, because the first word or two of an utterance are often rewritten ("hel" becomes "hello there").
+    /// Whether `next` starts a new transcription instead of revising `previous`. Apple's revisions keep about as many
+    /// words (a corrected opening word, "a neural network" becoming "the neural network", keeps them all), while a
+    /// restart begins again from the newest words, so a text that falls to half the words or fewer is a restart,
+    /// even when it opens with the same word ("The first class uses sigmoid" becoming "The second").
     public static func restarted(from previous: String, to next: String) -> Bool {
-        let old = words(previous), new = words(next)
-        guard let first = new.first, old.isEmpty == false else { return false }
-        guard old.count >= 3 || new.count < old.count else { return false }
-        return old.prefix(3).contains(first) == false
+        let old = words(previous).count, new = words(next).count
+        return old >= 2 && new > 0 && new * 2 <= old
     }
 
     private mutating func keepDroppedWords(before text: String) {
