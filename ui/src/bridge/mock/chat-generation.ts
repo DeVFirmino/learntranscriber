@@ -57,7 +57,9 @@ export function chatGenerationApi(ctx: MockContext) {
             'Overview: this sample session is about a study decision. Decisions: write the base case first. Open questions: none in the preview. Next steps: resume the session only if you mean to.'
         else if (mode === 'practice')
           answer +=
-            '\n\n1. What is a base case?\n2. Why must the recursive call shrink the input?\n3. Which list would you test first, and why?\n\n## Answers\n\n1. The input the function answers without calling itself.\n2. So the calls reach the base case and stop.\n3. The empty list: it checks the base case before any recursion.'
+            '\n\n```quiz\n' +
+            '{"questions":[{"question":"What is a base case?","choices":["The input answered without recursion","The largest input the function accepts","The first line of every function","The value returned by a loop"],"answer":0,"explanation":"A base case is the input the function answers without calling itself."},{"question":"Why must the recursive call shrink the input?","choices":["To make the code shorter","So the calls reach the base case","To use less memory per call","So the compiler can inline it"],"answer":1,"explanation":"Shrinking the input guarantees the calls reach the base case and stop."},{"question":"Which list would you test first?","choices":["A sorted list","A very long list","The empty list","A list with duplicates"],"answer":2,"explanation":"The empty list checks the base case before any recursion."}]}' +
+            '\n```'
         else if (mode === 'translation')
           answer += `ME: Sample translation into ${settings.translationLanguage}. The original meaning is preserved. THEY: This is not a live translation.`
         else if (mode === 'insight')
