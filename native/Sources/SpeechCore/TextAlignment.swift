@@ -17,8 +17,10 @@ public enum TextAlignment {
         words(text).joined(separator: " ")
     }
 
-    /// Where `saved` ends inside `words`, found by the longest common subsequence of words. Only an alignment that
-    /// starts and ends within `slack` words of the saved text's edges counts.
+    /// Where `saved` ends inside `words`, found by the longest common subsequence of words over the shortest
+    /// opening of `words` that holds the best alignment, so a saved word is never matched to the same word said again
+    /// later in new speech. Only an alignment that starts and ends within `slack` words of the saved text's edges
+    /// counts.
     public static func alignedEnd(of saved: [String], in words: [String], slack: Int) -> Int? {
         let rows = saved.count, columns = words.count
         guard rows > 0, columns > 0 else { return nil }
@@ -30,8 +32,10 @@ public enum TextAlignment {
                     : max(table[row - 1][column], table[row][column - 1])
             }
         }
+        let best = table[rows][columns]
+        guard best > 0, let end = (1...columns).first(where: { table[rows][$0] == best }) else { return nil }
         var pairs: [(saved: Int, word: Int)] = []
-        var row = rows, column = columns
+        var row = rows, column = end
         while row > 0, column > 0 {
             if saved[row - 1] == words[column - 1], saved[row - 1].isEmpty == false {
                 pairs.append((row - 1, column - 1))
@@ -47,20 +51,5 @@ public enum TextAlignment {
         guard first.saved <= slack, first.word <= slack,
               rows - 1 - last.saved <= slack else { return nil }
         return last.word + 1
-    }
-
-    /// One minus the edit distance over the longer length.
-    public static func similarity(_ left: String, _ right: String) -> Double {
-        let a = Array(left), b = Array(right)
-        guard a.isEmpty == false, b.isEmpty == false else { return a == b ? 1 : 0 }
-        var previous = Array(0...b.count)
-        for i in 1...a.count {
-            var current = [i] + [Int](repeating: 0, count: b.count)
-            for j in 1...b.count {
-                current[j] = min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (a[i - 1] == b[j - 1] ? 0 : 1))
-            }
-            previous = current
-        }
-        return 1 - Double(previous[b.count]) / Double(max(a.count, b.count))
     }
 }

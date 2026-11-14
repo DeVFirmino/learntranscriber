@@ -76,6 +76,21 @@ struct UtteranceTrackerTests {
         #expect(UtteranceTracker.restarted(from: "digit recognition", to: "main") == true)
     }
 
+    @Test func aCorrectedOpeningWordIsARevisionNotARestart() {
+        var tracker = UtteranceTracker()
+        _ = tracker.receive(.transcript("a neural network learns", isFinal: false))
+        #expect(tracker.receive(.transcript("the neural network learns", isFinal: true)) == .final("the neural network learns"),
+                "the obsolete partial is not kept as more speech")
+    }
+
+    @Test func aRestartThatOpensWithTheSameWordKeepsTheEarlierWords() {
+        var tracker = UtteranceTracker()
+        _ = tracker.receive(.transcript("The first class uses sigmoid", isFinal: false))
+        _ = tracker.receive(.transcript("The second", isFinal: false))
+        #expect(tracker.receive(.transcript("The second class uses softmax", isFinal: true))
+            == .final("The first class uses sigmoid The second class uses softmax"))
+    }
+
     @Test func aDrainFailureOrNoSpeechAfterARestartKeepsTheEarlierWords() {
         var drained = UtteranceTracker()
         _ = drained.receive(.transcript("first part of the lecture", isFinal: false))

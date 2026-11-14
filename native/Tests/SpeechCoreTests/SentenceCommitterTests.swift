@@ -50,6 +50,20 @@ struct SentenceCommitterTests {
         #expect(committer.finish("Then we normalize the scores.") == "Then we normalize the scores.")
     }
 
+    @Test func aChangedFactIsNotARepeat() {
+        var committer = SentenceCommitter()
+        #expect(committer.update("The result is 100. The", at: second).finals == ["The result is 100."])
+        committer.reset()
+        #expect(committer.finish("The result is 200.") == "The result is 200.")
+    }
+
+    @Test func newSpeechThatRepeatsASavedWordIsKept() {
+        var committer = SentenceCommitter()
+        _ = committer.update("The model learns. The", at: second)
+        #expect(committer.update("The model learns. The optimizer learns faster", at: 2 * second).partial
+            == "The optimizer learns faster")
+    }
+
     @Test func savedWordsRewrittenBeyondRecognitionAreSkippedByCount() {
         var committer = SentenceCommitter()
         _ = committer.update("Digit recognition comes first. Then", at: second)
@@ -73,8 +87,9 @@ struct TextAlignmentTests {
         #expect(TextAlignment.alignedEnd(of: saved, in: TextAlignment.words("completely different words here"), slack: 2) == nil)
     }
 
-    @Test func similarityIsOneMinusTheRelativeEditDistance() {
-        #expect(TextAlignment.similarity("abc", "abc") == 1)
-        #expect(TextAlignment.similarity("abcd", "abce") == 0.75)
+    @Test func aSavedWordIsNotMatchedToTheSameWordSaidAgainLater() {
+        let saved = TextAlignment.words("The model learns.")
+        let words = TextAlignment.words("The model learns. The optimizer learns faster.")
+        #expect(TextAlignment.alignedEnd(of: saved, in: words, slack: 2) == 3)
     }
 }
