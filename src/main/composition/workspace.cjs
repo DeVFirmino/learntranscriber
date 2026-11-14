@@ -42,7 +42,7 @@ function composeWorkspace({
     quit,
     errors: {
       log: (message) => console.error(`Shown to the user: ${message}`),
-      forward: (sender, message) => fanOut.toOthers(sender, 'integration:error', message),
+      forward: (sender, message) => fanOut.toVisible(sender, 'integration:error', message),
     },
   });
   registerWindows(handle, { callers, windows, mainActions: createMainActions({ windows }), privacy, changed });

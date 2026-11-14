@@ -23,7 +23,6 @@ function composeAudio({
   const capture = createSystemAudioCapture({ active, settings, systemAudio });
   const leases = createOutputLeases({ capture, onState: (state) => broadcast('audio:output-state', state) });
   registerAudio(handle, {
-    onError: (message) => broadcast('integration:error', message),
     systemAudio: capture,
     leases,
     driver: (devices) =>

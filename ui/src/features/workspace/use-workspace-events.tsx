@@ -23,7 +23,7 @@ export interface WorkspaceEvents {
   localChange(value: LocalState): void
   runtimeChange(items: Parameter<'onRuntimeChange'>): void
   selection(value: SelectionValue): void
-  integrationError(message: string): void
+  integrationError(feedback: Parameter<'onIntegrationError'>): void
   loaded(state: PublicState, alive: () => boolean): Promise<void>
   loadFailed(error: unknown): void
   dispose(): void

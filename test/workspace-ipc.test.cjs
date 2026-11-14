@@ -9,7 +9,7 @@ const { registerWorkspace } = require('../src/main/interface/ipc/workspace.cjs')
 const { registerWindows } = require('../src/main/interface/ipc/windows.cjs');
 const { registerAudio } = require('../src/main/interface/ipc/audio.cjs');
 
-test('a live transcription startup failure is returned and reported to the visible floating surfaces', async () => {
+test('a live transcription startup failure belongs to the caller and is not also broadcast', async () => {
   const handlers = new Map(),
     reported = [];
   const handle = createIpcRegistrar({
@@ -27,7 +27,7 @@ test('a live transcription startup failure is returned and reported to the visib
   });
   const result = await handlers.get('live:start')({ sender: { id: 7 } }, 'session');
   assert.deepEqual(result, { ok: false, error: 'Speech permission is required.' });
-  assert.deepEqual(reported, ['Speech permission is required.']);
+  assert.deepEqual(reported, []);
 });
 
 function harness(t) {
@@ -251,5 +251,25 @@ test('an error a window showed is logged, and forwarded only when that window as
     ['logged', 'Microphone blocked'],
     ['forwarded', 'main', 'Microphone blocked'],
     ['logged', 'Visible here'],
+  ]);
+});
+
+test('permission feedback crosses the existing IPC with its action; unknown permissions stay plain errors', async (t) => {
+  const { main, call, calls } = harness(t);
+  await call(main, 'workspace:report-error', {
+    message: 'Capture denied',
+    forward: true,
+    notice: { permission: 'screen' },
+  });
+  await call(main, 'workspace:report-error', {
+    message: 'Unknown permission',
+    forward: true,
+    notice: { permission: 'camera' },
+  });
+  assert.deepEqual(calls, [
+    ['logged', 'Capture denied'],
+    ['forwarded', 'main', { message: 'Capture denied', notice: { permission: 'screen' } }],
+    ['logged', 'Unknown permission'],
+    ['forwarded', 'main', 'Unknown permission'],
   ]);
 });

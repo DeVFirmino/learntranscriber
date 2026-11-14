@@ -129,3 +129,29 @@ test('the helper packets reach the recording only for its session while it recei
   assert.deepEqual(packets, [4]);
   assert.deepEqual(errors, ['The helper stopped.']);
 });
+
+test('startup errors have one owner: the rejected acquire call, not the runtime-error subscriber', async () => {
+  let errorEvent;
+  const notices = [],
+    runtime = [];
+  const native = new NativeSystemAudio(
+    {
+      onSystemAudioError: (listener) => {
+        errorEvent = listener;
+        return () => {};
+      },
+      acquireSystemAudio: async () => {
+        errorEvent('Permission denied');
+        throw new Error('Permission denied');
+      },
+    },
+    (message) => notices.push(message),
+  );
+  native.listen({ packet: () => {}, error: (message) => runtime.push(message) });
+  await assert.rejects(
+    native.start('session', () => {}),
+    /Permission denied/,
+  );
+  assert.deepEqual(notices, []);
+  assert.deepEqual(runtime, []);
+});
