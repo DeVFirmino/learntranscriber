@@ -33,7 +33,7 @@ const load = (file) => {
   });
   return moduleValue.exports;
 };
-const { AssistantResponse } = load('src/components/assistant-response.tsx');
+const { AssistantResponse, ResponseBody, RESPONSE_COMPONENTS } = load('src/components/assistant-response.tsx');
 const { safeResponseLink } = load('src/features/response-link.ts');
 const actions = { copyResponseCode: async () => {}, openResponseLink: async () => {} };
 const render = (content, streaming = false) =>
@@ -149,4 +149,22 @@ test('a quiz shows one question at a time with steps and arrows for the rest', (
   assert.equal((result.match(/class="practice-quiz-step"/g) || []).length, 3);
   assert.match(result, /aria-current="step"/);
   assert.match(result, /aria-label="Previous question"[^>]*disabled=""|disabled=""[^>]*aria-label="Previous question"/);
+});
+
+test('the Markdown components stay the same across font sizes, so a quiz in progress is not remounted', () => {
+  const find = (node) => {
+    if (!node || typeof node !== 'object') return null;
+    if (node.props?.components) return node.props.components;
+    const children = [node.props?.children].flat();
+    for (const child of children) {
+      const found = find(child);
+      if (found) return found;
+    }
+    return null;
+  };
+  const props = { content: 'Text', streaming: false, actions };
+  const small = find(ResponseBody({ ...props, fontScale: 1 }));
+  const large = find(ResponseBody({ ...props, fontScale: 1.3 }));
+  assert.equal(small, RESPONSE_COMPONENTS);
+  assert.equal(large, RESPONSE_COMPONENTS);
 });
