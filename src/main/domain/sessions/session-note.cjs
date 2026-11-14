@@ -16,16 +16,16 @@ function transcriptLines(session) {
     .join('\n');
 }
 
-// The request: the summary guidance and the chosen template's sections as instructions, the transcript as untrusted
-// data.
-function noteMessages({ session, summaryGuidance, language, template = 'general' }) {
+// The request: the chosen template's sections and the summary guidance, when there is any, as instructions; the
+// transcript as untrusted data.
+function noteMessages({ session, summaryGuidance, language, template = 'auto' }) {
   const transcript = transcriptLines(session);
   if (!transcript.trim()) throw new Error('Nothing was transcribed in this session, so there is nothing to save.');
   return [
     {
       role: 'system',
       content: withLanguageRequirement(
-        `${noteContract(template)}\n\nSummary guidance:\n${summaryGuidance}`,
+        summaryGuidance ? `${noteContract(template)}\n\nSummary guidance:\n${summaryGuidance}` : noteContract(template),
         language,
         'note',
       ),

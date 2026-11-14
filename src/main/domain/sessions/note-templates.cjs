@@ -1,9 +1,13 @@
-// The sections a saved session note asks for. General is the original handoff; the others shape the same note for a
-// standup, a one-on-one, an interview the user runs, or a lecture. Every template keeps the same rules: a fixed list of
-// sections, "None." when one is empty, and only facts from the conversation.
+// The sections a saved session note asks for. Automatic, the default, writes the detailed notes the session summary
+// asks for, shaped to whatever kind of session the transcript shows. General is the original handoff; the others shape
+// the same note for a standup, a one-on-one, an interview the user runs, or a lecture. Those keep the same rules: a
+// fixed list of sections, "None." when one is empty, and only facts from the conversation.
+const { SUMMARY_QUESTION } = require('./summary-prompt.cjs');
+
 const RULES = `Write "None." under a section with nothing to report. Summarize in your own words instead of copying the transcript. Use only facts from the conversation; do not invent details, decisions, dates or owners. Do not add a title or any other section.`;
 
 const NOTE_TEMPLATES = Object.freeze({
+  auto: null,
   general: `## Summary
 The summary, following the summary guidance.
 
@@ -73,6 +77,8 @@ Homework, readings, deadlines and exam dates the lecture mentioned, one bullet e
 const NOTE_TEMPLATE_IDS = Object.keys(NOTE_TEMPLATES);
 
 function noteContract(template) {
+  if (template === 'auto')
+    return `Write a Markdown note about this conversation for the user's own records.\n\n${SUMMARY_QUESTION}\n\nDo not add a title.`;
   const sections = NOTE_TEMPLATES[template] || NOTE_TEMPLATES.general;
   return `Write a Markdown note about this conversation for the user's own records, in exactly these sections:\n\n${sections}\n\n${RULES}`;
 }

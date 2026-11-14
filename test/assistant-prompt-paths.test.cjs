@@ -142,8 +142,13 @@ test('empty fields use the recovered built-in defaults or the documented local f
   const insight = await f.run('realtime insight', { mode: 'insight' });
   assert.ok(insight.text.startsWith("You are LearnTranscriber's real-time assistant."));
   assert.doesNotMatch(insight.text, /BASE/);
+  // The automatic note template brings its own detailed guidance, so the short default TL;DR is left out of it.
   const note = await f.note();
-  assert.ok(note.text.includes(`Summary guidance:\n${BUILT_IN_DEFAULTS.email}`));
+  assert.match(note.text, /Write detailed notes of this session/);
+  assert.ok(!note.text.includes(BUILT_IN_DEFAULTS.email));
+  f.repos.settings.update({ sessionNoteTemplate: 'general' });
+  const general = await f.note();
+  assert.ok(general.text.includes(`Summary guidance:\n${BUILT_IN_DEFAULTS.email}`));
   const followUp = await f.followUp();
   assert.ok(followUp.text.includes(`Follow this guidance exactly:\n${BUILT_IN_DEFAULTS.followUp}\n`));
 });
