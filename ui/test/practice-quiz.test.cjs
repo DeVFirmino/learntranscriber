@@ -46,6 +46,22 @@ test('streaming text never shows a quiz block, finished or still open', () => {
   assert.equal(hideQuizWhileStreaming('```js\nconst a = 1\n```', '[quiz]'), '```js\nconst a = 1\n```');
 });
 
+test('choices are reordered stably so the correct one does not always sit in the same place', () => {
+  const positions = new Set();
+  for (let index = 0; index < 40; index++) {
+    const code = block([item({ question: `Question ${index}`, choices: ['right', 'w1', 'w2', 'w3'], answer: 0 })]);
+    const [first] = parsePracticeQuiz(code);
+    const [again] = parsePracticeQuiz(code);
+    assert.equal(first.choices[first.answer], 'right');
+    assert.deepEqual([...again.choices], [...first.choices]);
+    positions.add(first.answer);
+  }
+  assert.equal(positions.size, 4);
+  const [numeric] = parsePracticeQuiz(block([item({ choices: ['12', '7', '10', '2.5'], answer: 2 })]));
+  assert.deepEqual([...numeric.choices], ['2.5', '7', '10', '12']);
+  assert.equal(numeric.choices[numeric.answer], '10');
+});
+
 test('the score counts checked questions and correct choices', () => {
   const questions = [item(), item({ answer: 0 }), item({ answer: 2 })];
   assert.deepEqual({ ...quizScore(questions, [1, 3, null]) }, { answered: 2, correct: 1, total: 3 });
