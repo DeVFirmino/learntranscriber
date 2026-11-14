@@ -29,6 +29,11 @@ test('providers and transcription read as brands, leaving local and custom to th
     'Apple Speech · pt-BR',
   );
   assert.equal(transcriptionName({ transcriptionProvider: 'apple', appleSpeechLocale: '' }), 'Apple Speech · en-US');
+  assert.equal(
+    transcriptionName({ transcriptionProvider: 'apple', appleSpeechLocale: 'auto' }),
+    'Apple Speech · Auto (EN + PT)',
+  );
+  assert.equal(transcriptionName({ transcriptionProvider: 'openai', appleSpeechLocale: 'auto' }), 'OpenAI');
   assert.equal(transcriptionName({ transcriptionProvider: 'local', appleSpeechLocale: '' }), 'Whisper · local');
   assert.equal(transcriptionName({ transcriptionProvider: 'openai', appleSpeechLocale: '' }), 'OpenAI');
   assert.equal(transcriptionName({ transcriptionProvider: 'custom', appleSpeechLocale: '' }), null);

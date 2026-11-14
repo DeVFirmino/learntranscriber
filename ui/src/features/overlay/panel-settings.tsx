@@ -5,12 +5,11 @@ import { Switch } from '@/components/ui/switch'
 import { OverlayOpacity } from '@/components/overlay-opacity'
 import { useWorkspace } from '@/workspace'
 import { useT } from '@/use-t'
+import { AUTO_SPEECH_LOCALE, speechLanguageOptions } from '../speech-language'
 import type { View } from './panel-view'
 
-const SPEECH_LOCALES = ['pt-BR', 'en-US', 'es-ES']
-
-// The panel's settings row: live insights, echo reduction on the Transcript tab, the Apple speech language,
-// opacity, text size and hiding the floating assistant.
+// The panel's settings row: live insights, echo reduction on the Transcript tab, the Apple speech language (a change
+// applies to the running captions at once), opacity, text size and hiding the floating assistant.
 export function PanelSettings({ view }: { view: View }) {
   const ws = useWorkspace()
   const { t } = useT()
@@ -73,9 +72,9 @@ export function PanelSettings({ view }: { view: View }) {
             })
           }}
         >
-          {[...new Set([state.settings.appleSpeechLocale, ...SPEECH_LOCALES])].map((locale) => (
+          {speechLanguageOptions(state.settings.appleSpeechLocale).map((locale) => (
             <option key={locale} value={locale}>
-              {locale}
+              {locale === AUTO_SPEECH_LOCALE ? t('overlay.speechLanguageAuto') : locale}
             </option>
           ))}
         </select>
