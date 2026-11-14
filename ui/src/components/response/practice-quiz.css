@@ -21,6 +21,7 @@
   margin-left: auto;
 }
 .practice-quiz-step {
+  position: relative;
   appearance: none;
   width: 10px;
   height: 10px;
@@ -33,6 +34,12 @@
     background-color var(--ui-motion-fast) ease-out,
     border-color var(--ui-motion-fast) ease-out,
     transform var(--ui-motion-fast) ease-out;
+}
+/* The dot stays small; the pointer target around it is 28px. */
+.practice-quiz-step::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
 }
 .practice-quiz-step[data-result='correct'] {
   border-color: var(--practice-correct);
