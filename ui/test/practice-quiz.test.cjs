@@ -62,6 +62,14 @@ test('choices are reordered stably so the correct one does not always sit in the
   assert.equal(numeric.choices[numeric.answer], '10');
 });
 
+test('a streaming quiz inside a block quote is hidden too, open or closed', () => {
+  assert.equal(hideQuizWhileStreaming('> ```quiz\n> {"questions":[{"answer":1', '[quiz]'), '[quiz]');
+  assert.equal(
+    hideQuizWhileStreaming('Intro\n> ```quiz\n> {"answer":1}\n> ```\nAfter', '[quiz]'),
+    'Intro\n[quiz]\nAfter',
+  );
+});
+
 test('the score counts checked questions and correct choices', () => {
   const questions = [item(), item({ answer: 0 }), item({ answer: 2 })];
   assert.deepEqual({ ...quizScore(questions, [1, 3, null]) }, { answered: 2, correct: 1, total: 3 });

@@ -63,11 +63,11 @@ export function parsePracticeQuiz(code: string): QuizQuestion[] | null {
   return questions.some((item) => item === null) ? null : (questions as QuizQuestion[])
 }
 
-// While an answer streams as plain text, a quiz block (finished or still open) is replaced by a placeholder line,
-// so its answers and explanations are never readable before the quiz renders.
+// While an answer streams as plain text, a quiz block (finished or still open, also inside a block quote) is replaced
+// by a placeholder line, so its answers and explanations are never readable before the quiz renders.
 export function hideQuizWhileStreaming(content: string, placeholder: string): string {
   return content.replace(
-    /^[ \t]*(`{3,}|~{3,})[ \t]*quiz\b[^\n]*\n[\s\S]*?(?:^[ \t]*\1[ \t]*$|(?![\s\S]))/gm,
+    /^(?:[ \t]*>)*[ \t]*(`{3,}|~{3,})[ \t]*quiz\b[^\n]*\n[\s\S]*?(?:^(?:[ \t]*>)*[ \t]*\1[ \t]*$|(?![\s\S]))/gm,
     placeholder,
   )
 }
