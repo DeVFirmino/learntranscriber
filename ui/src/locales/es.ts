@@ -1,6 +1,7 @@
 import type { Messages } from '@/i18n'
 
 export const es: Messages = {
+  'audio.changeMicrophone': 'Cambiar micrófono',
   'analysis.nothingHeard':
     'Aún no se ha oído nada. LearnTranscriber transcribe lo que oye; vuelve a intentarlo cuando alguien hable.',
   'analysis.permissionMissing':

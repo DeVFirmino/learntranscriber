@@ -55,6 +55,45 @@ async function run(context, { output, check, ready, wait, eventually, checks, er
   );
   await screenshot(panel, 'capture-permission-hint');
   await js(panel, `document.querySelector('[data-sonner-toast] [data-close-button]')?.click()`);
+  const audioRouteBefore = await js(main, 'location.hash');
+  const mainVisibleBeforeAudioAction = main.isVisible();
+  await js(
+    main,
+    `window.workspace.reportError({message:'The selected microphone is not connected. Choose another one in Settings → Audio.',forward:true})`,
+  );
+  check(
+    'A missing microphone offers Change microphone in the visible panel',
+    await eventually(() =>
+      js(
+        panel,
+        `document.querySelector('[data-sonner-toast][data-type="error"] [data-button]')?.textContent === 'Change microphone'`,
+      ),
+    ),
+  );
+  await eventually(() =>
+    js(
+      panel,
+      `(()=>{const box=document.querySelector('[data-sonner-toast][data-type="error"]')?.getBoundingClientRect();return box && box.top>=0 && box.bottom<=innerHeight})()`,
+    ),
+  );
+  await screenshot(panel, 'microphone-settings-action');
+  await js(panel, `document.querySelector('[data-sonner-toast][data-type="error"] [data-button]').click()`);
+  check(
+    'Change microphone opens the workspace Audio settings with the device chooser',
+    await eventually(
+      async () =>
+        main.isVisible() &&
+        (await js(
+          main,
+          `location.hash === '#settings/general' && Boolean(document.querySelector('.audio-device-panel [aria-label="Choose device"]'))`,
+        )),
+    ),
+  );
+  await screenshot(main, 'microphone-settings-destination');
+  await js(main, `location.hash=${JSON.stringify(audioRouteBefore)}`);
+  if (!mainVisibleBeforeAudioAction) main.hide();
+  panel.focus();
+
   await js(
     panel,
     `(()=>{
