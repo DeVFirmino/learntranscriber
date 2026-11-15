@@ -2507,6 +2507,13 @@ kbd {
   width: 17px;
   height: 17px;
 }
+/* The version and Intel links share one line under the download buttons. */
+.download__links {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 550;
+}
 .download__version {
   color: var(--muted);
   font-size: 13px;
