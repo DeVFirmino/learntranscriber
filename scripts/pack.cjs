@@ -14,7 +14,7 @@ function defaultOutput({ dmg, release, hardened }) {
   if (dmg) return release ? 'dist/distribution' : 'dist/distribution-local';
   return null;
 }
-function packagingPlan(argv, identities, env = process.env) {
+function packagingPlan(argv, identities, env = process.env, hostArch = process.arch) {
   const dmg = argv.includes('--dmg'),
     release = argv.includes('--release'),
     hardened = argv.includes('--hardened');
@@ -40,8 +40,8 @@ function packagingPlan(argv, identities, env = process.env) {
     );
   if (hardened && !identity)
     throw new Error(`A hardened rehearsal needs an Apple Development or local "${LOCAL_IDENTITY}" signing identity.`);
-  // DMGs ship for Apple Silicon and Intel; an unpacked local app only needs this Mac's architecture.
-  const architectures = dmg ? ['arm64', 'x64'] : ['arm64'];
+  // DMGs ship for Apple Silicon and Intel; an unpacked local app is built for the Mac that builds it.
+  const architectures = dmg ? ['arm64', 'x64'] : [hostArch === 'x64' ? 'x64' : 'arm64'];
   const args = [
     '--mac',
     ...(dmg ? ['dmg'] : ['--dir']),

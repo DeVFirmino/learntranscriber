@@ -53,13 +53,16 @@ test('local DMG packaging retains development signing and never enables publishi
   assert.ok(p.args.includes('--config.mac.timestamp=none'));
   assert.equal(p.args[p.args.indexOf('--publish') + 1], 'never');
 });
-test('DMGs are built for Apple Silicon and Intel while an unpacked local app stays on Apple Silicon', () => {
-  const dmg = packagingPlan(['--dmg'], '"LearnTranscriber Dev"', {});
+test('DMGs are built for Apple Silicon and Intel while an unpacked local app matches the building Mac', () => {
+  const dmg = packagingPlan(['--dmg'], '"LearnTranscriber Dev"', {}, 'x64');
   assert.deepEqual(dmg.architectures, ['arm64', 'x64']);
   assert.ok(dmg.args.includes('--arm64') && dmg.args.includes('--x64'));
-  const unpacked = packagingPlan([], '"LearnTranscriber Dev"', {});
-  assert.deepEqual(unpacked.architectures, ['arm64']);
-  assert.equal(unpacked.args.includes('--x64'), false);
+  const silicon = packagingPlan([], '"LearnTranscriber Dev"', {}, 'arm64');
+  assert.deepEqual(silicon.architectures, ['arm64']);
+  assert.equal(silicon.args.includes('--x64'), false);
+  const intel = packagingPlan([], '"LearnTranscriber Dev"', {}, 'x64');
+  assert.deepEqual(intel.architectures, ['x64']);
+  assert.equal(intel.args.includes('--arm64'), false);
 });
 test('release packaging fails before building without Developer ID and an owned notarization profile', () => {
   assert.throws(() => packagingPlan(['--dmg', '--release'], '"LearnTranscriber Dev"', {}), /Release requires/);
