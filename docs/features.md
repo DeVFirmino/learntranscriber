@@ -67,7 +67,7 @@ The native smoke test initially reproduced a Dock visibility failure during fast
 
 ## Native helpers
 
-The bundled helper requires an Apple Silicon Mac and a Swift toolchain to build. Apple Speech requests authorization only for transcription and refuses a cloud fallback when on-device recognition is unavailable.
+The bundled helpers need a Swift toolchain to build and ship as universal binaries for Apple Silicon and Intel Macs. Apple Speech requests authorization only for transcription and refuses a cloud fallback when on-device recognition is unavailable.
 
 - [Apple Speech framework](https://developer.apple.com/documentation/speech)
 
