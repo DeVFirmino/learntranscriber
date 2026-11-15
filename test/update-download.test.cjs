@@ -10,6 +10,7 @@ const { downloadUpdate } = require('../src/main/infrastructure/updates/update-do
 const DMG = Buffer.from('a disk image');
 const DIGEST = createHash('sha256').update(DMG).digest('hex');
 const urls = {
+  name: 'LearnTranscriber-arm64.dmg',
   dmg: 'https://github.com/o/r/releases/download/v1/LearnTranscriber-arm64.dmg',
   checksum: 'https://github.com/o/r/releases/download/v1/LearnTranscriber-arm64.dmg.sha256',
 };

@@ -1,12 +1,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { hashedCopy } = require('../local/hashed-copy.cjs');
-const {
-  MAX_UPDATE_BYTES,
-  MAX_CHECKSUM_BYTES,
-  DMG_NAME,
-  checksumFor,
-} = require('../../domain/updates/update-asset.cjs');
+const { MAX_UPDATE_BYTES, MAX_CHECKSUM_BYTES, checksumFor } = require('../../domain/updates/update-asset.cjs');
 
 const { isConnectionFailure } = require('../../domain/shared/connection-failure.cjs');
 
@@ -33,10 +28,10 @@ async function follow(fetch, url, signal) {
   throw new Error('The update download redirected too many times.');
 }
 
-async function publishedChecksum(fetch, url, signal) {
-  const response = await follow(fetch, url, signal);
+async function publishedChecksum(fetch, urls, signal) {
+  const response = await follow(fetch, urls.checksum, signal);
   const text = await response.text();
-  const digest = text.length <= MAX_CHECKSUM_BYTES ? checksumFor(text, DMG_NAME) : null;
+  const digest = text.length <= MAX_CHECKSUM_BYTES ? checksumFor(text, urls.name) : null;
   if (!digest) throw new Error('The release has no checksum for its DMG.');
   return digest;
 }
@@ -57,7 +52,7 @@ async function downloadUpdate(options) {
 }
 
 async function download({ fetch, urls, directory, fileName, signal, onProgress = () => {} }) {
-  const expected = await publishedChecksum(fetch, urls.checksum, signal);
+  const expected = await publishedChecksum(fetch, urls, signal);
   const response = await follow(fetch, urls.dmg, signal);
   const size = Number(response.headers.get('content-length')) || 0;
   if (size > MAX_UPDATE_BYTES) {

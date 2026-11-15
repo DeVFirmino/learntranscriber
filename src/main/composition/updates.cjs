@@ -15,7 +15,8 @@ const RECHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
 // Checks the repository's GitHub releases for a newer build: once about fifteen seconds after start, then every
 // six hours, though the use case itself still only lets an actual request through once a day. Registers its own
 // IPC channels and pushes the result whenever a check, Later or Skip changes it. Download saves the release DMG to
-// `downloads()` once its SHA-256 matches the release's checksum file, and Install opens that DMG.
+// `downloads()` once its SHA-256 matches the release's checksum file, and Install opens that DMG. `arch` picks the
+// Apple Silicon or Intel DMG.
 function composeUpdates({
   handle,
   settings,
@@ -28,6 +29,7 @@ function composeUpdates({
   schedule,
   timers = { setTimeout, clearTimeout, setInterval, clearInterval },
   now = Date.now,
+  arch = process.arch,
 }) {
   const releases = githubReleases({ fetch });
   const updateCheck = createUpdateCheck({
@@ -38,14 +40,14 @@ function composeUpdates({
   });
   const install = createUpdateInstall({
     download(tagName, nextVersion, onProgress) {
-      const urls = updateAssetUrls(REPO_SLUG, tagName);
+      const urls = updateAssetUrls(REPO_SLUG, tagName, arch);
       const directory = downloads();
       if (!urls || !directory) return Promise.reject(new Error('This update cannot be downloaded here.'));
       return downloadUpdate({
         fetch: fetchImpl,
         urls,
         directory,
-        fileName: updateFileName(nextVersion),
+        fileName: updateFileName(nextVersion, arch),
         signal: AbortSignal.timeout(30 * 60000),
         onProgress,
       });
