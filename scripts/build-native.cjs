@@ -1,5 +1,6 @@
-// Builds the three macOS helpers from the Swift package in native/ and places them where the app and
-// the packager look for them (.local/native/<name>). Release builds, strict concurrency, warnings as errors.
+// Builds the three macOS helpers from the Swift package in native/ as universal (arm64 + x86_64) binaries and places
+// them where the app and the packager look for them (.local/native/<name>). Release builds, strict concurrency,
+// warnings as errors.
 const { spawnSync } = require('node:child_process');
 const { mkdirSync, copyFileSync, chmodSync } = require('node:fs');
 const path = require('node:path');
@@ -10,18 +11,13 @@ const HELPERS = ['apple-speech', 'system-audio', 'context-helper'];
 // The helpers ship to other Macs, so they carry no trace of the machine that built them: source paths are rewritten
 // relative to the package and the linker leaves out its debug symbol table, which records the build folder.
 const RELEASE_FLAGS = ['-Xswiftc', '-file-prefix-map', '-Xswiftc', `${packageDirectory}=native`, '-Xlinker', '-S'];
-const build = spawnSync('swift', ['build', '-c', 'release', '--package-path', packageDirectory, ...RELEASE_FLAGS], {
-  stdio: 'inherit',
-});
+// Universal binaries: the Apple Silicon and Intel apps ship the same helpers.
+const ARCHITECTURES = ['--arch', 'arm64', '--arch', 'x86_64'];
+const BUILD = ['build', '-c', 'release', '--package-path', packageDirectory, ...ARCHITECTURES, ...RELEASE_FLAGS];
+const build = spawnSync('swift', BUILD, { stdio: 'inherit' });
 if (build.error) throw build.error;
 if (build.status !== 0) process.exit(build.status || 1);
-const binaries = spawnSync(
-  'swift',
-  ['build', '-c', 'release', '--package-path', packageDirectory, ...RELEASE_FLAGS, '--show-bin-path'],
-  {
-    encoding: 'utf8',
-  },
-);
+const binaries = spawnSync('swift', [...BUILD, '--show-bin-path'], { encoding: 'utf8' });
 if (binaries.status !== 0) process.exit(binaries.status || 1);
 mkdirSync(output, { recursive: true });
 for (const name of HELPERS) {
