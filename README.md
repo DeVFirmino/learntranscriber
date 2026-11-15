@@ -46,9 +46,9 @@
 
 > **TL;DR** — A free, open-source Mac app that writes down what you hear in a class, a video or a meeting, live, and
 > answers your questions about it in a floating panel. Speech can be transcribed entirely on your Mac with Apple
-> Speech; answers come from the AI you choose: a ChatGPT sign-in, an API key, or a local model. For Apple Silicon Macs
-> on macOS 14 or newer. Download it, install it with Homebrew, build it from source, or let your coding agent install
-> it for you.
+> Speech; answers come from the AI you choose: a ChatGPT sign-in, an API key, or a local model. For Apple Silicon and
+> Intel Macs on macOS 14 or newer. Download it, install it with Homebrew, build it from source, or let your coding agent
+> install it for you.
 
 <p align="center">
   <img src="docs/readme/hero.webp" alt="LearnTranscriber on a MacBook: an online English class on the left, the floating assistant answering a question about it on the right." width="900">
@@ -92,9 +92,11 @@ https://github.com/user-attachments/assets/ec2e9893-6e2d-42a9-a7cd-04db263d3fdc
 
 ## Get it
 
-[Download the latest DMG](https://github.com/DeVFirmino/learntranscriber/releases/latest/download/LearnTranscriber-arm64.dmg)
-from [GitHub Releases](https://github.com/DeVFirmino/learntranscriber/releases/latest), for Apple Silicon Macs on
-macOS 14 or newer, and drag LearnTranscriber to Applications.
+Download the latest DMG for
+[Apple Silicon](https://github.com/DeVFirmino/learntranscriber/releases/latest/download/LearnTranscriber-arm64.dmg) or
+[Intel](https://github.com/DeVFirmino/learntranscriber/releases/latest/download/LearnTranscriber-x64.dmg) Macs from
+[GitHub Releases](https://github.com/DeVFirmino/learntranscriber/releases/latest), on macOS 14 or newer, and drag
+LearnTranscriber to Applications.
 
 The app is not notarized by Apple, so macOS blocks its first launch: open **System Settings → Privacy & Security**,
 scroll to Security and choose **Open Anyway** next to LearnTranscriber, then confirm with your password
@@ -132,7 +134,7 @@ app, or paste this:
 Install LearnTranscriber on this Mac from https://github.com/DeVFirmino/learntranscriber.
 Clone the repository and follow the "Build from source" section of its README: check that Xcode with the macOS 26 SDK
 and Node.js 24 or newer are installed, run `npm ci` and `npm ci --prefix ui`, build the app with `npm run pack`, copy
-dist/mac-arm64/LearnTranscriber.app to /Applications, and open it. If macOS blocks it, tell me so I can choose
+LearnTranscriber.app from dist/mac-arm64 (Apple Silicon) or dist/mac (Intel) to /Applications, and open it. If macOS blocks it, tell me so I can choose
 Open Anyway in System Settings → Privacy & Security.
 ```
 
@@ -204,8 +206,8 @@ prompt, and they appear in the floating bar next to the built-in ones.
 
 ## Requirements
 
-- A Mac with Apple Silicon running macOS 14 or newer. Builds are arm64 only. Installing or releasing Apple Speech
-  language assets needs macOS 26.
+- A Mac with Apple Silicon or Intel running macOS 14 or newer. Installing or releasing Apple Speech language assets
+  needs macOS 26.
 - Microphone access for voice capture, Speech Recognition for Apple Speech, and Screen & System Audio Recording for
   display capture. Reading selected text from other apps can require Accessibility access.
 - A configured answer provider for questions and summaries.
@@ -239,7 +241,7 @@ stay. A Homebrew install updates with `brew upgrade --cask learntranscriber`.
 5. **Package it** when you want it outside the dev flow:
 
    ```sh
-   npm run pack   # dist/mac-arm64/LearnTranscriber.app
+   npm run pack   # dist/mac-arm64/LearnTranscriber.app, or dist/mac/LearnTranscriber.app on an Intel Mac
    npm run dmg    # dist/distribution-local/LearnTranscriber-<version>-arm64-local.dmg and -x64-local.dmg (Intel)
    npm run sbom   # dist/LearnTranscriber-<version>-sbom.cdx.json, the components the app ships
    ```
@@ -357,7 +359,8 @@ the Mac.
 **What does a question send?** The transcript, your question and anything you attached go to your answer provider,
 unless that provider is a local model. See [Privacy](#privacy) for the screenshot and selection defaults.
 
-**Does it work on Intel Macs or Windows?** No. Builds are for Apple Silicon Macs on macOS 14 or newer.
+**Does it work on Intel Macs or Windows?** Intel Macs, yes: download `LearnTranscriber-x64.dmg`, or let Homebrew pick
+it. Windows, no.
 
 **Can people on a call see it when I share my screen?** They might: capture protection does not stop ScreenCaptureKit
 (see [Privacy](#privacy)), so share a single window when you can.
