@@ -40,10 +40,12 @@ function packagingPlan(argv, identities, env = process.env) {
     );
   if (hardened && !identity)
     throw new Error(`A hardened rehearsal needs an Apple Development or local "${LOCAL_IDENTITY}" signing identity.`);
+  // DMGs ship for Apple Silicon and Intel; an unpacked local app only needs this Mac's architecture.
+  const architectures = dmg ? ['arm64', 'x64'] : ['arm64'];
   const args = [
     '--mac',
     ...(dmg ? ['dmg'] : ['--dir']),
-    '--arm64',
+    ...architectures.map((arch) => `--${arch}`),
     '--publish',
     'never',
     ...(output ? [`--config.directories.output=${output}`] : []),
@@ -60,7 +62,7 @@ function packagingPlan(argv, identities, env = process.env) {
       `--config.mac.entitlements=${REHEARSAL_ENTITLEMENTS}`,
       `--config.mac.entitlementsInherit=${REHEARSAL_ENTITLEMENTS}`,
     );
-  return { dmg, release, hardened, output, identity, args };
+  return { dmg, release, hardened, output, identity, architectures, args };
 }
 function notarizeArtifact(file, profile) {
   const result = JSON.parse(
@@ -140,9 +142,10 @@ function run() {
     process.exitCode = result.status || 1;
     return;
   }
-  if (plan.dmg) {
-    const { version } = require('../package.json');
-    const file = path.resolve(plan.output, `LearnTranscriber-${version}-arm64${plan.release ? '' : '-local'}.dmg`);
+  if (!plan.dmg) return;
+  const { version } = require('../package.json');
+  for (const arch of plan.architectures) {
+    const file = path.resolve(plan.output, `LearnTranscriber-${version}-${arch}${plan.release ? '' : '-local'}.dmg`);
     if (plan.release) {
       notarizeArtifact(file, process.env.LEARNTRANSCRIBER_NOTARY_PROFILE);
       execFileSync('spctl', ['--assess', '--type', 'open', '--context', 'context:primary-signature', file], {

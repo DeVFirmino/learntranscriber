@@ -3,7 +3,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {
-  DMG_NAME,
+  dmgName,
   updateAssetUrls,
   checksumFor,
   updateFileName,
@@ -11,13 +11,23 @@ const {
 
 const SLUG = 'DeVFirmino/learntranscriber';
 const DIGEST = 'ad86974f6205178b541a232af4c287f8e27f37985752b5900f3430eb5ad176ee';
+const DMG_NAME = dmgName('arm64');
 
-test('a release tag names its DMG and checksum in the given repository', () => {
-  assert.deepEqual(updateAssetUrls(SLUG, 'v0.2.0'), {
+test('a release tag names its Apple Silicon DMG and checksum in the given repository', () => {
+  assert.deepEqual(updateAssetUrls(SLUG, 'v0.2.0', 'arm64'), {
+    name: 'LearnTranscriber-arm64.dmg',
     dmg: 'https://github.com/DeVFirmino/learntranscriber/releases/download/v0.2.0/LearnTranscriber-arm64.dmg',
     checksum:
       'https://github.com/DeVFirmino/learntranscriber/releases/download/v0.2.0/LearnTranscriber-arm64.dmg.sha256',
   });
+});
+
+test('an Intel Mac gets the x64 DMG and any other architecture the Apple Silicon one', () => {
+  const intel = updateAssetUrls(SLUG, 'v0.2.0', 'x64');
+  assert.equal(intel.name, 'LearnTranscriber-x64.dmg');
+  assert.equal(intel.checksum, `https://github.com/${SLUG}/releases/download/v0.2.0/LearnTranscriber-x64.dmg.sha256`);
+  assert.equal(updateAssetUrls(SLUG, 'v0.2.0', 'ia32').name, 'LearnTranscriber-arm64.dmg');
+  assert.equal(updateFileName('0.2.0', 'x64'), 'LearnTranscriber-0.2.0-x64.dmg');
 });
 
 test('anything that is not a release tag has no assets', () => {
@@ -39,6 +49,6 @@ test('a checksum for another file, a short digest or an empty file gives nothing
 });
 
 test('the saved file carries its version and nothing that could leave the folder', () => {
-  assert.equal(updateFileName('0.2.0'), 'LearnTranscriber-0.2.0-arm64.dmg');
-  assert.equal(updateFileName('../../0.2'), 'LearnTranscriber-....0.2-arm64.dmg');
+  assert.equal(updateFileName('0.2.0', 'arm64'), 'LearnTranscriber-0.2.0-arm64.dmg');
+  assert.equal(updateFileName('../../0.2', 'arm64'), 'LearnTranscriber-....0.2-arm64.dmg');
 });

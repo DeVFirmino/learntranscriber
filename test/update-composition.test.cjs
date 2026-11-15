@@ -150,18 +150,19 @@ test('a newer tag that cannot name a release page opens nothing', async () => {
   assert.deepEqual(opened, []);
 });
 
-test('download saves the checked release DMG once it matches its checksum, and install opens that file', async () => {
+// Downloads the checked release for `arch` through the composed IPC handlers and installs it.
+async function downloadAndInstall(arch) {
   const fs = require('node:fs');
   const os = require('node:os');
   const path = require('node:path');
   const { createHash } = require('node:crypto');
   const dmg = Buffer.from('release image');
   const digest = createHash('sha256').update(dmg).digest('hex');
-  const base = `https://github.com/${REPO_SLUG}/releases/download/v2.0.0/LearnTranscriber-arm64.dmg`;
+  const base = `https://github.com/${REPO_SLUG}/releases/download/v2.0.0/LearnTranscriber-${arch}.dmg`;
   const requested = [];
   const fetchImpl = async (url) => {
     requested.push(String(url));
-    if (String(url) === `${base}.sha256`) return new Response(`${digest}  LearnTranscriber-arm64.dmg`);
+    if (String(url) === `${base}.sha256`) return new Response(`${digest}  LearnTranscriber-${arch}.dmg`);
     if (String(url) === base) return new Response(dmg, { headers: { 'content-length': String(dmg.length) } });
     return new Response('', { status: 404 });
   };
@@ -183,6 +184,7 @@ test('download saves the checked release DMG once it matches its checksum, and i
     broadcast: (channel, value) => broadcasts.push(value),
     schedule: false,
     now: () => 0,
+    arch,
   });
   assert.equal((await handlers['updates:state']()).download.phase, 'idle');
   assert.equal(await handlers['updates:install'](), false);
@@ -192,5 +194,10 @@ test('download saves the checked release DMG once it matches its checksum, and i
   assert.equal(broadcasts.at(-1).download.phase, 'ready');
   assert.ok(requested.every((url) => url.includes('/v2.0.0/')));
   assert.equal(await handlers['updates:install'](), true);
-  assert.deepEqual(opened, [path.join(directory, 'LearnTranscriber-2.0.0-arm64.dmg')]);
-});
+  assert.deepEqual(opened, [path.join(directory, `LearnTranscriber-2.0.0-${arch}.dmg`)]);
+}
+
+test('download saves the checked release DMG once it matches its checksum, and install opens that file', () =>
+  downloadAndInstall('arm64'));
+
+test('an Intel Mac downloads and installs the x64 DMG of the release', () => downloadAndInstall('x64'));

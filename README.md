@@ -240,7 +240,7 @@ stay. A Homebrew install updates with `brew upgrade --cask learntranscriber`.
 
    ```sh
    npm run pack   # dist/mac-arm64/LearnTranscriber.app
-   npm run dmg    # dist/distribution-local/LearnTranscriber-<version>-arm64-local.dmg
+   npm run dmg    # dist/distribution-local/LearnTranscriber-<version>-arm64-local.dmg and -x64-local.dmg (Intel)
    npm run sbom   # dist/LearnTranscriber-<version>-sbom.cdx.json, the components the app ships
    ```
 
