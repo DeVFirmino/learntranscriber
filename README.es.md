@@ -44,8 +44,8 @@
   <a href="https://buymeacoffee.com/dellphell"><img src="docs/readme/badges/coffee.svg" alt="Invítame un café" height="46"></a>
 </p>
 
-> **En resumen** — Una app gratis y de código abierto para Mac que escribe, en vivo, lo que oyes en una clase, un vídeo
-> o una reunión, y responde a tus preguntas sobre eso en un panel flotante. La voz se puede transcribir por completo en
+> **En resumen.** Si se te escapa una frase de la clase, puedes leerla en la transcripción en directo o preguntar
+> por ella en el panel flotante. La sesión queda guardada para después. La voz se puede transcribir por completo en
 > tu Mac con Apple Speech; las respuestas vienen de la IA que elijas: el inicio de sesión de ChatGPT, una clave de API o
 > un modelo local. Para Macs con Apple Silicon y macOS 14 o posterior. Descárgala, instálala con Homebrew, compílala
 > desde el código fuente o deja que tu agente de programación la instale por ti.
