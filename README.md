@@ -44,8 +44,8 @@
   <a href="https://buymeacoffee.com/dellphell"><img src="docs/readme/badges/coffee.svg" alt="Buy me a coffee" height="46"></a>
 </p>
 
-> **TL;DR** — A free, open-source Mac app that writes down what you hear in a class, a video or a meeting, live, and
-> answers your questions about it in a floating panel. Speech can be transcribed entirely on your Mac with Apple
+> **In brief.** Follow a lesson in the live transcript and ask about a phrase in the floating panel. You can
+> reopen the session later. Speech can be transcribed entirely on your Mac with Apple
 > Speech; answers come from the AI you choose: a ChatGPT sign-in, an API key, or a local model. For Apple Silicon and
 > Intel Macs on macOS 14 or newer. Download it, install it with Homebrew, build it from source, or let your coding agent
 > install it for you.

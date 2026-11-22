@@ -44,8 +44,8 @@
   <a href="https://buymeacoffee.com/dellphell"><img src="docs/readme/badges/coffee.svg" alt="Me pague um café" height="46"></a>
 </p>
 
-> **Resumo** — Um app gratuito e de código aberto para Mac que escreve, ao vivo, o que você ouve numa aula, num vídeo
-> ou numa reunião, e responde às suas perguntas sobre isso num painel flutuante. A fala pode ser transcrita
+> **Resumo.** Se você perdeu um trecho da aula, ache-o na transcrição ao vivo ou pergunte sobre ele no painel
+> flutuante. Dá para reabrir a sessão depois. A fala pode ser transcrita
 > inteiramente no seu Mac com o Apple Speech; as respostas vêm da IA que você escolher: o login do ChatGPT, uma chave
 > de API ou um modelo local. Para Macs com Apple Silicon no macOS 14 ou mais recente. Baixe o app, instale pelo
 > Homebrew, compile a partir do código ou deixe o seu agente de programação instalar para você.
