@@ -21,10 +21,10 @@
     "dmg": "npm run ui:build && npm run native:build && node scripts/pack.cjs --dmg"
   },
   "devDependencies": {
-    "electron": "45.3.0",
-    "electron-builder": "26.15.3",
-    "oxlint": "^1.92.0",
-    "prettier": "^3.9.10"
+    "electron": "45.4.1",
+    "electron-builder": "26.18.0",
+    "oxlint": "^1.94.0",
+    "prettier": "^3.10.1"
   },
   "overrides": {
     "minimatch@>=7.0.0 <11.0.1": "^11.0.8"
